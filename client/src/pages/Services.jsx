@@ -16,7 +16,7 @@ const SERVICES = [
     ),
     description: "Notre cœur de métier : obtenir pour vous les meilleures conditions tarifaires sur vos contrats d'électricité et de gaz naturel.",
     points: [
-      'Lancement d'appels d'offres multi-fournisseurs',
+      "Lancement d'appels d'offres multi-fournisseurs",
       'Comparaison objective des offres reçues',
       'Négociation des clauses contractuelles',
       'Accompagnement à la signature',
@@ -69,7 +69,7 @@ const SERVICES = [
     description: "Notre mission ne s'arrête pas à la signature. Nous assurons un suivi actif de votre consommation tout au long du contrat.",
     points: [
       'Tableau de bord mensuel',
-      'Alertes en cas d'anomalie',
+      "Alertes en cas d'anomalie",
       'Analyse des écarts vs prévisionnel',
       'Veille sur les opportunités de renégociation',
       'Compte-rendu trimestriel',
@@ -85,9 +85,9 @@ const SERVICES = [
     ),
     description: "Le cadre réglementaire de l'énergie est complexe. Nous vous guidons pour que vous profitiez de tous les dispositifs auxquels vous avez droit.",
     points: [
-      'Mécanisme ARENH (Accès Régulé à l'Énergie Nucléaire Historique)',
+      "Mécanisme ARENH (Accès Régulé à l'Énergie Nucléaire Historique)",
       'Mécanisme de capacité',
-      'CEE (Certificats d'Économie d'Énergie)',
+      "CEE (Certificats d'Économie d'Énergie)",
       'Taxes sectorielles et exonérations',
       'Veille réglementaire permanente',
     ],
@@ -96,8 +96,8 @@ const SERVICES = [
 
 const PROCESS_STEPS = [
   { num: 1, title: 'Audit', desc: 'Analyse de vos factures et de votre profil de consommation' },
-  { num: 2, title: 'Analyse', desc: 'Identification des leviers d'économies et stratégie de négociation' },
-  { num: 3, title: 'Négociation', desc: 'Appels d'offres et mise en concurrence des fournisseurs' },
+  { num: 2, title: 'Analyse', desc: "Identification des leviers d'économies et stratégie de négociation" },
+  { num: 3, title: 'Négociation', desc: "Appels d'offres et mise en concurrence des fournisseurs" },
   { num: 4, title: 'Signature', desc: 'Contractualisation aux meilleures conditions identifiées' },
   { num: 5, title: 'Suivi', desc: 'Monitoring continu et accompagnement post-contrat' },
 ];

@@ -102,7 +102,7 @@ export default function About() {
                   </svg>
                 ),
                 title: 'Réactivité',
-                text: 'Les marchés de l'énergie évoluent vite. Nous surveillons en permanence les opportunités pour vous alerter au bon moment et saisir les meilleures fenêtres tarifaires.',
+                text: "Les marchés de l'énergie évoluent vite. Nous surveillons en permanence les opportunités pour vous alerter au bon moment et saisir les meilleures fenêtres tarifaires.",
               },
               {
                 icon: (
@@ -112,7 +112,7 @@ export default function About() {
                   </svg>
                 ),
                 title: 'Expertise',
-                text: 'Connaissance approfondie des mécanismes de marché, des réglementations ARENH, de la capacité et des dispositifs d'aide à l'efficacité énergétique.',
+                text: "Connaissance approfondie des mécanismes de marché, des réglementations ARENH, de la capacité et des dispositifs d'aide à l'efficacité énergétique.",
               },
             ].map((val, i) => (
               <ScrollReveal key={i} delay={i * 100}>
@@ -137,7 +137,7 @@ export default function About() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginTop: '2rem' }}>
             {[
               { num: '01', text: 'Analyse gratuite et sans engagement de vos factures et de votre profil de consommation.' },
-              { num: '02', text: 'Appel d'offres auprès de l'ensemble des fournisseurs qualifiés présents sur le marché.' },
+              { num: '02', text: "Appel d'offres auprès de l'ensemble des fournisseurs qualifiés présents sur le marché." },
               { num: '03', text: 'Recommandation objective basée sur votre intérêt, pas sur les marges des fournisseurs.' },
               { num: '04', text: 'Accompagnement de A à Z : de la signature du contrat au suivi mensuel de votre consommation.' },
               { num: '05', text: 'Disponibilité permanente pour répondre à vos questions et gérer les éventuels litiges.' },
