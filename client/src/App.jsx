@@ -143,8 +143,8 @@ export default function App() {
             />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <CookieBanner />
         </BrowserRouter>
-        <CookieBanner />
       </AuthContext.Provider>
     </HelmetProvider>
   );
