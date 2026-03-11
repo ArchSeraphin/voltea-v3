@@ -188,7 +188,7 @@ export default function Home() {
                   </svg>
                 ),
                 title: 'Expertise & indépendance',
-                text: 'Aucun lien capitalistique avec les fournisseurs d'énergie. Nous travaillons exclusivement dans votre intérêt pour vous recommander les meilleures offres du marché.',
+                text: "Aucun lien capitalistique avec les fournisseurs d'énergie. Nous travaillons exclusivement dans votre intérêt pour vous recommander les meilleures offres du marché.",
               },
               {
                 icon: (
@@ -198,7 +198,7 @@ export default function Home() {
                   </svg>
                 ),
                 title: 'Service 100% gratuit',
-                text: 'Notre rémunération est assurée directement par les fournisseurs d'énergie sous forme de commission. Vous ne payez absolument rien pour notre accompagnement.',
+                text: "Notre rémunération est assurée directement par les fournisseurs d'énergie sous forme de commission. Vous ne payez absolument rien pour notre accompagnement.",
               },
               {
                 icon: (
@@ -207,7 +207,7 @@ export default function Home() {
                   </svg>
                 ),
                 title: 'Gain de temps',
-                text: 'Nous gérons l'intégralité du processus : de l'appel d'offres à la signature du contrat. Concentrez-vous sur votre activité, nous nous occupons de votre énergie.',
+                text: "Nous gérons l'intégralité du processus : de l'appel d'offres à la signature du contrat. Concentrez-vous sur votre activité, nous nous occupons de votre énergie.",
               },
             ].map((item, i) => (
               <ScrollReveal key={i} delay={i * 100}>
