@@ -617,6 +617,7 @@ p { font-size: 1rem; line-height: 1.7; }
   display: grid;
   grid-template-columns: 240px 1fr;
   min-height: 100vh;
+  height: 100vh;
   background: #0a0f1a;
 }
 @media (max-width: 768px) { .admin-layout { grid-template-columns: 1fr; } }
@@ -630,7 +631,7 @@ p { font-size: 1rem; line-height: 1.7; }
 }
 @media (max-width: 768px) { .admin-sidebar { display: none; } }
 .admin-sidebar-logo { padding: 0 0.5rem 1.5rem; border-bottom: 1px solid var(--color-border); margin-bottom: 1rem; }
-.admin-sidebar-logo img { height: 40px; }
+.admin-sidebar-logo img { height: 40px; object-fit: contain; }
 .admin-nav-link {
   display: flex;
   align-items: center;
