@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import Home from './pages/Home.jsx';
@@ -19,6 +19,12 @@ import Analytics from './pages/admin/Analytics.jsx';
 import CookieBanner from './components/CookieBanner.jsx';
 
 export const AuthContext = createContext(null);
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -98,6 +104,7 @@ export default function App() {
         />
         <GAInjector />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/a-propos" element={<About />} />
