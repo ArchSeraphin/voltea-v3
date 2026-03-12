@@ -73,9 +73,6 @@ export default function Header() {
 
       {/* Mobile menu */}
       <nav className={`mobile-menu${menuOpen ? ' open' : ''}`} aria-label="Menu mobile">
-        <button className="mobile-menu-close" onClick={closeMenu} aria-label="Fermer le menu">
-          &#10005;
-        </button>
         {NAV_LINKS.map(({ to, label }) => (
           <NavLink
             key={to}
