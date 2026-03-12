@@ -9,8 +9,8 @@ export default function About() {
   return (
     <>
       <SEO
-        title="À propos | Voltea Énergie - Courtier en énergie"
-        description="Découvrez Voltea Énergie et Jérémy Lozzi, courtier en énergies basé à Bourgoin-Jallieu. Notre mission : optimiser les contrats d'énergie des professionnels et collectivités."
+        title="À propos | Courtier en énergie à Bourgoin | Voltea Énergie"
+        description="Découvrez Voltea Énergie et Jérémy Lozzi, votre courtier en énergie à Bourgoin. Notre mission : optimiser les contrats d'énergie pour les entreprises et collectivités."
         canonical="/a-propos"
       />
       <Header />
@@ -19,8 +19,8 @@ export default function About() {
       <div className="page-header">
         <div className="container">
           <span className="section-label" style={{ color: 'var(--color-primary)' }}>Notre histoire</span>
-          <h1>À propos de Voltea Énergie</h1>
-          <p>Courtier en énergie indépendant, né de la conviction que chaque entreprise mérite de payer son énergie au juste prix.</p>
+          <h1>Voltea Énergie, courtier en énergie à Bourgoin</h1>
+          <p>Indépendants et locaux, nous défendons vos intérêts pour vous garantir le meilleur prix pour votre énergie.</p>
         </div>
       </div>
 
@@ -31,17 +31,16 @@ export default function About() {
             <ScrollReveal>
               <div>
                 <span className="section-label">Notre fondateur</span>
-                <h2 className="section-title">Jérémy Lozzi,<br />au service de votre énergie</h2>
+                <h2 className="section-title">Jérémy Lozzi,<br />courtier en énergie à Bourgoin</h2>
                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.25rem', lineHeight: '1.8' }}>
                   Né d'une passion pour les marchés de l'énergie et d'une volonté d'apporter une expertise
-                  concrète aux entreprises et collectivités locales, Voltea Énergie a été fondé par
-                  Jérémy Lozzi à Bourgoin-Jallieu, au cœur de l'Isère.
+                  concrète aux entreprises et collectivités, Voltea Énergie a été fondé par
+                  Jérémy Lozzi à Bourgoin-Jallieu.
                 </p>
                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.25rem', lineHeight: '1.8' }}>
-                  Fort d'une solide expérience dans le secteur énergétique, Jérémy a constaté que nombreuses
-                  PME et collectivités locales subissaient des tarifs d'énergie bien supérieurs à ce qu'elles
-                  pourraient obtenir avec une bonne négociation. C'est pour combler ce déficit que Voltea Énergie
-                  a vu le jour.
+                  En tant que courtier en énergie à Bourgoin, Jérémy a constaté que de nombreuses
+                  structures subissaient des tarifs d'énergie mal négociés. C'est pour y remédier
+                  que Voltea Énergie a été créé.
                 </p>
                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem', lineHeight: '1.8' }}>
                   Depuis sa création, Voltea Énergie a accompagné plus de 200 clients — professionnels,
@@ -51,7 +50,7 @@ export default function About() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-border)' }}>
                   <div>
                     <p style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.2rem' }}>Jérémy Lozzi</p>
-                    <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Fondateur & Courtier en énergies — Bourgoin-Jallieu, Isère</p>
+                    <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Fondateur & Courtier en énergie à Bourgoin</p>
                     <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
                       <a href="tel:+33642170251" style={{ color: 'var(--color-primary)', fontSize: '0.875rem', fontWeight: 600 }}>06 42 17 02 51</a>
                       <a href="mailto:jl@voltea-energie.fr" style={{ color: 'var(--color-primary)', fontSize: '0.875rem', fontWeight: 600 }}>jl@voltea-energie.fr</a>

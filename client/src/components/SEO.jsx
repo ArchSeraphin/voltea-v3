@@ -14,8 +14,8 @@ export default function SEO({
   ogType = 'website',
 }) {
   const fullTitle = title
-    ? `${title} | ${SITE_NAME}`
-    : `${SITE_NAME} | Courtier en énergie Bourgoin-Jallieu`;
+    ? title
+    : `${SITE_NAME} | Courtier en énergie à Bourgoin`;
 
   const canonicalUrl = canonical ? `${BASE_URL}${canonical}` : undefined;
   const ogImageUrl = ogImage || DEFAULT_OG_IMAGE;

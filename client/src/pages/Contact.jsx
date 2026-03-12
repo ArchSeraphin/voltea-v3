@@ -70,8 +70,8 @@ export default function Contact() {
   return (
     <>
       <SEO
-        title="Contact | Voltea Énergie - Courtier en énergie"
-        description="Contactez Jérémy Lozzi, courtier en énergies à Bourgoin-Jallieu. Demandez votre audit gratuit et sans engagement. Réponse sous 24h ouvrées."
+        title="Contact | Courtier en énergie à Bourgoin | Voltea Énergie"
+        description="Contactez votre courtier en énergie à Bourgoin, Jérémy Lozzi. Obtenez un audit gratuit et sans engagement pour vos contrats d'énergie. Réponse rapide."
         canonical="/contact"
       />
       <Header />
@@ -79,8 +79,8 @@ export default function Contact() {
       <div className="page-header">
         <div className="container">
           <span className="section-label">Parlons de votre énergie</span>
-          <h1>Contactez-nous</h1>
-          <p>Un audit gratuit et sans engagement pour découvrir votre potentiel d'économies. Réponse sous 24h ouvrées.</p>
+          <h1>Contacter votre courtier en énergie à Bourgoin</h1>
+          <p>Contactez-nous pour un audit gratuit et découvrez votre potentiel d'économies. Réponse sous 24h.</p>
         </div>
       </div>
 

@@ -106,8 +106,8 @@ export default function Services() {
   return (
     <>
       <SEO
-        title="Services de courtage en énergie | Voltea Énergie"
-        description="Découvrez tous nos services : négociation de contrats, audit énergétique, optimisation tarifaire, suivi de consommation. Service 100% gratuit pour professionnels et collectivités."
+        title="Services de courtage en énergie à Bourgoin | Voltea Énergie"
+        description="Nos services de courtage en énergie à Bourgoin : négociation de contrats, audit énergétique, optimisation. Pour professionnels et collectivités. Gratuit et indépendant."
         canonical="/services"
       />
       <Header />
@@ -116,10 +116,11 @@ export default function Services() {
       <div className="page-header">
         <div className="container">
           <span className="section-label">Ce que nous faisons</span>
-          <h1>Nos services de courtage en énergie</h1>
+          <h1>Courtier en énergie à Bourgoin : nos services</h1>
           <p>
-            De l'audit initial à l'accompagnement post-contrat, Voltea Énergie gère l'intégralité
-            de votre démarche énergétique. Gratuit, indépendant, efficace.
+            En tant que courtier en énergie à Bourgoin, nous gérons pour vous
+            l'intégralité du processus de négociation de vos contrats.
+            Notre service est 100% gratuit et indépendant.
           </p>
         </div>
       </div>

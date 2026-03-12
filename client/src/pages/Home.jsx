@@ -27,8 +27,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Voltea Énergie | Courtier en énergie Bourgoin-Jallieu"
-        description="Voltea Énergie, courtier en énergie indépendant à Bourgoin-Jallieu. Négociation de contrats d'électricité et de gaz pour professionnels et collectivités. Économisez jusqu'à 30% sur votre facture. Audit gratuit."
+        title="Courtier en énergie Bourgoin | Voltea Énergie"
+        description="Votre courtier en énergie à Bourgoin-Jallieu. Voltea Énergie négocie vos contrats d'électricité et de gaz pour réaliser jusqu'à 30% d'économies. Audit gratuit et personnalisé."
         canonical="/"
       />
       <Header />
@@ -51,13 +51,13 @@ export default function Home() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
               </svg>
-              Courtier certifié
+              Courtier en énergie à Bourgoin
             </div>
-            <h1>Maîtrisez votre<br />facture d'énergie</h1>
+            <h1>Votre courtier en énergie<br />à Bourgoin</h1>
             <p className="hero-subtitle">
-              Voltea Énergie négocie vos contrats d'électricité et de gaz pour vous faire
-              économiser jusqu'à 30% sur votre facture annuelle. Service 100% gratuit,
-              100% indépendant.
+              Voltea Énergie, courtier en énergie indépendant à Bourgoin, négocie pour
+              vous les meilleurs contrats d'électricité et de gaz. Réalisez jusqu'à 30%
+              d'économies sur votre facture.
             </p>
             <div className="hero-actions">
               <Link to="/contact" className="btn btn-primary btn-lg">
@@ -101,6 +101,47 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* ABOUT PREVIEW */}
+      <section className="section">
+        <div className="container">
+          <div className="about-grid">
+            <ScrollReveal>
+              <div className="about-photo">
+                <img
+                  src="/assets/images/voltea-energie-jeremy-lozzi.png"
+                  alt="Jérémy Lozzi, courtier en énergie à Bourgoin"
+                  loading="lazy"
+                />
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={150}>
+              <div>
+                <span className="section-label">Votre partenaire local</span>
+                <h2 className="section-title">
+                  Votre courtier en énergie de proximité à Bourgoin
+                </h2>
+                <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.25rem', lineHeight: '1.8' }}>
+                  Basé à Bourgoin-Jallieu, Voltea Énergie est votre interlocuteur
+                  privilégié pour le courtage en énergie. Nous connaissons le tissu
+                  économique local et les spécificités du marché de l'énergie en Isère.
+                </p>
+                <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem', lineHeight: '1.8' }}>
+                  Notre mission : vous offrir un service de courtage en énergie sur-mesure,
+                  vous permettant de vous concentrer sur votre activité principale en toute
+                  sérénité.
+                </p>
+                <Link to="/a-propos" className="btn btn-outline">
+                  Découvrir notre histoire
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </Link>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
 
       {/* SERVICES */}
       <section className="section section--light">

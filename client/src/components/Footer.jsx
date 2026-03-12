@@ -12,8 +12,8 @@ export default function Footer() {
           <div className="footer-brand">
             <img src="/img/logo/logo-clair.png" alt="Voltea Énergie" />
             <p>
-              Courtier en énergie indépendant pour professionnels et collectivités.
-              Optimisez vos contrats d'électricité et de gaz sans frais.
+              Votre courtier en énergie à Bourgoin. Nous négocions les contrats
+              d'énergie pour les professionnels et collectivités.
             </p>
             <a
               href="https://www.instagram.com/voltea.energie38"
@@ -73,7 +73,7 @@ export default function Footer() {
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
                 <circle cx="12" cy="10" r="3"/>
               </svg>
-              <span>Bourgoin-Jallieu, Isère</span>
+              <span>Bourgoin-Jallieu, 38300 Isère</span>
             </div>
           </div>
         </div>
