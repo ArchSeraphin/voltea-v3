@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
 
 export default function Contact() {
+  const scriptLoaded = useRef(false);
+
+  const formRef = useCallback((node) => {
+    if (!node || scriptLoaded.current) return;
+    scriptLoaded.current = true;
+    const script = document.createElement('script');
+    script.src = 'https://webforms.pipedrive.com/f/loader';
+    node.appendChild(script);
+  }, []);
 
   return (
     <>
@@ -34,12 +43,10 @@ export default function Contact() {
                   Remplissez le formulaire et nous vous répondrons très rapidement.
                 </p>
 
-                <iframe
-                  src="https://webforms.pipedrive.com/f/cts8JGGoDnMuwKR7rbRXbi7SeSZHjKcmYantsciQcULlHEtqyedH3otOPobbBLGEzp"
-                  width="100%"
-                  height="700"
-                  style={{ border: 'none', minHeight: '500px' }}
-                  title="Formulaire de contact"
+                <div
+                  ref={formRef}
+                  className="pipedriveWebForms"
+                  data-pd-webforms="https://webforms.pipedrive.com/f/cts8JGGoDnMuwKR7rbRXbi7SeSZHjKcmYantsciQcULlHEtqyedH3otOPobbBLGEzp"
                 />
               </div>
             </ScrollReveal>
