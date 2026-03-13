@@ -9,13 +9,10 @@ export default function Contact() {
     const script = document.createElement('script');
     script.src = 'https://webforms.pipedrive.com/f/loader';
     script.async = true;
-    const container = document.getElementById('pipedrive-form');
-    if (container) {
-      container.appendChild(script);
-    }
+    document.body.appendChild(script);
     return () => {
-      if (container && script.parentNode === container) {
-        container.removeChild(script);
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
       }
     };
   }, []);
