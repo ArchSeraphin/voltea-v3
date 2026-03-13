@@ -16,5 +16,26 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.pipedriveLeadboosterConfig = {
+        base: 'leadbooster-chat.pipedrive.com',
+        companyId: 16033316,
+        playbookUuid: '3adbc28e-78d1-447f-a8ea-652383969b0d',
+        version: 2
+      };
+      (function () {
+        var w = window;
+        if (w.LeadBooster) {
+          console.warn('LeadBooster already exists');
+        } else {
+          w.LeadBooster = {
+            q: [],
+            on: function (n, h) { this.q.push({ t: 'o', n: n, h: h }); },
+            trigger: function (n) { this.q.push({ t: 't', n: n }); },
+          };
+        }
+      })();
+    </script>
+    <script src="https://leadbooster-chat.pipedrive.com/assets/loader.js" async></script>
   </body>
 </html>
