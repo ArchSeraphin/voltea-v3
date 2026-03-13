@@ -14,13 +14,40 @@ function formatDate(dateStr) {
   });
 }
 
+const GOOGLE_REVIEW_URL = 'https://www.google.com/maps/place/Voltea+%C3%89nergie+-+Courtier+en+%C3%89nergie/@45.3120642,4.1182379,401630m/data=!3m1!1e3!4m16!1m9!3m8!1s0x29c10eb64bb6011d:0x4bd5763860ad32a0!2sVoltea+%C3%89nergie+-+Courtier+en+%C3%89nergie!8m2!3d45.317723!4d5.4372395!9m1!1b1!16s%2Fg%2F11ywwgfxxy!3m5!1s0x29c10eb64bb6011d:0x4bd5763860ad32a0!8m2!3d45.317723!4d5.4372395!16s%2Fg%2F11ywwgfxxy?entry=ttu&g_ep=EgoyMDI2MDMxMC4wIKXMDSoASAFQAw%3D%3D';
+
+function StarDisplay({ rating }) {
+  return (
+    <div style={{ display: 'flex', gap: '0.1rem' }}>
+      {[1, 2, 3, 4, 5].map((star) => (
+        <svg
+          key={star}
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill={star <= rating ? '#facc15' : 'none'}
+          stroke={star <= rating ? '#facc15' : '#6b7280'}
+          strokeWidth="2"
+        >
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
   const [articles, setArticles] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     fetch('/api/articles?page=1')
       .then((r) => r.json())
       .then((data) => setArticles((data.articles || []).slice(0, 3)))
+      .catch(() => {});
+    fetch('/api/reviews')
+      .then((r) => r.json())
+      .then((data) => setReviews(data.reviews || []))
       .catch(() => {});
   }, []);
 
@@ -321,6 +348,71 @@ export default function Home() {
                         </svg>
                       </Link>
                     </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* REVIEWS */}
+      {reviews.length > 0 && (
+        <section className="section section--light">
+          <div className="container">
+            <ScrollReveal>
+              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '2.5rem' }}>
+                <div>
+                  <span className="section-label">Ce que disent nos clients</span>
+                  <h2 className="section-title" style={{ marginBottom: 0 }}>Avis Google</h2>
+                </div>
+                <a
+                  href={GOOGLE_REVIEW_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-outline btn-sm"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  Laisser un avis
+                </a>
+              </div>
+            </ScrollReveal>
+            <div className="features-grid">
+              {reviews.map((review, i) => (
+                <ScrollReveal key={review.id} delay={i * 100}>
+                  <div className="card card--light" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      {review.logo_url ? (
+                        <img
+                          src={review.logo_url}
+                          alt=""
+                          style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(20,110,243,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2">
+                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                          </svg>
+                        </div>
+                      )}
+                      <div>
+                        <p style={{ fontWeight: 600, margin: 0, fontSize: '0.95rem' }}>{review.author_name}</p>
+                        {review.author_company && (
+                          <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>{review.author_company}</p>
+                        )}
+                      </div>
+                    </div>
+                    <StarDisplay rating={review.rating} />
+                    <p className="card-text" style={{ flex: 1 }}>{review.content}</p>
+                    {review.review_date && (
+                      <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+                        {new Date(review.review_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </p>
+                    )}
                   </div>
                 </ScrollReveal>
               ))}

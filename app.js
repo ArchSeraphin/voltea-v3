@@ -146,6 +146,18 @@ if (process.env.SEED_SECRET) {
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
+        `CREATE TABLE IF NOT EXISTS reviews (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          author_name VARCHAR(200) NOT NULL,
+          author_company VARCHAR(200),
+          content TEXT NOT NULL,
+          rating TINYINT NOT NULL DEFAULT 5,
+          review_date DATE,
+          logo_url VARCHAR(500),
+          visible TINYINT(1) DEFAULT 1,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
       ];
       for (const q of queries) await pool.execute(q);
       const log = ['Tables créées avec succès.'];
@@ -183,6 +195,27 @@ app.use((err, req, res, next) => {
   const message = isProd && status === 500 ? 'Internal server error' : err.message || 'Internal server error';
   res.status(status).json({ error: message });
 });
+
+// Auto-migrate: create missing tables
+(async () => {
+  try {
+    const pool = require('./src/config/database');
+    await pool.execute(`CREATE TABLE IF NOT EXISTS reviews (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      author_name VARCHAR(200) NOT NULL,
+      author_company VARCHAR(200),
+      content TEXT NOT NULL,
+      rating TINYINT NOT NULL DEFAULT 5,
+      review_date DATE,
+      logo_url VARCHAR(500),
+      visible TINYINT(1) DEFAULT 1,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+  } catch (err) {
+    console.error('[Voltea] Auto-migrate reviews failed:', err.message);
+  }
+})();
 
 app.listen(PORT, () => {
   console.log(`[Voltea] Server running on port ${PORT} (${process.env.NODE_ENV || 'development'})`);

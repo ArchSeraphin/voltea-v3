@@ -16,6 +16,7 @@ import Login from './pages/admin/Login.jsx';
 import Dashboard from './pages/admin/Dashboard.jsx';
 import ArticleEditor from './pages/admin/ArticleEditor.jsx';
 import Analytics from './pages/admin/Analytics.jsx';
+import Reviews from './pages/admin/Reviews.jsx';
 import CookieBanner from './components/CookieBanner.jsx';
 
 export const AuthContext = createContext(null);
@@ -137,6 +138,14 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <ArticleEditor />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/avis"
+              element={
+                <ProtectedRoute>
+                  <Reviews />
                 </ProtectedRoute>
               }
             />
