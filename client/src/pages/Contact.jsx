@@ -1,71 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
 
-const SUBJECTS = [
-  'Demande d\'audit gratuit',
-  'Renouvellement de contrat',
-  'Question tarifaire',
-  'Collectivité publique',
-  'Autre',
-];
-
 export default function Contact() {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    company: '',
-    phone: '',
-    subject: '',
-    message: '',
-  });
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
-  const [fieldErrors, setFieldErrors] = useState({});
-
-  function handleChange(e) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setFieldErrors((prev) => ({ ...prev, [e.target.name]: '' }));
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess(false);
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (res.status === 422 && data.errors) {
-          const errs = {};
-          data.errors.forEach((err) => { errs[err.path] = err.msg; });
-          setFieldErrors(errs);
-        } else if (res.status === 429) {
-          setError('Trop de messages envoyés. Veuillez réessayer dans une heure.');
-        } else {
-          setError(data.error || 'Une erreur est survenue.');
-        }
-      } else {
-        setSuccess(true);
-        setForm({ name: '', email: '', company: '', phone: '', subject: '', message: '' });
-      }
-    } catch {
-      setError('Erreur réseau. Veuillez vérifier votre connexion.');
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://webforms.pipedrive.com/f/loader';
+    script.async = true;
+    const container = document.getElementById('pipedrive-form');
+    if (container) {
+      container.appendChild(script);
     }
-  }
+    return () => {
+      if (container && script.parentNode === container) {
+        container.removeChild(script);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -95,138 +48,11 @@ export default function Contact() {
                   Remplissez le formulaire et nous vous répondrons très rapidement.
                 </p>
 
-                {success && (
-                  <div className="alert alert-success">
-                    Votre message a bien été envoyé ! Nous vous recontacterons sous 24h ouvrées.
-                  </div>
-                )}
-                {error && <div className="alert alert-error">{error}</div>}
-
-                <form onSubmit={handleSubmit} noValidate>
-                  <div className="grid-2">
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="name">
-                        Nom complet <span style={{ color: '#ef4444' }}>*</span>
-                      </label>
-                      <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        className="form-input"
-                        placeholder="Prénom Nom"
-                        value={form.name}
-                        onChange={handleChange}
-                        required
-                        autoComplete="name"
-                      />
-                      {fieldErrors.name && <p className="form-error">{fieldErrors.name}</p>}
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="email">
-                        Email <span style={{ color: '#ef4444' }}>*</span>
-                      </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        className="form-input"
-                        placeholder="votre@email.fr"
-                        value={form.email}
-                        onChange={handleChange}
-                        required
-                        autoComplete="email"
-                      />
-                      {fieldErrors.email && <p className="form-error">{fieldErrors.email}</p>}
-                    </div>
-                  </div>
-
-                  <div className="grid-2">
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="company">
-                        Entreprise / Organisation
-                      </label>
-                      <input
-                        id="company"
-                        name="company"
-                        type="text"
-                        className="form-input"
-                        placeholder="Nom de votre structure"
-                        value={form.company}
-                        onChange={handleChange}
-                        autoComplete="organization"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="phone">
-                        Téléphone
-                      </label>
-                      <input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        className="form-input"
-                        placeholder="06 XX XX XX XX"
-                        value={form.phone}
-                        onChange={handleChange}
-                        autoComplete="tel"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="subject">Objet</label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      className="form-input form-select"
-                      value={form.subject}
-                      onChange={handleChange}
-                    >
-                      <option value="">Sélectionnez un objet</option>
-                      {SUBJECTS.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="message">
-                      Message <span style={{ color: '#ef4444' }}>*</span>
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      className="form-textarea"
-                      placeholder="Décrivez votre besoin, votre situation actuelle, votre secteur d'activité..."
-                      value={form.message}
-                      onChange={handleChange}
-                      required
-                      rows={5}
-                    />
-                    {fieldErrors.message && <p className="form-error">{fieldErrors.message}</p>}
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={loading}
-                    style={{ width: '100%', justifyContent: 'center' }}
-                  >
-                    {loading ? (
-                      <>
-                        <span className="spinner" /> Envoi en cours...
-                      </>
-                    ) : (
-                      <>
-                        Envoyer le message
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                          <line x1="22" y1="2" x2="11" y2="13"/>
-                          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                        </svg>
-                      </>
-                    )}
-                  </button>
-                </form>
+                <div
+                  id="pipedrive-form"
+                  className="pipedriveWebForms"
+                  data-pd-webforms="https://webforms.pipedrive.com/f/cts8JGGoDnMuwKR7rbRXbi7SeSZHjKcmYantsciQcULlHEtqyedH3otOPobbBLGEzp"
+                />
               </div>
             </ScrollReveal>
 
