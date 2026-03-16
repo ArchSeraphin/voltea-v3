@@ -88,6 +88,7 @@ app.use(express.static(distPath, { maxAge: '1d' }));
 app.use('/img', express.static(imgPath, { maxAge: '7d' }));
 app.use('/uploads', express.static(uploadsPath, { maxAge: '7d' }));
 app.use('/assets/videos', express.static(path.join(assetsPath, 'videos'), { maxAge: '7d' }));
+app.use('/assets/images', express.static(path.join(assetsPath, 'images'), { maxAge: '7d' }));
 
 // Sitemap & robots before SPA fallback
 app.use(sitemapRouter);

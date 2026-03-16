@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 const NAV_LINKS = [
-  { to: '/', label: 'Accueil' },
-  { to: '/services', label: 'Services' },
-  { to: '/a-propos', label: 'À propos' },
-  { to: '/collectivites', label: 'Collectivités' },
-  { to: '/actualites', label: 'Actualités' },
-  { to: '/contact', label: 'Contact' },
+  { to: '/a-propos', label: 'Qui sommes nous' },
+  { to: '/services', label: 'Nos services' },
+  { to: '/contact', label: 'Achat énergie' },
+  { to: '/actualites', label: 'Actus' },
 ];
 
 export default function Header() {
@@ -21,7 +19,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handler);
   }, []);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -35,7 +32,7 @@ export default function Header() {
         <div className="container">
           <div className="header-inner">
             <Link to="/" className="header-logo" onClick={closeMenu} aria-label="Voltea Énergie - Accueil">
-              <img src="/img/logo/logo-clair.png" alt="Voltea Énergie" />
+              <img src="/img/logo/logo-sombre.png" alt="Voltea Énergie" />
             </Link>
 
             <nav className="header-nav" aria-label="Navigation principale">
@@ -53,7 +50,7 @@ export default function Header() {
 
             <div className="header-actions">
               <Link to="/contact" className="btn btn-primary btn-sm">
-                Nous contacter
+                Contact
               </Link>
             </div>
 
@@ -73,6 +70,11 @@ export default function Header() {
 
       {/* Mobile menu */}
       <nav className={`mobile-menu${menuOpen ? ' open' : ''}`} aria-label="Menu mobile">
+        <button className="mobile-menu-close" onClick={closeMenu} aria-label="Fermer">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
         {NAV_LINKS.map(({ to, label }) => (
           <NavLink
             key={to}
@@ -85,7 +87,7 @@ export default function Header() {
           </NavLink>
         ))}
         <Link to="/contact" className="btn btn-primary" onClick={closeMenu} style={{ marginTop: '1rem' }}>
-          Nous contacter
+          Contact
         </Link>
       </nav>
     </>
