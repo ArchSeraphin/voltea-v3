@@ -136,7 +136,7 @@ export default function About() {
           </ScrollReveal>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginTop: '2rem' }}>
             {[
-              { num: '01', text: 'Analyse gratuite et sans engagement de vos factures et de votre profil de consommation.' },
+              { num: '01', text: 'Analyse sans frais et sans engagement de vos factures et de votre profil de consommation.' },
               { num: '02', text: "Appel d'offres auprès de l'ensemble des fournisseurs qualifiés présents sur le marché." },
               { num: '03', text: 'Recommandation objective basée sur votre intérêt, pas sur les marges des fournisseurs.' },
               { num: '04', text: 'Accompagnement de A à Z : de la signature du contrat au suivi mensuel de votre consommation.' },

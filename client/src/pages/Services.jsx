@@ -107,7 +107,7 @@ export default function Services() {
     <>
       <SEO
         title="Services de courtage en énergie | Voltea Énergie"
-        description="Découvrez tous nos services : négociation de contrats, audit énergétique, optimisation tarifaire, suivi de consommation. Service 100% gratuit pour professionnels et collectivités."
+        description="Découvrez tous nos services : négociation de contrats, audit énergétique, optimisation tarifaire, suivi de consommation. Service 100% sans frais pour professionnels et collectivités."
         canonical="/services"
       />
       <Header />
@@ -119,7 +119,7 @@ export default function Services() {
           <h1>Nos services de courtage en énergie</h1>
           <p>
             De l'audit initial à l'accompagnement post-contrat, Voltea Énergie gère l'intégralité
-            de votre démarche énergétique. Gratuit, indépendant, efficace.
+            de votre démarche énergétique. Sans frais, indépendant, efficace.
           </p>
         </div>
       </div>
@@ -175,7 +175,7 @@ export default function Services() {
                         Service inclus dans notre accompagnement
                       </p>
                       <p style={{ color: 'white', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.5rem', marginTop: '0.5rem' }}>
-                        100% Gratuit
+                        100% Sans frais
                       </p>
                     </div>
                   </div>
@@ -214,7 +214,7 @@ export default function Services() {
       <section className="section section--primary">
         <div className="container" style={{ textAlign: 'center' }}>
           <ScrollReveal>
-            <h2 style={{ color: 'white', marginBottom: '1rem' }}>Obtenez votre audit gratuit</h2>
+            <h2 style={{ color: 'white', marginBottom: '1rem' }}>Obtenez votre audit sans frais</h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto 2rem' }}>
               Sans engagement, sans frais. Découvrez en quelques jours le potentiel
               d'économies sur vos factures d'énergie.

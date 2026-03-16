@@ -8,9 +8,43 @@ const NAV_LINKS = [
   { to: '/actualites', label: 'Actus' },
 ];
 
+function SunIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+    </svg>
+  );
+}
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved) return saved === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 30);
@@ -25,6 +59,7 @@ export default function Header() {
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
+  const toggleDark = () => setDarkMode((v) => !v);
 
   return (
     <>
@@ -32,7 +67,10 @@ export default function Header() {
         <div className="container">
           <div className="header-inner">
             <Link to="/" className="header-logo" onClick={closeMenu} aria-label="Voltea Énergie - Accueil">
-              <img src="/img/logo/logo-sombre.png" alt="Voltea Énergie" />
+              <img
+                src={darkMode ? '/img/logo/logo-clair.png' : '/img/logo/logo-sombre.png'}
+                alt="Voltea Énergie"
+              />
             </Link>
 
             <nav className="header-nav" aria-label="Navigation principale">
@@ -49,6 +87,13 @@ export default function Header() {
             </nav>
 
             <div className="header-actions">
+              <button
+                className="theme-toggle"
+                onClick={toggleDark}
+                aria-label={darkMode ? 'Passer en mode clair' : 'Passer en mode sombre'}
+              >
+                {darkMode ? <SunIcon /> : <MoonIcon />}
+              </button>
               <Link to="/contact" className="btn btn-primary btn-sm">
                 Contact
               </Link>
@@ -89,6 +134,14 @@ export default function Header() {
         <Link to="/contact" className="btn btn-primary" onClick={closeMenu} style={{ marginTop: '1rem' }}>
           Contact
         </Link>
+        <button
+          className="theme-toggle"
+          onClick={toggleDark}
+          aria-label={darkMode ? 'Passer en mode clair' : 'Passer en mode sombre'}
+          style={{ marginTop: '1rem' }}
+        >
+          {darkMode ? <SunIcon /> : <MoonIcon />}
+        </button>
       </nav>
     </>
   );

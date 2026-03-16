@@ -10,7 +10,7 @@ export default function Collectivites() {
     <>
       <SEO
         title="Collectivités | Voltea Énergie - Courtage énergie secteur public"
-        description="Voltea Énergie accompagne les collectivités territoriales dans l'optimisation de leur budget énergie. Conformité marchés publics, groupements d'achat, audit gratuit."
+        description="Voltea Énergie accompagne les collectivités territoriales dans l'optimisation de leur budget énergie. Conformité marchés publics, groupements d'achat, audit sans frais."
         canonical="/collectivites"
       />
       <Header />
@@ -26,7 +26,7 @@ export default function Collectivites() {
           </p>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2rem' }}>
             <Link to="/contact" className="btn btn-primary btn-lg">
-              Audit gratuit collectivité
+              Audit sans frais collectivité
             </Link>
             <a href="tel:+33642170251" className="btn btn-ghost btn-lg">
               06 42 17 02 51
@@ -54,7 +54,7 @@ export default function Collectivites() {
                   service, en garantissant la conformité avec le droit de la commande publique.
                 </p>
                 <p style={{ color: '#555', lineHeight: '1.8' }}>
-                  Notre intervention est entièrement gratuite pour votre collectivité : notre rémunération
+                  Notre intervention est entièrement sans frais pour votre collectivité : notre rémunération
                   est assurée par les fournisseurs d'énergie retenus.
                 </p>
               </div>
@@ -67,7 +67,7 @@ export default function Collectivites() {
                   { label: 'Syndicats', value: 'Syndicats d\'énergie, eau, déchets' },
                   { label: 'Établissements publics', value: 'Écoles, EHPAD, hôpitaux, musées' },
                 ].map((item) => (
-                  <div key={item.label} style={{ background: 'white', border: '1px solid var(--color-border-light)', borderRadius: 'var(--radius-lg)', padding: '1.25rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: 'var(--shadow-sm)' }}>
+                  <div key={item.label} style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border-light)', borderRadius: 'var(--radius-lg)', padding: '1.25rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: 'var(--shadow-sm)' }}>
                     <span style={{ fontWeight: 700, color: 'var(--color-text-dark)' }}>{item.label}</span>
                     <span style={{ fontSize: '0.875rem', color: '#666' }}>{item.value}</span>
                   </div>
@@ -187,7 +187,7 @@ export default function Collectivites() {
               'Offices HLM',
               'Régions et départements',
             ].map((type) => (
-              <div key={type} style={{ background: 'white', border: '1px solid var(--color-border-light)', borderRadius: 'var(--radius-md)', padding: '0.875rem 1.25rem', fontSize: '0.9rem', fontWeight: 500, color: 'var(--color-text-dark)', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: 'var(--shadow-sm)' }}>
+              <div key={type} style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border-light)', borderRadius: 'var(--radius-md)', padding: '0.875rem 1.25rem', fontSize: '0.9rem', fontWeight: 500, color: 'var(--color-text-dark)', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: 'var(--shadow-sm)' }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2.5">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
@@ -203,7 +203,7 @@ export default function Collectivites() {
         <div className="container" style={{ textAlign: 'center' }}>
           <ScrollReveal>
             <h2 style={{ color: 'white', marginBottom: '1rem' }}>
-              Obtenez un audit gratuit pour votre collectivité
+              Obtenez un audit sans frais pour votre collectivité
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.1rem', maxWidth: '580px', margin: '0 auto 2rem' }}>
               Jérémy Lozzi se déplace si besoin pour vous présenter les résultats de l'audit

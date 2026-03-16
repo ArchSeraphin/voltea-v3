@@ -55,7 +55,7 @@ export default function Home() {
     <>
       <SEO
         title="Voltea Énergie | Courtier en énergie Bourgoin-Jallieu"
-        description="Voltea Énergie, courtier en énergie indépendant à Bourgoin-Jallieu. Négociation de contrats d'électricité et de gaz pour professionnels et collectivités en Isère. Audit gratuit."
+        description="Voltea Énergie, courtier en énergie indépendant à Bourgoin-Jallieu. Négociation de contrats d'électricité et de gaz pour professionnels et collectivités en Isère. Audit sans frais."
         canonical="/"
       />
       <Header />
@@ -119,7 +119,7 @@ export default function Home() {
                   meilleures offres du marché.
                 </p>
                 <Link to="/contact" className="btn btn-primary">
-                  Demander une étude gratuite
+                  Demander une étude sans frais
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
@@ -176,12 +176,12 @@ export default function Home() {
                 </p>
                 <p>Voltea Énergie simplifie vos démarches :</p>
                 <ul>
-                  <li>Analyse gratuite de vos factures actuelles.</li>
+                  <li>Analyse sans frais de vos factures actuelles.</li>
                   <li>Mise en concurrence de plus de 20 fournisseurs partenaires.</li>
                   <li>Économies garanties sans changer vos installations.</li>
                 </ul>
                 <Link to="/contact" className="btn btn-primary">
-                  Obtenir un audit gratuit
+                  Obtenir un audit sans frais
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
@@ -324,7 +324,7 @@ export default function Home() {
                   <div className="why-number">2</div>
                   <h3>Transparence</h3>
                   <p>
-                    Un service gratuit pour vous (nous sommes rémunérés par les fournisseurs).
+                    Un service sans frais pour vous (nous sommes rémunérés par les fournisseurs).
                   </p>
                 </div>
                 <div className="why-item">
