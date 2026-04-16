@@ -16,7 +16,7 @@ export default function GuideIndex() {
   return (
     <>
       <SEO
-        title="Guide des fournisseurs d'énergie | Voltea Énergie"
+        title="Guide des fournisseurs d'énergie"
         description="Comparez les principaux fournisseurs d'énergie en France : EDF, Engie, TotalEnergies, Ekwateur, Vattenfall, ENI, Alpiq. Fiches détaillées pour professionnels."
         canonical="/guide-energie"
       />

@@ -20,7 +20,7 @@ export default function MarketPage() {
   return (
     <>
       <SEO
-        title="Comprendre le marché de l'énergie | Voltea Énergie"
+        title="Comprendre le marché de l'énergie"
         description="Actualités du marché de l'énergie, prix de l'électricité et du gaz, tendances du courtage. Restez informé avec Voltea Énergie."
         canonical="/marche-energie"
       />

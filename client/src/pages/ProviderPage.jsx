@@ -17,7 +17,7 @@ export default function ProviderPage() {
   return (
     <>
       <SEO
-        title={`${provider.name} — Fournisseur d'énergie | Voltea Énergie`}
+        title={`${provider.name} — Fournisseur d'énergie`}
         description={`Découvrez les offres ${provider.name} (${provider.fullName}) pour les professionnels. ${provider.tagline}. Analyse complète par Voltea Énergie.`}
         canonical={`/guide-energie/${provider.slug}`}
       />
