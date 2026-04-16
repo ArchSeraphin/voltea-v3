@@ -62,7 +62,7 @@ Créer un guide pédagogique sur les fournisseurs d'énergie, inspiré du standa
 | `engie` | Engie |
 | `totalenergies` | TotalEnergies |
 | `ekwateur` | Ekwateur |
-| `direct-energie` | Direct Énergie (TotalEnergies Pro) |
+| `primeo-energie` | Primeo Énergie |
 | `vattenfall` | Vattenfall |
 | `eni` | ENI |
 | `alpiq` | Alpiq |

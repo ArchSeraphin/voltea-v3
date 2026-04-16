@@ -514,7 +514,7 @@ export default function Home() {
                     )}
                     <div className="news-card-body">
                       <p className="news-card-date">
-                        {article.source?.name} · {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        {article.source?.name} · {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}
                       </p>
                       <h3 className="news-card-title">{article.title}</h3>
                       {article.description && (
