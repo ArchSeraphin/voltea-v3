@@ -2,14 +2,18 @@
 
 const pool = require('../config/database');
 
-const ALLOWED_KEYS = ['ga_measurement_id'];
+// Keys returned by the public /api/settings endpoint
+const PUBLIC_KEYS = ['ga_measurement_id'];
+
+// Keys accessible and updateable via the admin /api/admin/settings endpoint
+const ALLOWED_KEYS = ['ga_measurement_id', 'gnews_api_key'];
 
 async function getPublicSettings(req, res) {
   try {
-    const placeholders = ALLOWED_KEYS.map(() => '?').join(', ');
+    const placeholders = PUBLIC_KEYS.map(() => '?').join(', ');
     const [rows] = await pool.execute(
       `SELECT \`key\`, \`value\` FROM settings WHERE \`key\` IN (${placeholders})`,
-      ALLOWED_KEYS
+      PUBLIC_KEYS
     );
     const settings = {};
     rows.forEach((row) => {
@@ -29,14 +33,11 @@ async function getSettings(req, res) {
       `SELECT \`key\`, \`value\` FROM settings WHERE \`key\` IN (${placeholders})`,
       ALLOWED_KEYS
     );
-
-    // Build object with all allowed keys (null if not set)
     const settings = {};
     ALLOWED_KEYS.forEach((k) => (settings[k] = null));
     rows.forEach((row) => {
       settings[row.key] = row.value;
     });
-
     return res.json(settings);
   } catch (err) {
     console.error('[settings/getSettings]', err);
@@ -51,7 +52,6 @@ async function updateSettings(req, res) {
     return res.status(400).json({ error: 'Clé de paramètre invalide' });
   }
 
-  // Validate ga_measurement_id format
   if (key === 'ga_measurement_id' && value && !/^G-[A-Z0-9]+$/.test(value)) {
     return res.status(400).json({ error: 'Format GA invalide. Utilisez le format G-XXXXXXXXXX' });
   }
@@ -65,7 +65,6 @@ async function updateSettings(req, res) {
         [key, value, value]
       );
     }
-
     return res.json({ success: true, key, value: value || null });
   } catch (err) {
     console.error('[settings/updateSettings]', err);
