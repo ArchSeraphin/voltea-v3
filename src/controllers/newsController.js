@@ -27,10 +27,8 @@ async function getNews(req, res) {
       return res.json({ articles: [] });
     }
 
-    const maxRaw = parseInt(req.query.max, 10);
-    const max = Number.isFinite(maxRaw) && maxRaw > 0 ? Math.min(maxRaw, 10) : 9;
     const q = encodeURIComponent('marché énergie OR courtage énergie OR électricité gaz');
-    const url = `https://gnews.io/api/v4/search?q=${q}&lang=fr&max=${max}&token=${apiKey}`;
+    const url = `https://gnews.io/api/v4/search?q=${q}&lang=fr&max=10&token=${apiKey}`;
 
     const response = await fetch(url);
     if (!response.ok) {
