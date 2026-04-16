@@ -55,7 +55,7 @@ export default function Home() {
     <>
       <SEO
         title="Voltea Énergie | Courtier en énergie Bourgoin-Jallieu"
-        description="Voltea Énergie, courtier en énergie indépendant à Bourgoin-Jallieu. Négociation de contrats d'électricité et de gaz pour professionnels et collectivités en Isère. Audit sans frais."
+        description="Voltea Énergie, courtier en énergie indépendant à Bourgoin-Jallieu. Négociation de contrats d'électricité et de gaz pour professionnels en Isère. Audit sans frais."
         canonical="/"
       />
       <Header />
@@ -114,8 +114,8 @@ export default function Home() {
               <div className="section-split__content">
                 <h2>Reprenez le contrôle de votre budget énergétique avec Voltea Energie</h2>
                 <p>
-                  Courtier expert en électricité et gaz naturel pour les entreprises, copropriétés
-                  et collectivités en Isère. Basés à Bourgoin-Jallieu, nous négocions pour vous les
+                  Courtier expert en électricité et gaz naturel pour les entreprises
+                  et copropriétés en Isère. Basés à Bourgoin-Jallieu, nous négocions pour vous les
                   meilleures offres du marché.
                 </p>
                 <Link to="/contact" className="btn btn-primary">

@@ -8,7 +8,6 @@ import Services from './pages/Services.jsx';
 import News from './pages/News.jsx';
 import NewsDetail from './pages/NewsDetail.jsx';
 import Contact from './pages/Contact.jsx';
-import Collectivites from './pages/Collectivites.jsx';
 import LegalMentions from './pages/LegalMentions.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
 import NotFound from './pages/NotFound.jsx';
@@ -71,7 +70,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'Voltea Énergie',
-  description: 'Courtier en énergie pour professionnels et collectivités à Bourgoin-Jallieu',
+  description: 'Courtier en énergie pour professionnels à Bourgoin-Jallieu',
   url: 'https://voltea-energie.fr',
   telephone: '+33642170251',
   email: 'contact@voltea-energie.fr',
@@ -113,7 +112,6 @@ export default function App() {
             <Route path="/actualites" element={<News />} />
             <Route path="/actualites/:slug" element={<NewsDetail />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/collectivites" element={<Collectivites />} />
             <Route path="/mentions-legales" element={<LegalMentions />} />
             <Route path="/politique-de-confidentialite" element={<PrivacyPolicy />} />
             <Route path="/admin/connexion" element={<Login />} />
