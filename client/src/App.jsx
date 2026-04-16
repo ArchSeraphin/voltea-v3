@@ -8,6 +8,8 @@ import Services from './pages/Services.jsx';
 import News from './pages/News.jsx';
 import NewsDetail from './pages/NewsDetail.jsx';
 import MarketPage from './pages/MarketPage.jsx';
+import GuideIndex from './pages/GuideIndex.jsx';
+import ProviderPage from './pages/ProviderPage.jsx';
 import Contact from './pages/Contact.jsx';
 import LegalMentions from './pages/LegalMentions.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
@@ -111,6 +113,8 @@ export default function App() {
             <Route path="/a-propos" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/marche-energie" element={<MarketPage />} />
+            <Route path="/guide-energie" element={<GuideIndex />} />
+            <Route path="/guide-energie/:slug" element={<ProviderPage />} />
             <Route path="/actualites" element={<News />} />
             <Route path="/actualites/:slug" element={<NewsDetail />} />
             <Route path="/contact" element={<Contact />} />

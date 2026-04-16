@@ -11,6 +11,7 @@ const STATIC_PAGES = [
   { loc: '/a-propos', priority: '0.8', changefreq: 'monthly' },
   { loc: '/services', priority: '0.9', changefreq: 'monthly' },
   { loc: '/marche-energie', priority: '0.7', changefreq: 'weekly' },
+  { loc: '/guide-energie', priority: '0.8', changefreq: 'monthly' },
   { loc: '/actualites', priority: '0.8', changefreq: 'daily' },
   { loc: '/contact', priority: '0.7', changefreq: 'monthly' },
 ];
