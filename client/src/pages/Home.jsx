@@ -39,6 +39,7 @@ function StarDisplay({ rating }) {
 export default function Home() {
   const [articles, setArticles] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [gnewsArticles, setGnewsArticles] = useState([]);
 
   useEffect(() => {
     fetch('/api/articles?page=1')
@@ -48,6 +49,10 @@ export default function Home() {
     fetch('/api/reviews')
       .then((r) => r.json())
       .then((data) => setReviews(data.reviews || []))
+      .catch(() => {});
+    fetch('/api/news')
+      .then((r) => r.json())
+      .then((data) => setGnewsArticles(data.articles || []))
       .catch(() => {});
   }, []);
 
@@ -455,6 +460,76 @@ export default function Home() {
                       </p>
                     )}
                   </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── ACTUALITÉS MARCHÉ ── */}
+      {gnewsArticles.length > 0 && (
+        <section className="section section--light">
+          <div className="container">
+            <ScrollReveal>
+              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '2.5rem' }}>
+                <div>
+                  <span className="section-label">Marché de l'énergie</span>
+                  <h2 className="section-title" style={{ marginBottom: 0 }}>Actualités énergétiques</h2>
+                </div>
+                <Link to="/marche-energie" className="btn btn-outline btn-sm">
+                  Voir toutes les actualités
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </Link>
+              </div>
+            </ScrollReveal>
+            <div className="news-grid">
+              {gnewsArticles.slice(0, 3).map((article, i) => (
+                <ScrollReveal key={article.url} delay={i * 100}>
+                  <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="news-card"
+                    style={{ textDecoration: 'none', display: 'block' }}
+                  >
+                    {article.image ? (
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="news-card-img"
+                        loading="lazy"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    ) : (
+                      <div className="news-card-img-placeholder">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <rect x="3" y="3" width="18" height="18" rx="2"/>
+                          <circle cx="8.5" cy="8.5" r="1.5"/>
+                          <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                      </div>
+                    )}
+                    <div className="news-card-body">
+                      <p className="news-card-date">
+                        {article.source?.name} · {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </p>
+                      <h3 className="news-card-title">{article.title}</h3>
+                      {article.description && (
+                        <p className="news-card-excerpt" style={{ WebkitLineClamp: 2, display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                          {article.description}
+                        </p>
+                      )}
+                      <span className="news-card-link">
+                        Lire l'article
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
                 </ScrollReveal>
               ))}
             </div>
