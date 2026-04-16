@@ -107,7 +107,7 @@ export default function Services() {
     <>
       <SEO
         title="Services de courtage en énergie | Voltea Énergie"
-        description="Découvrez tous nos services : négociation de contrats, audit énergétique, optimisation tarifaire, suivi de consommation. Service 100% sans frais pour professionnels et collectivités."
+        description="Découvrez tous nos services : négociation de contrats, audit énergétique, optimisation tarifaire, suivi de consommation. Service 100% sans frais pour professionnels."
         canonical="/services"
       />
       <Header />

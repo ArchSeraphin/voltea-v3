@@ -12,7 +12,6 @@ const STATIC_PAGES = [
   { loc: '/services', priority: '0.9', changefreq: 'monthly' },
   { loc: '/actualites', priority: '0.8', changefreq: 'daily' },
   { loc: '/contact', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/collectivites', priority: '0.8', changefreq: 'monthly' },
 ];
 
 router.get('/sitemap.xml', async (req, res) => {

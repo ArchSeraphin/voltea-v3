@@ -10,7 +10,7 @@ export default function About() {
     <>
       <SEO
         title="À propos | Voltea Énergie - Courtier en énergie"
-        description="Découvrez Voltea Énergie et Jérémy Lozzi, courtier en énergies basé à Bourgoin-Jallieu. Notre mission : optimiser les contrats d'énergie des professionnels et collectivités."
+        description="Découvrez Voltea Énergie et Jérémy Lozzi, courtier en énergies basé à Bourgoin-Jallieu. Notre mission : optimiser les contrats d'énergie des professionnels."
         canonical="/a-propos"
       />
       <Header />
@@ -34,18 +34,18 @@ export default function About() {
                 <h2 className="section-title">Jérémy Lozzi,<br />au service de votre énergie</h2>
                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.25rem', lineHeight: '1.8' }}>
                   Né d'une passion pour les marchés de l'énergie et d'une volonté d'apporter une expertise
-                  concrète aux entreprises et collectivités locales, Voltea Énergie a été fondé par
+                  concrète aux entreprises, Voltea Énergie a été fondé par
                   Jérémy Lozzi à Bourgoin-Jallieu, au cœur de l'Isère.
                 </p>
                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.25rem', lineHeight: '1.8' }}>
                   Fort d'une solide expérience dans le secteur énergétique, Jérémy a constaté que nombreuses
-                  PME et collectivités locales subissaient des tarifs d'énergie bien supérieurs à ce qu'elles
+                  PME subissaient des tarifs d'énergie bien supérieurs à ce qu'elles
                   pourraient obtenir avec une bonne négociation. C'est pour combler ce déficit que Voltea Énergie
                   a vu le jour.
                 </p>
                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem', lineHeight: '1.8' }}>
                   Depuis sa création, Voltea Énergie a accompagné plus de 200 clients — professionnels,
-                  commerçants, industriels et collectivités — dans la maîtrise de leur budget énergie, générant
+                  commerçants et industriels — dans la maîtrise de leur budget énergie, générant
                   en moyenne 30% d'économies sur leur facture annuelle.
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-border)' }}>
