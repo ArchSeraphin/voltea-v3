@@ -597,8 +597,26 @@ p { font-size: 1rem; line-height: 1.7; }
 .news-card-body { padding: 1.5rem; display: flex; flex-direction: column; flex: 1; }
 .news-card-excerpt { flex: 1; }
 .news-card-date { font-size: 0.8rem; color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem; }
-.news-card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.35; color: var(--color-text-dark); }
-.news-card-excerpt { font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 1rem; }
+.news-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.35;
+  color: var(--color-text-dark);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.news-card-excerpt {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
 .news-card-link { font-size: 0.875rem; color: var(--color-primary); font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
 
 /* ─── Page header ─── */

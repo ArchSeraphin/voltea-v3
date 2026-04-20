@@ -101,7 +101,7 @@ export default function MarketPage() {
                       </p>
                       <h3 className="news-card-title">{article.title}</h3>
                       {article.description && (
-                        <p className="news-card-excerpt" style={{ WebkitLineClamp: 2, display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                        <p className="news-card-excerpt">
                           {article.description}
                         </p>
                       )}

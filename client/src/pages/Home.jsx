@@ -336,7 +336,7 @@ export default function Home() {
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '2.5rem' }}>
                 <div>
                   <span className="section-label">Blog</span>
-                  <h2 className="section-title" style={{ marginBottom: 0 }}>Actualités énergétiques</h2>
+                  <h2 className="section-title" style={{ marginBottom: 0 }}>Le blog Voltea Énergie</h2>
                 </div>
                 <Link to="/actualites" className="btn btn-outline btn-sm">
                   Voir toutes les actualités
@@ -458,7 +458,7 @@ export default function Home() {
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '2.5rem' }}>
                 <div>
                   <span className="section-label">Marché de l'énergie</span>
-                  <h2 className="section-title" style={{ marginBottom: 0 }}>Actualités énergétiques</h2>
+                  <h2 className="section-title" style={{ marginBottom: 0 }}>Le marché en direct</h2>
                 </div>
                 <Link to="/marche-energie" className="btn btn-outline btn-sm">
                   Voir toutes les actualités
@@ -501,7 +501,7 @@ export default function Home() {
                       </p>
                       <h3 className="news-card-title">{article.title}</h3>
                       {article.description && (
-                        <p className="news-card-excerpt" style={{ WebkitLineClamp: 2, display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                        <p className="news-card-excerpt">
                           {article.description}
                         </p>
                       )}
