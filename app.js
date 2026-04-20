@@ -42,7 +42,7 @@ app.use(
         ],
         styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://leadbooster-chat.pipedrive.com', 'https://*.pipedriveassets.com', 'https://webforms.pipedrive.com'],
         fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://*.pipedriveassets.com'],
-        imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com', 'https://www.googletagmanager.com', 'https://leadbooster-chat.pipedrive.com', 'https://*.pipedriveassets.com', 'https://webforms.pipedrive.com'],
+        imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com', 'https://www.googletagmanager.com', 'https://leadbooster-chat.pipedrive.com', 'https://*.pipedriveassets.com', 'https://webforms.pipedrive.com', 'https://upload.wikimedia.org'],
         connectSrc: [
           "'self'",
           'https://www.google-analytics.com',

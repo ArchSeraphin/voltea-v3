@@ -4,6 +4,7 @@ import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
+import ProviderLogo from '../components/ProviderLogo.jsx';
 import { providers } from '../data/providersData.js';
 
 const CATEGORY_COLORS = {
@@ -62,19 +63,7 @@ export default function GuideIndex() {
                   >
                     {/* Logo ou initiales */}
                     <div style={{ height: '64px', display: 'flex', alignItems: 'center' }}>
-                      {provider.logoUrl ? (
-                        <img
-                          src={provider.logoUrl}
-                          alt={`Logo ${provider.name}`}
-                          style={{ maxHeight: '48px', maxWidth: '140px', objectFit: 'contain' }}
-                          loading="lazy"
-                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                        />
-                      ) : (
-                        <div style={{ width: '52px', height: '52px', borderRadius: 'var(--radius-md)', background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '1.2rem' }}>
-                          {provider.name.slice(0, 2).toUpperCase()}
-                        </div>
-                      )}
+                      <ProviderLogo provider={provider} />
                     </div>
 
                     <div style={{ flex: 1 }}>

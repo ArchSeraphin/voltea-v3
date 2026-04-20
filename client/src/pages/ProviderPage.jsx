@@ -4,6 +4,7 @@ import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
+import ProviderLogo from '../components/ProviderLogo.jsx';
 import { getProviderBySlug } from '../data/providersData.js';
 
 export default function ProviderPage() {
@@ -47,20 +48,9 @@ export default function ProviderPage() {
               aria-label="Infrastructure électrique — fournisseurs d'énergie en France"
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-                {provider.logoUrl ? (
-                  <div style={{ background: 'rgba(255,255,255,0.95)', padding: '0.6rem 1rem', borderRadius: 'var(--radius-md)' }}>
-                    <img
-                      src={provider.logoUrl}
-                      alt={`Logo ${provider.name}`}
-                      style={{ maxHeight: '52px', maxWidth: '160px', objectFit: 'contain', display: 'block' }}
-                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                    />
-                  </div>
-                ) : (
-                  <div style={{ width: '64px', height: '64px', borderRadius: 'var(--radius-lg)', background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '1.4rem', flexShrink: 0 }}>
-                    {provider.name.slice(0, 2).toUpperCase()}
-                  </div>
-                )}
+                <div style={{ background: 'rgba(255,255,255,0.95)', padding: '0.6rem 1rem', borderRadius: 'var(--radius-md)', display: 'inline-flex', alignItems: 'center' }}>
+                  <ProviderLogo provider={provider} size={56} maxImgHeight={52} maxImgWidth={160} fontSize="1.3rem" />
+                </div>
                 <div>
                   <h1 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 4vw, 3rem)', margin: '0 0 0.25rem' }}>{provider.name}</h1>
                   <p style={{ color: 'rgba(255,255,255,0.85)', margin: 0 }}>{provider.fullName}</p>
@@ -186,13 +176,13 @@ export default function ProviderPage() {
                 et négocie les meilleures conditions pour vous — sans frais.
               </p>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                <Link to="/contact" className="btn btn-primary btn-lg">
+                <Link to="/contact" className="btn btn-lg" style={{ background: '#fff', color: 'var(--color-primary)', borderColor: '#fff' }}>
                   Demander une étude sans frais
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
                 </Link>
-                <Link to="/guide-energie" className="btn btn-outline btn-lg">
+                <Link to="/guide-energie" className="btn btn-outline-white btn-lg">
                   Voir les autres fournisseurs
                 </Link>
               </div>
