@@ -177,6 +177,10 @@ p { font-size: 1rem; line-height: 1.7; }
   overflow: hidden;
   text-align: center;
   padding: 7rem 0 5rem;
+  /* Poster shown instantly (LCP) while video decodes, and if video fails */
+  background-image: url('/assets/videos/hero-poster.jpg');
+  background-size: cover;
+  background-position: center;
 }
 .hero-video {
   position: absolute;

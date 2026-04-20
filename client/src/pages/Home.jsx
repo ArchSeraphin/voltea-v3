@@ -69,13 +69,17 @@ export default function Home() {
       <section className="hero">
         <video
           className="hero-video"
-          src="/assets/videos/hero.mp4"
+          poster="/assets/videos/hero-poster.jpg"
           autoPlay
           muted
           loop
           playsInline
+          preload="metadata"
           aria-hidden="true"
-        />
+        >
+          <source src="/assets/videos/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+          <source src="/assets/videos/hero.mp4" type="video/mp4" />
+        </video>
         <div className="hero-overlay" />
         <div className="container">
           <div className="hero-content">
