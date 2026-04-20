@@ -59,8 +59,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Voltea Énergie | Courtier en énergie Bourgoin-Jallieu"
-        description="Voltea Énergie, courtier en énergie indépendant à Bourgoin-Jallieu. Négociation de contrats d'électricité et de gaz pour professionnels en Isère. Audit sans frais."
+        title="Courtier en énergie pour professionnels — Bourgoin-Jallieu & Isère"
+        description="Voltea Énergie, courtier indépendant en électricité et gaz pour professionnels, copropriétés et particuliers en Isère. Négociation multi-fournisseurs, audit et optimisation — 100% sans frais."
         canonical="/"
       />
       <Header />
@@ -79,23 +79,31 @@ export default function Home() {
         <div className="hero-overlay" />
         <div className="container">
           <div className="hero-content">
-            <h1 className="hero-headline">Voltea Énergie</h1>
-            <p className="hero-tagline">
-              Courtier en énergie<br />à Bourgoin-Jallieu &amp; Isère.
-            </p>
-            <p className="hero-description">
-              Optimisez vos contrats d'électricité et de gaz avec Voltea Énergie,
-              votre courtier expert basé à Bourgoin-Jallieu. Réduction de coûts
-              et accompagnement sur-mesure pour les pros en Isère.
+            <span className="hero-eyebrow">Voltea Énergie · Bourgoin-Jallieu</span>
+            <h1 className="hero-headline">
+              Courtier en électricité et gaz pour professionnels en Isère
+            </h1>
+            <p className="hero-subline">
+              Reprenez la main sur vos contrats d'énergie. Indépendant, transparent,
+              100% sans frais.
             </p>
             <div className="hero-actions">
-              <Link to="/services" className="btn btn-primary btn-lg">
-                Espaces Pro / Industrie
+              <Link to="/contact" className="btn btn-primary btn-lg">
+                Demander mon étude sans frais
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
               </Link>
               <Link to="/contact" className="btn btn-outline-white btn-lg">
                 Achat groupé particuliers
               </Link>
             </div>
+            <ul className="hero-trust-bar" aria-label="Nos engagements">
+              <li>+20 fournisseurs partenaires</li>
+              <li>Jusqu'à −20% sur vos factures</li>
+              <li>100% sans frais ni engagement</li>
+              <li>Expert local en Isère</li>
+            </ul>
           </div>
         </div>
         <div className="hero-scroll" aria-hidden="true">
