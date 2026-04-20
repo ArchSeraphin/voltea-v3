@@ -152,10 +152,10 @@ export default function Services() {
                 >
                   <div style={{ direction: 'ltr' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
-                      <div className="card-icon" style={{ width: '56px', height: '56px', flexShrink: 0 }}>
+                      <div className="card-icon" style={{ width: '56px', height: '56px', flexShrink: 0, marginBottom: 0 }}>
                         {service.icon}
                       </div>
-                      <h2 style={{ fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', margin: 0 }}>{service.title}</h2>
+                      <h2 style={{ fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', margin: 0, lineHeight: 1.2 }}>{service.title}</h2>
                     </div>
                     <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.5rem', lineHeight: '1.8', fontSize: '1.05rem' }}>
                       {service.description}

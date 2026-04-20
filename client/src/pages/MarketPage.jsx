@@ -125,13 +125,13 @@ export default function MarketPage() {
         <div className="container">
           <ScrollReveal>
             <div className="why-voltea-card" style={{ textAlign: 'center' }}>
-              <span className="section-label">Guide pratique</span>
+              <span className="section-label" style={{ color: 'rgba(255,255,255,0.9)', borderColor: 'rgba(255,255,255,0.35)' }}>Guide pratique</span>
               <h2 style={{ marginBottom: '1rem' }}>Qui sont les fournisseurs d'énergie ?</h2>
-              <p style={{ color: 'var(--color-text-muted)', maxWidth: '560px', margin: '0 auto 2rem' }}>
+              <p style={{ color: 'rgba(255,255,255,0.88)', maxWidth: '560px', margin: '0 auto 2rem' }}>
                 EDF, Engie, TotalEnergies, Ekwateur… Tous ne se valent pas selon votre profil de consommation.
                 Notre guide compare les principaux fournisseurs pour vous aider à y voir clair.
               </p>
-              <Link to="/guide-energie" className="btn btn-primary">
+              <Link to="/guide-energie" className="btn" style={{ background: '#fff', color: 'var(--color-primary)', borderColor: '#fff' }}>
                 Accéder au guide des fournisseurs
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7"/>

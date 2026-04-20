@@ -111,8 +111,8 @@ export default function Home() {
             <div className="section-split">
               <div className="section-split__img">
                 <img
-                  src="/assets/images/voltea-energie-jeremy-lozzi.png"
-                  alt="Jérémy Lozzi, conseiller Voltea Énergie"
+                  src="/assets/images/industrial/usine-industrie-energie.jpg"
+                  alt="Site industriel énergétique — expertise Voltea Énergie"
                   loading="lazy"
                 />
               </div>
@@ -193,20 +193,11 @@ export default function Home() {
                 </Link>
               </div>
               <div className="section-split__img">
-                <div style={{
-                  width: '100%',
-                  height: '100%',
-                  minHeight: 320,
-                  background: 'linear-gradient(135deg, #e8f0fe 0%, #c6daf2 40%, #a8c4e8 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 'var(--radius-xl)',
-                }}>
-                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.35 }}>
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.93V18h-2v-1.07C8.99 16.53 7 14.9 7 13h2c0 1.1 1.34 2 3 2s3-.9 3-2c0-1.13-.84-1.6-3.36-2.23-2.71-.67-4.64-1.6-4.64-4.27C7 4.93 8.99 3.47 11 3.07V2h2v1.07c2.01.4 3 1.83 3 3.43h-2c0-1.1-.89-2-2.5-2-1.64 0-2.5.89-2.5 2 0 1.09.79 1.56 3.22 2.2C14.15 9.36 16 10.16 16 13c0 2.16-1.99 3.53-3 3.93z" fill="#146ef3"/>
-                  </svg>
-                </div>
+                <img
+                  src="/assets/images/industrial/hero-site-industriel-nuit.jpg"
+                  alt="Site industriel la nuit — maîtrise de la facture énergétique"
+                  loading="lazy"
+                />
               </div>
             </div>
           </ScrollReveal>
@@ -225,13 +216,11 @@ export default function Home() {
             <ScrollReveal delay={0}>
               <div className="service-photo-card">
                 <div className="service-photo-card__img">
-                  <div className="service-photo-card__img-placeholder" style={{
-                    background: 'linear-gradient(135deg, #0f3080 0%, #146ef3 100%)',
-                  }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5">
-                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                    </svg>
-                  </div>
+                  <img
+                    src="/assets/images/industrial/transformateurs-electriques.jpg"
+                    alt="Transformateurs électriques — courtage en électricité et gaz"
+                    loading="lazy"
+                  />
                 </div>
                 <div className="service-photo-card__body">
                   <h3 className="service-photo-card__title">Courtage en Électricité &amp; Gaz</h3>
@@ -244,13 +233,11 @@ export default function Home() {
             <ScrollReveal delay={100}>
               <div className="service-photo-card">
                 <div className="service-photo-card__img">
-                  <div className="service-photo-card__img-placeholder" style={{
-                    background: 'linear-gradient(135deg, #0a4a8f 0%, #1a7dd4 100%)',
-                  }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5">
-                      <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                    </svg>
-                  </div>
+                  <img
+                    src="/assets/images/industrial/compteur-electrique-detail.jpg"
+                    alt="Compteur électrique — optimisation de la fiscalité énergétique"
+                    loading="lazy"
+                  />
                 </div>
                 <div className="service-photo-card__body">
                   <h3 className="service-photo-card__title">Optimisation de la Fiscalité</h3>
@@ -263,15 +250,11 @@ export default function Home() {
             <ScrollReveal delay={200}>
               <div className="service-photo-card">
                 <div className="service-photo-card__img">
-                  <div className="service-photo-card__img-placeholder" style={{
-                    background: 'linear-gradient(135deg, #1a6080 0%, #22a89a 100%)',
-                  }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5">
-                      <path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/>
-                      <path d="M8 12s1.5 2 4 2 4-2 4-2"/>
-                      <path d="M9 9h.01M15 9h.01"/>
-                    </svg>
-                  </div>
+                  <img
+                    src="/assets/images/industrial/electricien-cablage-industriel.jpg"
+                    alt="Électricien en intervention sur câblage — efficacité énergétique"
+                    loading="lazy"
+                  />
                 </div>
                 <div className="service-photo-card__body">
                   <h3 className="service-photo-card__title">Efficacité Énergétique</h3>
