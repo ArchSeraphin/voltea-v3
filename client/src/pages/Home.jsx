@@ -111,8 +111,8 @@ export default function Home() {
             <div className="section-split">
               <div className="section-split__img">
                 <img
-                  src="/assets/images/industrial/usine-industrie-energie.jpg"
-                  alt="Site industriel énergétique — expertise Voltea Énergie"
+                  src="/assets/images/humain/conseil-expert-client.jpg"
+                  alt="Conseiller Voltea Énergie en rendez-vous avec un client professionnel"
                   loading="lazy"
                 />
               </div>
@@ -194,8 +194,8 @@ export default function Home() {
               </div>
               <div className="section-split__img">
                 <img
-                  src="/assets/images/industrial/hero-site-industriel-nuit.jpg"
-                  alt="Site industriel la nuit — maîtrise de la facture énergétique"
+                  src="/assets/images/humain/analyse-factures.jpg"
+                  alt="Analyse de factures énergétiques — audit Voltea Énergie"
                   loading="lazy"
                 />
               </div>
@@ -217,8 +217,8 @@ export default function Home() {
               <div className="service-photo-card">
                 <div className="service-photo-card__img">
                   <img
-                    src="/assets/images/industrial/transformateurs-electriques.jpg"
-                    alt="Transformateurs électriques — courtage en électricité et gaz"
+                    src="/assets/images/humain/poignee-de-main-contrat.jpg"
+                    alt="Poignée de main sur contrat — courtage en électricité et gaz"
                     loading="lazy"
                   />
                 </div>
@@ -234,8 +234,8 @@ export default function Home() {
               <div className="service-photo-card">
                 <div className="service-photo-card__img">
                   <img
-                    src="/assets/images/industrial/compteur-electrique-detail.jpg"
-                    alt="Compteur électrique — optimisation de la fiscalité énergétique"
+                    src="/assets/images/abstrait/dashboard-courbes.jpg"
+                    alt="Tableau de bord de consommation — optimisation de la fiscalité énergétique"
                     loading="lazy"
                   />
                 </div>
@@ -251,8 +251,8 @@ export default function Home() {
               <div className="service-photo-card">
                 <div className="service-photo-card__img">
                   <img
-                    src="/assets/images/industrial/electricien-cablage-industriel.jpg"
-                    alt="Électricien en intervention sur câblage — efficacité énergétique"
+                    src="/assets/images/vert/panneaux-solaires-toit.jpg"
+                    alt="Panneaux solaires sur toit professionnel — efficacité énergétique et renouvelables"
                     loading="lazy"
                   />
                 </div>

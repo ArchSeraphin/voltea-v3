@@ -38,14 +38,14 @@ export default function ProviderPage() {
             <div
               className="image-banner"
               style={{
-                '--banner-bg': "url('/assets/images/industrial/transformateurs-electriques.jpg')",
+                '--banner-bg': "url('/assets/images/abstrait/reseau-points-connecte.jpg')",
                 marginBottom: '2rem',
                 display: 'flex',
                 alignItems: 'flex-end',
                 padding: '1.5rem',
               }}
               role="img"
-              aria-label="Infrastructure électrique — fournisseurs d'énergie en France"
+              aria-label="Réseau de fournisseurs d'énergie en France"
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
                 <div style={{ background: 'rgba(255,255,255,0.95)', padding: '0.6rem 1rem', borderRadius: 'var(--radius-md)', display: 'inline-flex', alignItems: 'center' }}>

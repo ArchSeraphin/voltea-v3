@@ -9,8 +9,8 @@ const SERVICES = [
   {
     id: 'negociation',
     title: 'Négociation de contrats',
-    image: '/assets/images/industrial/ouvrier-maintenance-site.jpg',
-    imageAlt: "Opérateur sur site industriel — négociation contrats énergie Voltea",
+    image: '/assets/images/humain/poignee-de-main-contrat.jpg',
+    imageAlt: "Poignée de main scellant un contrat — négociation énergie Voltea",
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -28,8 +28,8 @@ const SERVICES = [
   {
     id: 'audit',
     title: 'Audit énergétique',
-    image: '/assets/images/industrial/techniciens-poste-transformation.jpg',
-    imageAlt: "Techniciens sur poste de transformation — audit énergétique Voltea",
+    image: '/assets/images/humain/reunion-audit-bureau.jpg',
+    imageAlt: "Équipe en réunion autour des chiffres — audit énergétique Voltea",
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
@@ -47,8 +47,8 @@ const SERVICES = [
   {
     id: 'optimisation',
     title: 'Optimisation tarifaire',
-    image: '/assets/images/industrial/electricien-cablage-industriel.jpg',
-    imageAlt: "Électricien en intervention sur câblage industriel — optimisation tarifaire",
+    image: '/assets/images/abstrait/data-graphe-bleu.jpg',
+    imageAlt: "Graphiques de prix de l'énergie — optimisation tarifaire Voltea",
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <line x1="12" y1="1" x2="12" y2="23"/>
@@ -67,8 +67,8 @@ const SERVICES = [
   {
     id: 'suivi',
     title: 'Suivi de consommation',
-    image: '/assets/images/industrial/compteur-electrique-detail.jpg',
-    imageAlt: "Gros plan sur compteur électrique — suivi de consommation Voltea",
+    image: '/assets/images/abstrait/dashboard-courbes.jpg',
+    imageAlt: "Tableau de bord avec courbes de consommation — suivi Voltea",
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
@@ -86,8 +86,8 @@ const SERVICES = [
   {
     id: 'reglementaire',
     title: 'Accompagnement réglementaire',
-    image: '/assets/images/industrial/transformateurs-electriques.jpg',
-    imageAlt: "Transformateurs électriques haute tension — accompagnement réglementaire",
+    image: '/assets/images/humain/signature-contrat-pro.jpg',
+    imageAlt: "Signature d'un document officiel — accompagnement réglementaire",
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>

@@ -29,7 +29,7 @@ export default function MarketPage() {
       {/* ── HERO ── */}
       <section
         className="hero-image"
-        style={{ '--hero-bg': "url('/assets/images/industrial/hero-poste-electrique-crepuscule.jpg')" }}
+        style={{ '--hero-bg': "url('/assets/images/abstrait/flux-lumiere-bleu.jpg')" }}
       >
         <div className="container">
           <ScrollReveal>

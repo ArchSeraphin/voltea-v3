@@ -26,7 +26,7 @@ export default function GuideIndex() {
       {/* ── HERO ── */}
       <section
         className="hero-image"
-        style={{ '--hero-bg': "url('/assets/images/industrial/hero-silhouette-usine-golden.jpg')" }}
+        style={{ '--hero-bg': "url('/assets/images/abstrait/data-graphe-bleu.jpg')" }}
       >
         <div className="container">
           <ScrollReveal>
