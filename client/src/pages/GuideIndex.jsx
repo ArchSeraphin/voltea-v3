@@ -23,18 +23,21 @@ export default function GuideIndex() {
       <Header />
 
       {/* ── HERO ── */}
-      <section className="section section--white" style={{ paddingTop: 'calc(var(--header-height) + 4rem)', paddingBottom: '3rem' }}>
+      <section
+        className="hero-image"
+        style={{ '--hero-bg': "url('/assets/images/industrial/hero-silhouette-usine-golden.jpg')" }}
+      >
         <div className="container">
           <ScrollReveal>
             <span className="section-label">Guide pratique</span>
             <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem', maxWidth: '700px' }}>
               Guide des fournisseurs d'énergie
             </h1>
-            <p style={{ fontSize: '1.1rem', color: 'var(--color-text-muted)', maxWidth: '600px', marginBottom: '2rem' }}>
+            <p style={{ fontSize: '1.1rem', maxWidth: '600px', marginBottom: '2rem' }}>
               Tous les fournisseurs ne se valent pas selon votre profil de consommation.
               Découvrez les caractéristiques, offres et points forts de chaque acteur du marché.
             </p>
-            <Link to="/contact" className="btn btn-primary">
+            <Link to="/contact" className="btn btn-ghost">
               Demander une comparaison personnalisée
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7"/>

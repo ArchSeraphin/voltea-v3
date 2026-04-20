@@ -34,22 +34,37 @@ export default function ProviderPage() {
               Retour au guide
             </Link>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-              {provider.logoUrl ? (
-                <img
-                  src={provider.logoUrl}
-                  alt={`Logo ${provider.name}`}
-                  style={{ maxHeight: '64px', maxWidth: '180px', objectFit: 'contain' }}
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                />
-              ) : (
-                <div style={{ width: '64px', height: '64px', borderRadius: 'var(--radius-lg)', background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '1.4rem', flexShrink: 0 }}>
-                  {provider.name.slice(0, 2).toUpperCase()}
+            <div
+              className="image-banner"
+              style={{
+                '--banner-bg': "url('/assets/images/industrial/transformateurs-electriques.jpg')",
+                marginBottom: '2rem',
+                display: 'flex',
+                alignItems: 'flex-end',
+                padding: '1.5rem',
+              }}
+              role="img"
+              aria-label="Infrastructure électrique — fournisseurs d'énergie en France"
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+                {provider.logoUrl ? (
+                  <div style={{ background: 'rgba(255,255,255,0.95)', padding: '0.6rem 1rem', borderRadius: 'var(--radius-md)' }}>
+                    <img
+                      src={provider.logoUrl}
+                      alt={`Logo ${provider.name}`}
+                      style={{ maxHeight: '52px', maxWidth: '160px', objectFit: 'contain', display: 'block' }}
+                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                  </div>
+                ) : (
+                  <div style={{ width: '64px', height: '64px', borderRadius: 'var(--radius-lg)', background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '1.4rem', flexShrink: 0 }}>
+                    {provider.name.slice(0, 2).toUpperCase()}
+                  </div>
+                )}
+                <div>
+                  <h1 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 4vw, 3rem)', margin: '0 0 0.25rem' }}>{provider.name}</h1>
+                  <p style={{ color: 'rgba(255,255,255,0.85)', margin: 0 }}>{provider.fullName}</p>
                 </div>
-              )}
-              <div>
-                <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', margin: '0 0 0.25rem' }}>{provider.name}</h1>
-                <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>{provider.fullName}</p>
               </div>
             </div>
 

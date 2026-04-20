@@ -1295,3 +1295,102 @@ body {
 [data-theme="dark"] .page-header {
   background: var(--color-bg-alt);
 }
+
+/* ─── Hero avec image de fond (style industriel) ─── */
+.hero-image {
+  position: relative;
+  padding-top: calc(var(--header-height) + 5rem);
+  padding-bottom: 5rem;
+  overflow: hidden;
+  isolation: isolate;
+  color: #ffffff;
+}
+.hero-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--hero-bg);
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0.85) brightness(0.78);
+  z-index: -2;
+}
+.hero-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(20,110,243,0.55) 0%, rgba(11,16,30,0.82) 100%);
+  z-index: -1;
+}
+.hero-image h1,
+.hero-image .section-label {
+  color: #ffffff;
+}
+.hero-image p {
+  color: rgba(255,255,255,0.88);
+}
+.hero-image .section-label {
+  color: rgba(255,255,255,0.9);
+  border-color: rgba(255,255,255,0.35);
+}
+
+/* ─── Card service avec image (Services.jsx side card) ─── */
+.service-image-card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem 2rem;
+  background-image: var(--card-bg);
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--shadow-md);
+  isolation: isolate;
+}
+.service-image-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(11,16,30,0.15) 0%,
+    rgba(11,16,30,0.65) 70%,
+    rgba(20,110,243,0.78) 100%
+  );
+  z-index: -1;
+}
+.service-image-card__label {
+  color: rgba(255,255,255,0.82);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.service-image-card__title {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+/* ─── Bannière image pleine largeur (About, CTA, ProviderPage) ─── */
+.image-banner {
+  position: relative;
+  height: clamp(180px, 28vw, 320px);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background-image: var(--banner-bg);
+  background-size: cover;
+  background-position: center;
+  isolation: isolate;
+}
+.image-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(11,16,30,0.55), rgba(20,110,243,0.35));
+  z-index: -1;
+}

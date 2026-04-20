@@ -27,18 +27,21 @@ export default function MarketPage() {
       <Header />
 
       {/* ── HERO ── */}
-      <section className="section section--white" style={{ paddingTop: 'calc(var(--header-height) + 4rem)', paddingBottom: '3rem' }}>
+      <section
+        className="hero-image"
+        style={{ '--hero-bg': "url('/assets/images/industrial/hero-poste-electrique-crepuscule.jpg')" }}
+      >
         <div className="container">
           <ScrollReveal>
             <span className="section-label">Marché de l'énergie</span>
             <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem', maxWidth: '700px' }}>
               Comprendre le marché de l'énergie
             </h1>
-            <p style={{ fontSize: '1.1rem', color: 'var(--color-text-muted)', maxWidth: '600px', marginBottom: '2rem' }}>
+            <p style={{ fontSize: '1.1rem', maxWidth: '600px', marginBottom: '2rem' }}>
               Électricité, gaz, prix spot, fournisseurs… le marché de l'énergie évolue en permanence.
               Retrouvez ici les dernières actualités pour prendre les bonnes décisions au bon moment.
             </p>
-            <Link to="/guide-energie" className="btn btn-outline">
+            <Link to="/guide-energie" className="btn btn-ghost">
               Découvrir notre guide des fournisseurs
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
