@@ -99,10 +99,10 @@ export default function Home() {
               </Link>
             </div>
             <ul className="hero-trust-bar" aria-label="Nos engagements">
-              <li>+20 fournisseurs partenaires</li>
-              <li>Jusqu'à −20% sur vos factures</li>
-              <li>100% sans frais ni engagement</li>
-              <li>Expert local en Isère</li>
+              <li>+20 fournisseurs</li>
+              <li>Jusqu'à −20% de facture</li>
+              <li>100% sans frais</li>
+              <li>Expert local Isère</li>
             </ul>
           </div>
         </div>

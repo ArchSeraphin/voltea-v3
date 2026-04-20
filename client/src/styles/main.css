@@ -250,10 +250,10 @@ p { font-size: 1rem; line-height: 1.7; }
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem 0;
+  row-gap: 0.5rem;
   margin: 2.5rem auto 0;
-  padding: 0.85rem 1.5rem;
-  max-width: 880px;
+  padding: 0.85rem 1.25rem;
+  max-width: fit-content;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.18);
   border-radius: 999px;
@@ -265,7 +265,7 @@ p { font-size: 1rem; line-height: 1.7; }
   font-weight: 500;
   color: rgba(255,255,255,0.92);
   letter-spacing: 0.01em;
-  padding: 0 1.1rem;
+  padding: 0 0.95rem;
   position: relative;
   white-space: nowrap;
 }
@@ -280,19 +280,31 @@ p { font-size: 1rem; line-height: 1.7; }
   border-radius: 50%;
   background: rgba(255,255,255,0.5);
 }
-@media (max-width: 720px) {
+/* Tablet: 2x2 grid so we never orphan a single item on a line */
+@media (max-width: 900px) {
   .hero-trust-bar {
-    flex-direction: column;
-    gap: 0.5rem;
-    border-radius: var(--radius-lg);
-    padding: 1rem 1.25rem;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    column-gap: 1.5rem;
+    row-gap: 0.5rem;
+    border-radius: var(--radius-xl);
+    padding: 0.9rem 1.5rem;
   }
   .hero-trust-bar li {
     padding: 0;
-    white-space: normal;
   }
   .hero-trust-bar li + li::before {
     display: none;
+  }
+}
+/* Mobile: single column */
+@media (max-width: 520px) {
+  .hero-trust-bar {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero-trust-bar li {
+    white-space: normal;
   }
 }
 .hero-scroll {
