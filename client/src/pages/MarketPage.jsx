@@ -4,6 +4,7 @@ import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
+import Breadcrumb from '../components/Breadcrumb.jsx';
 
 export default function MarketPage() {
   const [articles, setArticles] = useState([]);
@@ -33,6 +34,7 @@ export default function MarketPage() {
       >
         <div className="container">
           <ScrollReveal>
+            <Breadcrumb variant="light" items={[{ to: '/', label: 'Accueil' }, { label: 'Marché de l\'énergie' }]} />
             <span className="section-label">Marché de l'énergie</span>
             <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem', maxWidth: '700px' }}>
               Comprendre le marché de l'énergie

@@ -55,9 +55,10 @@ export default function Footer() {
             <p className="footer-col-title">Menu rapide</p>
             <ul className="footer-links">
               <li><Link to="/contact">Contactez-nous</Link></li>
-              <li><Link to="/contact">Acheter votre énergie</Link></li>
-              <li><Link to="/a-propos">Qui sommes-nous ?</Link></li>
               <li><Link to="/services">Nos services</Link></li>
+              <li><Link to="/guide-energie">Guide des fournisseurs</Link></li>
+              <li><Link to="/marche-energie">Marché de l'énergie</Link></li>
+              <li><Link to="/a-propos">Qui sommes-nous ?</Link></li>
               <li><Link to="/actualites">Actualités</Link></li>
             </ul>
           </div>

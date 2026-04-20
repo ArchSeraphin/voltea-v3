@@ -4,3 +4,4 @@ client/dist/
 uploads/
 *.log
 .DS_Store
+assets/images/.backup/

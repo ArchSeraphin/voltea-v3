@@ -30,9 +30,12 @@ router.get('/sitemap.xml', async (req, res) => {
       'SELECT slug, updated_at, published_at FROM articles WHERE published = 1 ORDER BY published_at DESC'
     );
 
+    const today = new Date().toISOString().split('T')[0];
+
     let urls = STATIC_PAGES.map(({ loc, priority, changefreq }) => `
   <url>
     <loc>${BASE_URL}${loc}</loc>
+    <lastmod>${today}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
   </url>`).join('');

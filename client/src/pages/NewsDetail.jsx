@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
+import Breadcrumb from '../components/Breadcrumb.jsx';
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
@@ -119,6 +120,13 @@ export default function NewsDetail() {
 
       <div className="page-header">
         <div className="container">
+          <Breadcrumb
+            items={[
+              { to: '/', label: 'Accueil' },
+              { to: '/actualites', label: 'Actualités' },
+              { label: article.title },
+            ]}
+          />
           <Link
             to="/actualites"
             style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-primary)', fontSize: '0.875rem', fontWeight: 600, marginBottom: '1rem' }}

@@ -71,15 +71,22 @@ function GAInjector() {
 
 const LOCAL_BUSINESS_SCHEMA = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': ['LocalBusiness', 'ProfessionalService'],
+  '@id': 'https://voltea-energie.fr/#business',
   name: 'Voltea Énergie',
-  description: 'Courtier en énergie pour professionnels à Bourgoin-Jallieu',
+  legalName: 'Voltea Énergie',
+  description:
+    "Courtier indépendant en énergie pour professionnels, copropriétés et particuliers en Isère. Négociation d'offres électricité et gaz auprès de plus de 20 fournisseurs, audit sans frais.",
   url: 'https://voltea-energie.fr',
+  logo: 'https://voltea-energie.fr/img/logo/logo-clair.png',
+  image: 'https://voltea-energie.fr/img/og-default.jpg',
   telephone: '+33642170251',
   email: 'contact@voltea-energie.fr',
+  priceRange: 'Gratuit pour le client — rémunération par les fournisseurs',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Bourgoin-Jallieu',
+    postalCode: '38300',
     addressRegion: 'Isère',
     addressCountry: 'FR',
   },
@@ -88,11 +95,42 @@ const LOCAL_BUSINESS_SCHEMA = {
     latitude: 45.5836,
     longitude: 5.2703,
   },
-  areaServed: {
-    '@type': 'State',
-    name: 'Rhône-Alpes',
+  areaServed: [
+    { '@type': 'State', name: 'Auvergne-Rhône-Alpes' },
+    { '@type': 'AdministrativeArea', name: 'Isère' },
+    { '@type': 'City', name: 'Bourgoin-Jallieu' },
+    { '@type': 'City', name: 'Villefontaine' },
+    { '@type': "City", name: "L'Isle-d'Abeau" },
+    { '@type': 'City', name: 'La Tour-du-Pin' },
+    { '@type': 'City', name: 'Grenoble' },
+    { '@type': 'City', name: 'Lyon' },
+  ],
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
+  founder: {
+    '@type': 'Person',
+    name: 'Jérémy Lozzi',
   },
-  sameAs: ['https://www.instagram.com/voltea.energie38'],
+  knowsAbout: [
+    'Courtage en énergie',
+    'Électricité professionnelle',
+    'Gaz naturel professionnel',
+    'Audit énergétique',
+    'Optimisation tarifaire CSPE TICGN',
+    'ARENH',
+    'Efficacité énergétique',
+  ],
+  sameAs: [
+    'https://www.facebook.com/voltea.energie',
+    'https://www.instagram.com/voltea.energie38',
+    'https://www.linkedin.com/company/voltea-energie',
+  ],
 };
 
 export default function App() {

@@ -1,9 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
+import Breadcrumb from '../components/Breadcrumb.jsx';
+
+const FOUNDER_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Jérémy Lozzi',
+  jobTitle: 'Fondateur & Courtier en énergie',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Voltea Énergie',
+    url: 'https://voltea-energie.fr',
+  },
+  email: 'jl@voltea-energie.fr',
+  telephone: '+33642170251',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bourgoin-Jallieu',
+    addressRegion: 'Isère',
+    addressCountry: 'FR',
+  },
+  knowsAbout: [
+    'Courtage en énergie',
+    'Marchés de l\'électricité',
+    'Marchés du gaz naturel',
+    'Audit énergétique',
+    'ARENH',
+  ],
+  image: 'https://voltea-energie.fr/assets/images/voltea-energie-jeremy-lozzi.webp',
+};
 
 export default function About() {
   return (
@@ -13,11 +43,15 @@ export default function About() {
         description="Découvrez Voltea Énergie et Jérémy Lozzi, courtier en énergies basé à Bourgoin-Jallieu. Notre mission : optimiser les contrats d'énergie des professionnels."
         canonical="/a-propos"
       />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(FOUNDER_SCHEMA)}</script>
+      </Helmet>
       <Header />
 
       {/* PAGE HEADER */}
       <div className="page-header">
         <div className="container">
+          <Breadcrumb items={[{ to: '/', label: 'Accueil' }, { label: 'À propos' }]} />
           <span className="section-label" style={{ color: 'var(--color-primary)' }}>Notre histoire</span>
           <h1>À propos de Voltea Énergie</h1>
           <p>Courtier en énergie indépendant, né de la conviction que chaque entreprise mérite de payer son énergie au juste prix.</p>
@@ -62,11 +96,16 @@ export default function About() {
             </ScrollReveal>
             <ScrollReveal delay={150}>
               <div className="about-photo">
-                <img
-                  src="/assets/images/voltea-energie-jeremy-lozzi.png"
-                  alt="Jérémy Lozzi, fondateur de Voltea Énergie"
-                  loading="lazy"
-                />
+                <picture>
+                  <source srcSet="/assets/images/voltea-energie-jeremy-lozzi.webp" type="image/webp" />
+                  <img
+                    src="/assets/images/voltea-energie-jeremy-lozzi.jpg"
+                    alt="Jérémy Lozzi, fondateur de Voltea Énergie, courtier à Bourgoin-Jallieu"
+                    loading="lazy"
+                    width="900"
+                    height="1651"
+                  />
+                </picture>
               </div>
             </ScrollReveal>
           </div>

@@ -103,6 +103,44 @@ app.get('/robots.txt', (req, res) => {
   );
 });
 
+app.get('/llms.txt', (req, res) => {
+  res.type('text/plain');
+  res.set('Cache-Control', 'public, max-age=86400');
+  res.send(`# Voltea Énergie
+
+> Courtier indépendant en énergie pour professionnels, copropriétés et particuliers en Isère.
+> Négociation de contrats d'électricité et de gaz auprès de plus de 20 fournisseurs. Audit sans frais. Basé à Bourgoin-Jallieu.
+
+## Services clés
+- Courtage en électricité et gaz naturel pour TPE, PME, industriels, copropriétés
+- Audit énergétique sans frais et sans engagement
+- Optimisation de la fiscalité énergétique (CSPE, TICGN)
+- Conseil en efficacité énergétique et transition renouvelable
+- Accompagnement post-signature et suivi de consommation
+
+## Zone géographique
+Isère, Rhône-Alpes, Auvergne-Rhône-Alpes. Intervention physique à Bourgoin-Jallieu, Villefontaine, L'Isle-d'Abeau, La Tour-du-Pin, Grenoble, Lyon.
+
+## Contact
+- Fondateur : Jérémy Lozzi
+- Téléphone : +33 6 42 17 02 51
+- Email : contact@voltea-energie.fr
+- Adresse : Bourgoin-Jallieu, Isère (38300), France
+
+## Pages principales
+- [Accueil](https://voltea-energie.fr/)
+- [À propos](https://voltea-energie.fr/a-propos)
+- [Services](https://voltea-energie.fr/services)
+- [Guide des fournisseurs d'énergie](https://voltea-energie.fr/guide-energie)
+- [Marché de l'énergie](https://voltea-energie.fr/marche-energie)
+- [Actualités](https://voltea-energie.fr/actualites)
+- [Contact](https://voltea-energie.fr/contact)
+
+## Modèle économique
+Service 100% gratuit pour le client. Voltea Énergie est rémunéré par les fournisseurs via des commissions contractuelles transparentes.
+`);
+});
+
 // API routes
 app.use('/api', apiRoutes);
 app.use('/api/admin', adminRoutes);

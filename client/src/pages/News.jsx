@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
+import Breadcrumb from '../components/Breadcrumb.jsx';
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
@@ -64,6 +65,7 @@ export default function News() {
 
       <div className="page-header">
         <div className="container">
+          <Breadcrumb items={[{ to: '/', label: 'Accueil' }, { label: 'Actualités' }]} />
           <span className="section-label">Blog & actualités</span>
           <h1>Actualités énergétiques</h1>
           <p>Marchés, réglementation, conseils pratiques : restez informé sur l'énergie des professionnels.</p>

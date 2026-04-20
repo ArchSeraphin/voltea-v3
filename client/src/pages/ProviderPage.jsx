@@ -4,6 +4,7 @@ import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
+import Breadcrumb from '../components/Breadcrumb.jsx';
 import ProviderLogo from '../components/ProviderLogo.jsx';
 import { getProviderBySlug } from '../data/providersData.js';
 
@@ -28,6 +29,13 @@ export default function ProviderPage() {
       <section className="section section--white" style={{ paddingTop: 'calc(var(--header-height) + 4rem)', paddingBottom: '3rem' }}>
         <div className="container">
           <ScrollReveal>
+            <Breadcrumb
+              items={[
+                { to: '/', label: 'Accueil' },
+                { to: '/guide-energie', label: 'Fournisseurs' },
+                { label: provider.name },
+              ]}
+            />
             <Link to="/guide-energie" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-text-muted)', fontSize: '0.875rem', marginBottom: '2rem', textDecoration: 'none' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>

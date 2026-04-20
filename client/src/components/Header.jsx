@@ -4,6 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 const NAV_LINKS = [
   { to: '/a-propos', label: 'Qui sommes nous' },
   { to: '/services', label: 'Nos services' },
+  { to: '/guide-energie', label: 'Fournisseurs' },
   { to: '/marche-energie', label: 'Comprendre le marché' },
   { to: '/actualites', label: 'Actus' },
 ];

@@ -3,6 +3,7 @@ import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
+import Breadcrumb from '../components/Breadcrumb.jsx';
 
 export default function Contact() {
   const scriptLoaded = useRef(false);
@@ -26,6 +27,7 @@ export default function Contact() {
 
       <div className="page-header">
         <div className="container">
+          <Breadcrumb items={[{ to: '/', label: 'Accueil' }, { label: 'Contact' }]} />
           <span className="section-label">Parlons de votre énergie</span>
           <h1>Contactez-nous</h1>
           <p>Un audit sans frais et sans engagement pour découvrir votre potentiel d'économies. Réponse sous 24h ouvrées.</p>

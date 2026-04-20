@@ -4,6 +4,7 @@ import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
+import Breadcrumb from '../components/Breadcrumb.jsx';
 
 const SERVICES = [
   {
@@ -125,6 +126,7 @@ export default function Services() {
       {/* PAGE HEADER */}
       <div className="page-header">
         <div className="container">
+          <Breadcrumb items={[{ to: '/', label: 'Accueil' }, { label: 'Services' }]} />
           <span className="section-label">Ce que nous faisons</span>
           <h1>Nos services de courtage en énergie</h1>
           <p>

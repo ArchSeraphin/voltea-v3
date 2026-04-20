@@ -4,6 +4,7 @@ import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
+import Breadcrumb from '../components/Breadcrumb.jsx';
 import ProviderLogo from '../components/ProviderLogo.jsx';
 import { providers } from '../data/providersData.js';
 
@@ -30,6 +31,7 @@ export default function GuideIndex() {
       >
         <div className="container">
           <ScrollReveal>
+            <Breadcrumb variant="light" items={[{ to: '/', label: 'Accueil' }, { label: 'Guide des fournisseurs' }]} />
             <span className="section-label">Guide pratique</span>
             <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem', maxWidth: '700px' }}>
               Guide des fournisseurs d'énergie
