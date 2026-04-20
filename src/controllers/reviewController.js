@@ -24,6 +24,23 @@ async function getReviews(req, res) {
   }
 }
 
+// Public: aggregate rating for schema.org AggregateRating
+async function getReviewsAggregate(req, res) {
+  try {
+    const [rows] = await pool.execute(
+      'SELECT COUNT(*) AS count, AVG(rating) AS avg FROM reviews WHERE visible = 1'
+    );
+    const { count, avg } = rows[0];
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.json({
+      ratingValue: avg ? Number(avg).toFixed(1) : null,
+      reviewCount: Number(count) || 0,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+}
+
 // Admin: get all reviews
 async function getAdminReviews(req, res) {
   try {
@@ -106,6 +123,7 @@ async function toggleVisible(req, res) {
 module.exports = {
   reviewValidation,
   getReviews,
+  getReviewsAggregate,
   getAdminReviews,
   createReview,
   updateReview,

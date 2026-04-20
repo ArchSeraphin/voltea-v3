@@ -4,25 +4,9 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/database');
 
-const BASE_URL = 'https://voltea-energie.fr';
+const { SITEMAP_ROUTES } = require('../config/routes');
 
-const STATIC_PAGES = [
-  { loc: '/', priority: '1.0', changefreq: 'weekly' },
-  { loc: '/a-propos', priority: '0.8', changefreq: 'monthly' },
-  { loc: '/services', priority: '0.9', changefreq: 'monthly' },
-  { loc: '/marche-energie', priority: '0.7', changefreq: 'weekly' },
-  { loc: '/guide-energie', priority: '0.8', changefreq: 'monthly' },
-  { loc: '/guide-energie/edf', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/guide-energie/engie', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/guide-energie/totalenergies', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/guide-energie/ekwateur', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/guide-energie/vattenfall', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/guide-energie/eni', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/guide-energie/alpiq', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/guide-energie/primeo-energie', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/actualites', priority: '0.8', changefreq: 'daily' },
-  { loc: '/contact', priority: '0.7', changefreq: 'monthly' },
-];
+const BASE_URL = process.env.SITE_URL || 'https://voltea-energie.fr';
 
 router.get('/sitemap.xml', async (req, res) => {
   try {
@@ -32,9 +16,9 @@ router.get('/sitemap.xml', async (req, res) => {
 
     const today = new Date().toISOString().split('T')[0];
 
-    let urls = STATIC_PAGES.map(({ loc, priority, changefreq }) => `
+    let urls = SITEMAP_ROUTES.map(({ path, priority, changefreq }) => `
   <url>
-    <loc>${BASE_URL}${loc}</loc>
+    <loc>${BASE_URL}${path}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
-const BASE_URL = 'https://voltea-energie.fr';
+const BASE_URL = import.meta.env.VITE_SITE_URL || 'https://voltea-energie.fr';
 
 export default function Breadcrumb({ items, variant = 'default' }) {
   if (!items || items.length === 0) return null;

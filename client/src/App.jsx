@@ -11,6 +11,7 @@ import MarketPage from './pages/MarketPage.jsx';
 import GuideIndex from './pages/GuideIndex.jsx';
 import ProviderPage from './pages/ProviderPage.jsx';
 import Contact from './pages/Contact.jsx';
+import Faq from './pages/Faq.jsx';
 import LegalMentions from './pages/LegalMentions.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
 import NotFound from './pages/NotFound.jsx';
@@ -133,16 +134,48 @@ const LOCAL_BUSINESS_SCHEMA = {
   ],
 };
 
+function LocalBusinessSchema() {
+  const [aggregate, setAggregate] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/reviews/aggregate')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data && data.reviewCount > 0 && data.ratingValue) {
+          setAggregate(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const schema = aggregate
+    ? {
+        ...LOCAL_BUSINESS_SCHEMA,
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: aggregate.ratingValue,
+          reviewCount: aggregate.reviewCount,
+          bestRating: '5',
+          worstRating: '1',
+        },
+      }
+    : LOCAL_BUSINESS_SCHEMA;
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <HelmetProvider>
       <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_SCHEMA) }}
-        />
+        <LocalBusinessSchema />
         <GAInjector />
         <BrowserRouter>
           <ScrollToTop />
@@ -156,6 +189,7 @@ export default function App() {
             <Route path="/actualites" element={<News />} />
             <Route path="/actualites/:slug" element={<NewsDetail />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<Faq />} />
             <Route path="/mentions-legales" element={<LegalMentions />} />
             <Route path="/politique-de-confidentialite" element={<PrivacyPolicy />} />
             <Route path="/admin/connexion" element={<Login />} />

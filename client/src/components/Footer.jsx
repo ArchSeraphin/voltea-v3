@@ -69,8 +69,7 @@ export default function Footer() {
             <ul className="footer-links">
               <li><Link to="/mentions-legales">Mentions légales</Link></li>
               <li><Link to="/politique-de-confidentialite">Politique de confidentialité</Link></li>
-              <li><Link to="/services">Nos partenaires</Link></li>
-              <li><Link to="/contact">FAQ</Link></li>
+              <li><Link to="/faq">FAQ</Link></li>
             </ul>
           </div>
         </div>

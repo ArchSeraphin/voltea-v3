@@ -30,6 +30,7 @@ router.post('/auth/logout', authController.logout);
 
 // Reviews (public)
 router.get('/reviews', apiLimiter, reviewController.getReviews);
+router.get('/reviews/aggregate', apiLimiter, reviewController.getReviewsAggregate);
 
 // News (GNews proxy)
 router.get('/news', apiLimiter, newsController.getNews);

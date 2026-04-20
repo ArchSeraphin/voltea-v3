@@ -20,10 +20,13 @@ const path = require('path');
 const apiRoutes = require('./src/routes/api');
 const adminRoutes = require('./src/routes/admin');
 const sitemapRouter = require('./src/routes/sitemap');
+const { KNOWN_PATHS, ADMIN_PREFIXES } = require('./src/config/routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === 'production';
+const PROD_URL = 'https://voltea-energie.fr';
+const SITE_URL = process.env.SITE_URL || PROD_URL;
 
 // Security headers
 app.use(
@@ -98,8 +101,13 @@ app.use(sitemapRouter);
 
 app.get('/robots.txt', (req, res) => {
   res.type('text/plain');
+  // Dev environments: disallow indexing entirely to avoid duplicate content vs prod
+  if (!isProd || SITE_URL !== PROD_URL) {
+    res.send('User-agent: *\nDisallow: /\n');
+    return;
+  }
   res.send(
-    'User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: https://voltea-energie.fr/sitemap.xml'
+    `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${SITE_URL}/sitemap.xml`
   );
 });
 
@@ -128,13 +136,14 @@ Isère, Rhône-Alpes, Auvergne-Rhône-Alpes. Intervention physique à Bourgoin-J
 - Adresse : Bourgoin-Jallieu, Isère (38300), France
 
 ## Pages principales
-- [Accueil](https://voltea-energie.fr/)
-- [À propos](https://voltea-energie.fr/a-propos)
-- [Services](https://voltea-energie.fr/services)
-- [Guide des fournisseurs d'énergie](https://voltea-energie.fr/guide-energie)
-- [Marché de l'énergie](https://voltea-energie.fr/marche-energie)
-- [Actualités](https://voltea-energie.fr/actualites)
-- [Contact](https://voltea-energie.fr/contact)
+- [Accueil](${SITE_URL}/)
+- [À propos](${SITE_URL}/a-propos)
+- [Services](${SITE_URL}/services)
+- [Guide des fournisseurs d'énergie](${SITE_URL}/guide-energie)
+- [Marché de l'énergie](${SITE_URL}/marche-energie)
+- [Actualités](${SITE_URL}/actualites)
+- [FAQ](${SITE_URL}/faq)
+- [Contact](${SITE_URL}/contact)
 
 ## Modèle économique
 Service 100% gratuit pour le client. Voltea Énergie est rémunéré par les fournisseurs via des commissions contractuelles transparentes.
@@ -219,14 +228,53 @@ if (process.env.SEED_SECRET) {
 }
 // ───────────────────────────────────────────────────────────────────────────
 
-// SPA fallback
-app.get('*', (req, res) => {
-  const indexPath = path.join(distPath, 'index.html');
-  res.sendFile(indexPath, (err) => {
-    if (err) {
-      res.status(404).json({ error: 'Not found' });
-    }
+// SPA fallback — resolve unknown URLs to real 404 rather than 200 + SPA shell.
+// This avoids soft-404 indexing of arbitrary paths by Google.
+const indexPath = path.join(distPath, 'index.html');
+
+function serveSpa(res, status = 200) {
+  res.status(status).sendFile(indexPath, (err) => {
+    if (err) res.status(404).json({ error: 'Not found' });
   });
+}
+
+// Pool may not be ready on startup; load lazily
+let _pool;
+function getPool() {
+  if (_pool) return _pool;
+  try { _pool = require('./src/config/database'); } catch (e) { _pool = null; }
+  return _pool;
+}
+
+app.get('*', async (req, res) => {
+  const urlPath = req.path;
+
+  // Known exact paths → 200
+  if (KNOWN_PATHS.has(urlPath)) return serveSpa(res, 200);
+
+  // Admin routes → always serve SPA (client-side auth handles)
+  if (ADMIN_PREFIXES.some((p) => urlPath === p || urlPath.startsWith(`${p}/`))) {
+    return serveSpa(res, 200);
+  }
+
+  // Dynamic: /actualites/:slug — check published article exists
+  const articleMatch = urlPath.match(/^\/actualites\/([a-z0-9-]+)\/?$/i);
+  if (articleMatch) {
+    const pool = getPool();
+    if (!pool) return serveSpa(res, 200);
+    try {
+      const [rows] = await pool.execute(
+        'SELECT 1 FROM articles WHERE slug = ? AND published = 1 LIMIT 1',
+        [articleMatch[1]]
+      );
+      return serveSpa(res, rows.length > 0 ? 200 : 404);
+    } catch (err) {
+      return serveSpa(res, 200);
+    }
+  }
+
+  // Unknown — return 404 with SPA shell (React will render NotFound)
+  return serveSpa(res, 404);
 });
 
 // Global error handler

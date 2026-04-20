@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SITE_NAME = 'Voltea Énergie';
-const BASE_URL = 'https://voltea-energie.fr';
+const BASE_URL = import.meta.env.VITE_SITE_URL || 'https://voltea-energie.fr';
 const DEFAULT_OG_IMAGE = '/img/og-default.jpg';
 
 export default function SEO({
