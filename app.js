@@ -42,7 +42,10 @@ app.use(
         ],
         styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://leadbooster-chat.pipedrive.com', 'https://*.pipedriveassets.com', 'https://webforms.pipedrive.com'],
         fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://*.pipedriveassets.com'],
-        imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com', 'https://www.googletagmanager.com', 'https://leadbooster-chat.pipedrive.com', 'https://*.pipedriveassets.com', 'https://webforms.pipedrive.com', 'https://upload.wikimedia.org'],
+        // imgSrc is intentionally permissive: GNews article thumbnails come from
+        // an unbounded set of publisher CDNs (lepoint.fr, tf1info, woopic, swissinfo…).
+        // Scripts/frames remain locked down via the other directives.
+        imgSrc: ["'self'", 'data:', 'https:'],
         connectSrc: [
           "'self'",
           'https://www.google-analytics.com',
