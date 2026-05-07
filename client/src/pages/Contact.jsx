@@ -1,19 +1,27 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
 
+const FORM_PARTICULIER = 'https://webforms.pipedrive.com/f/5VHzLbaDCRLbDcWKBL16zVeJYOwAdSJOXkVCR6YhUdWbRxdi4LvVI3K4c0nbUjaNzl';
+const FORM_ENTREPRISE = 'https://webforms.pipedrive.com/f/cts8JGGoDnMuwKR7rbRXbi7SeSZHjKcmYantsciQcULlHEtqyedH3otOPobbBLGEzp';
+
 export default function Contact() {
+  const [audience, setAudience] = useState('entreprise');
   const scriptLoaded = useRef(false);
 
-  const formRef = useCallback((node) => {
-    if (!node || scriptLoaded.current) return;
+  // Pipedrive's loader scans for every .pipedriveWebForms in the DOM and
+  // converts each into an iframe. Render both forms upfront, hide one via
+  // CSS — switching audience is then instant and no second network round-trip.
+  useEffect(() => {
+    if (scriptLoaded.current) return;
     scriptLoaded.current = true;
     const script = document.createElement('script');
     script.src = 'https://webforms.pipedrive.com/f/loader';
-    node.appendChild(script);
+    script.async = true;
+    document.body.appendChild(script);
   }, []);
 
   return (
@@ -48,15 +56,65 @@ export default function Contact() {
                 }}
               >
                 <h2 style={{ fontSize: '1.35rem', marginBottom: '0.5rem', color: '#fff' }}>Envoyez-nous un message</h2>
-                <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem', marginBottom: '2rem' }}>
-                  Remplissez le formulaire et nous vous répondrons très rapidement.
+                <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                  Choisissez votre profil pour accéder au formulaire adapté.
                 </p>
 
+                <div className="audience-toggle" role="tablist" aria-label="Type de profil">
+                  <button
+                    type="button"
+                    role="tab"
+                    id="audience-tab-particulier"
+                    aria-selected={audience === 'particulier'}
+                    aria-controls="audience-form-particulier"
+                    className={`audience-toggle__btn${audience === 'particulier' ? ' is-active' : ''}`}
+                    onClick={() => setAudience('particulier')}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    Particulier
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    id="audience-tab-entreprise"
+                    aria-selected={audience === 'entreprise'}
+                    aria-controls="audience-form-entreprise"
+                    className={`audience-toggle__btn${audience === 'entreprise' ? ' is-active' : ''}`}
+                    onClick={() => setAudience('entreprise')}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M3 21h18" />
+                      <path d="M5 21V7l8-4v18" />
+                      <path d="M19 21V11l-6-4" />
+                      <path d="M9 9v.01" />
+                      <path d="M9 12v.01" />
+                      <path d="M9 15v.01" />
+                      <path d="M9 18v.01" />
+                    </svg>
+                    Entreprise
+                  </button>
+                </div>
+
                 <div
-                  ref={formRef}
-                  className="pipedriveWebForms"
-                  data-pd-webforms="https://webforms.pipedrive.com/f/cts8JGGoDnMuwKR7rbRXbi7SeSZHjKcmYantsciQcULlHEtqyedH3otOPobbBLGEzp"
-                />
+                  id="audience-form-particulier"
+                  role="tabpanel"
+                  aria-labelledby="audience-tab-particulier"
+                  hidden={audience !== 'particulier'}
+                >
+                  <div className="pipedriveWebForms" data-pd-webforms={FORM_PARTICULIER} />
+                </div>
+
+                <div
+                  id="audience-form-entreprise"
+                  role="tabpanel"
+                  aria-labelledby="audience-tab-entreprise"
+                  hidden={audience !== 'entreprise'}
+                >
+                  <div className="pipedriveWebForms" data-pd-webforms={FORM_ENTREPRISE} />
+                </div>
               </div>
             </ScrollReveal>
 
