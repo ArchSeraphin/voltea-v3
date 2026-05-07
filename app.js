@@ -153,7 +153,7 @@ Isère, Rhône-Alpes, Auvergne-Rhône-Alpes. Intervention physique à Bourgoin-J
 - Fondateur : Jérémy Lozzi
 - Téléphone : +33 6 42 17 02 51
 - Email : contact@voltea-energie.fr
-- Adresse : Bourgoin-Jallieu, Isère (38300), France
+- Adresse : 8 rue Joseph Cugnot, 38510 Bourgoin-Jallieu, France
 
 ## Pages principales
 - [Accueil](${SITE_URL}/)

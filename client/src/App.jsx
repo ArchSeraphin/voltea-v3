@@ -87,8 +87,9 @@ const LOCAL_BUSINESS_SCHEMA = {
   priceRange: 'Gratuit pour le client — rémunération par les fournisseurs',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: '8 rue Joseph Cugnot',
     addressLocality: 'Bourgoin-Jallieu',
-    postalCode: '38300',
+    postalCode: '38510',
     addressRegion: 'Isère',
     addressCountry: 'FR',
   },

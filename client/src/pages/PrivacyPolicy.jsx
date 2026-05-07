@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
               <h2 style={{ fontSize: '1.35rem', marginBottom: '1rem' }}>1. Responsable du traitement</h2>
               <div style={{ color: 'var(--color-text-muted)', lineHeight: '1.9' }}>
                 <p><strong style={{ color: 'var(--color-text)' }}>Responsable :</strong> Jérémy Lozzi — Voltea Énergie</p>
-                <p><strong style={{ color: 'var(--color-text)' }}>Adresse :</strong> Bourgoin-Jallieu, Isère (38), France</p>
+                <p><strong style={{ color: 'var(--color-text)' }}>Adresse :</strong> 8 rue Joseph Cugnot, 38510 Bourgoin-Jallieu, France</p>
                 <p><strong style={{ color: 'var(--color-text)' }}>Contact DPO :</strong> <a href="mailto:contact@voltea-energie.fr" style={{ color: 'var(--color-primary)' }}>contact@voltea-energie.fr</a></p>
               </div>
             </div>

@@ -21,7 +21,9 @@ const FOUNDER_SCHEMA = {
   telephone: '+33642170251',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: '8 rue Joseph Cugnot',
     addressLocality: 'Bourgoin-Jallieu',
+    postalCode: '38510',
     addressRegion: 'Isère',
     addressCountry: 'FR',
   },
