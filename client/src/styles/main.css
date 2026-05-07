@@ -337,6 +337,11 @@ p { font-size: 1rem; line-height: 1.7; }
   text-transform: uppercase;
   color: white;
 }
+/* Hide the scroll affordance on mobile — the trust-bar would overlap it,
+   and on a phone the scroll cue is unnecessary. */
+@media (max-width: 768px) {
+  .hero-scroll { display: none; }
+}
 .hero-scroll-line {
   width: 1px;
   height: 40px;
