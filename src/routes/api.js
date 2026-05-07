@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { apiLimiter, contactLimiter, loginLimiter } = require('../middleware/rateLimiter');
+const { apiLimiter, contactLimiter, loginLimiter, refreshLimiter } = require('../middleware/rateLimiter');
 const articleController = require('../controllers/articleController');
 const contactController = require('../controllers/contactController');
 const authController = require('../controllers/authController');
@@ -25,8 +25,8 @@ router.post(
 
 // Auth
 router.post('/auth/login', loginLimiter, authController.login);
-router.post('/auth/refresh', authController.refresh);
-router.post('/auth/logout', authController.logout);
+router.post('/auth/refresh', refreshLimiter, authController.refresh);
+router.post('/auth/logout', apiLimiter, authController.logout);
 
 // Reviews (public)
 router.get('/reviews', apiLimiter, reviewController.getReviews);

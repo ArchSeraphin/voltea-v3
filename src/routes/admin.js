@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const { requireAuth } = require('../middleware/auth');
+const { uploadLimiter } = require('../middleware/rateLimiter');
 const articleController = require('../controllers/articleController');
 const uploadController = require('../controllers/uploadController');
 const settingsController = require('../controllers/settingsController');
@@ -27,7 +28,7 @@ router.delete('/reviews/:id', reviewController.deleteReview);
 router.patch('/reviews/:id/toggle', reviewController.toggleVisible);
 
 // Upload
-router.post('/upload', uploadController.uploadImage);
+router.post('/upload', uploadLimiter, uploadController.uploadImage);
 
 // Settings
 router.get('/settings', settingsController.getSettings);

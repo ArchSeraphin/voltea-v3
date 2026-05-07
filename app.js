@@ -5,11 +5,21 @@ dotenv.config();
 
 // Validate required environment variables
 const REQUIRED_ENV = ['JWT_SECRET', 'JWT_REFRESH_SECRET', 'DB_USER', 'DB_PASSWORD', 'DB_NAME'];
+if (process.env.NODE_ENV === 'production') {
+  REQUIRED_ENV.push('ALLOWED_ORIGIN');
+}
 const missing = REQUIRED_ENV.filter((key) => !process.env[key]);
 if (missing.length > 0) {
   console.error(`[FATAL] Missing required environment variables: ${missing.join(', ')}`);
   process.exit(1);
 }
+// Reject low-entropy JWT secrets so a 4-byte secret can't boot the app silently
+['JWT_SECRET', 'JWT_REFRESH_SECRET'].forEach((k) => {
+  if ((process.env[k] || '').length < 32) {
+    console.error(`[FATAL] ${k} must be at least 32 characters`);
+    process.exit(1);
+  }
+});
 
 const express = require('express');
 const helmet = require('helmet');
@@ -27,6 +37,10 @@ const PORT = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === 'production';
 const PROD_URL = 'https://voltea-energie.fr';
 const SITE_URL = process.env.SITE_URL || PROD_URL;
+
+// Behind Nginx/Caddy/Cloudflare in prod — trust the first hop so req.ip resolves
+// to the real client IP and express-rate-limit buckets per-client, not per-proxy.
+app.set('trust proxy', 1);
 
 // Security headers
 app.use(
@@ -59,6 +73,9 @@ app.use(
           'https://webforms.pipedrive.com',
         ],
         frameSrc: ['https://leadbooster-chat.pipedrive.com', 'https://webforms.pipedrive.com'],
+        frameAncestors: ["'none'"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: isProd ? [] : null,
       },
@@ -153,80 +170,6 @@ Service 100% gratuit pour le client. Voltea Énergie est rémunéré par les fou
 // API routes
 app.use('/api', apiRoutes);
 app.use('/api/admin', adminRoutes);
-
-// ─── SETUP ROUTE (one-time DB init — remove after first use) ───────────────
-// Usage: GET /api/setup?token=SEED_SECRET&email=admin@...&password=...
-if (process.env.SEED_SECRET) {
-  app.get('/api/setup', async (req, res) => {
-    if (req.query.token !== process.env.SEED_SECRET) {
-      return res.status(403).json({ error: 'Forbidden' });
-    }
-    try {
-      const bcrypt = require('bcrypt');
-      const pool = require('./src/config/database');
-      const queries = [
-        `CREATE TABLE IF NOT EXISTS admins (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          email VARCHAR(255) NOT NULL UNIQUE,
-          password_hash VARCHAR(255) NOT NULL,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
-        `CREATE TABLE IF NOT EXISTS refresh_tokens (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          token_hash VARCHAR(64) NOT NULL UNIQUE,
-          admin_id INT NOT NULL,
-          expires_at TIMESTAMP NOT NULL,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          FOREIGN KEY (admin_id) REFERENCES admins(id) ON DELETE CASCADE
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
-        `CREATE TABLE IF NOT EXISTS settings (
-          \`key\` VARCHAR(100) NOT NULL PRIMARY KEY,
-          \`value\` TEXT,
-          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
-        `CREATE TABLE IF NOT EXISTS articles (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          title VARCHAR(500) NOT NULL,
-          slug VARCHAR(500) NOT NULL UNIQUE,
-          excerpt TEXT,
-          content LONGTEXT,
-          cover_image VARCHAR(500),
-          published TINYINT(1) DEFAULT 0,
-          published_at TIMESTAMP NULL,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
-        `CREATE TABLE IF NOT EXISTS reviews (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          author_name VARCHAR(200) NOT NULL,
-          author_company VARCHAR(200),
-          content TEXT NOT NULL,
-          rating TINYINT NOT NULL DEFAULT 5,
-          review_date DATE,
-          logo_url VARCHAR(500),
-          visible TINYINT(1) DEFAULT 1,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
-      ];
-      for (const q of queries) await pool.execute(q);
-      const log = ['Tables créées avec succès.'];
-      if (req.query.email && req.query.password) {
-        const hash = await bcrypt.hash(req.query.password, 12);
-        await pool.execute(
-          'INSERT INTO admins (email, password_hash) VALUES (?, ?) ON DUPLICATE KEY UPDATE password_hash = ?',
-          [req.query.email.toLowerCase(), hash, hash]
-        );
-        log.push(`Admin créé : ${req.query.email}`);
-      }
-      res.json({ ok: true, log });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  });
-}
-// ───────────────────────────────────────────────────────────────────────────
 
 // SPA fallback — resolve unknown URLs to real 404 rather than 200 + SPA shell.
 // This avoids soft-404 indexing of arbitrary paths by Google.
