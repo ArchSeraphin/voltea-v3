@@ -77,6 +77,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   '@id': 'https://voltea-energie.fr/#business',
   name: 'Voltea Énergie',
   legalName: 'Voltea Énergie',
+  taxID: '88477058700043',
   description:
     "Courtier indépendant en énergie pour professionnels, copropriétés et particuliers en Isère. Négociation d'offres électricité et gaz auprès de plus de 20 fournisseurs, audit sans frais.",
   url: 'https://voltea-energie.fr',

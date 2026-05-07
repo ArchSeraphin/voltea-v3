@@ -27,7 +27,7 @@ export default function LegalMentions() {
                 <p><strong style={{ color: 'var(--color-text)' }}>Raison sociale :</strong> Voltea Énergie</p>
                 <p><strong style={{ color: 'var(--color-text)' }}>Responsable de publication :</strong> Jérémy Lozzi</p>
                 <p><strong style={{ color: 'var(--color-text)' }}>Qualité :</strong> Courtier en énergies</p>
-                <p><strong style={{ color: 'var(--color-text)' }}>SIRET :</strong> [Numéro SIRET à renseigner]</p>
+                <p><strong style={{ color: 'var(--color-text)' }}>SIRET :</strong> 884 770 587 00043</p>
                 <p><strong style={{ color: 'var(--color-text)' }}>Adresse :</strong> 8 rue Joseph Cugnot, 38510 Bourgoin-Jallieu, France</p>
                 <p><strong style={{ color: 'var(--color-text)' }}>Téléphone :</strong> <a href="tel:+33642170251" style={{ color: 'var(--color-primary)' }}>06 42 17 02 51</a></p>
                 <p><strong style={{ color: 'var(--color-text)' }}>Email :</strong> <a href="mailto:contact@voltea-energie.fr" style={{ color: 'var(--color-primary)' }}>contact@voltea-energie.fr</a></p>
