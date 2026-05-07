@@ -1,18 +1,7 @@
 'use strict';
 
-const fs = require('fs');
 const path = require('path');
-
-const envPath = path.join(__dirname, '..', '.env');
-const dotenvResult = require('dotenv').config({ path: envPath });
-
-console.log('[seed] cwd:', process.cwd());
-console.log('[seed] envPath:', envPath, '— exists:', fs.existsSync(envPath));
-console.log('[seed] dotenv parsed keys:', dotenvResult.parsed ? Object.keys(dotenvResult.parsed) : '(none)');
-console.log('[seed] DB_HOST:', process.env.DB_HOST);
-console.log('[seed] DB_USER:', process.env.DB_USER);
-console.log('[seed] DB_NAME:', process.env.DB_NAME);
-console.log('[seed] DB_PASSWORD length:', process.env.DB_PASSWORD ? process.env.DB_PASSWORD.length : 0);
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
 const bcrypt = require('bcrypt');
 const mysql = require('mysql2/promise');
