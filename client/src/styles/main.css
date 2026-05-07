@@ -907,6 +907,11 @@ p { font-size: 1rem; line-height: 1.7; }
   transition: color var(--transition);
 }
 .mobile-menu a:hover, .mobile-menu a.active { color: var(--color-primary); }
+/* Restore .btn colors inside the mobile menu (the rules above otherwise
+   override the white text on .btn-primary). */
+.mobile-menu a.btn-primary,
+.mobile-menu a.btn-primary:hover,
+.mobile-menu a.btn-primary.active { color: #fff; }
 .mobile-menu-close {
   position: absolute;
   top: 1.5rem;
