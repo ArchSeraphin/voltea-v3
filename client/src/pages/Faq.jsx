@@ -76,22 +76,28 @@ export default function Faq() {
                   {cat.items.map((item, i) => {
                     const id = `${cat.id}-${i}`;
                     const open = openId === id;
+                    const answerId = `${id}-answer`;
                     return (
                       <div key={id} className={`faq-item${open ? ' faq-item--open' : ''}`}>
                         <button
                           type="button"
                           className="faq-question"
                           aria-expanded={open}
+                          aria-controls={answerId}
                           onClick={() => setOpenId(open ? null : id)}
                         >
                           <span>{item.q}</span>
                           <ChevronIcon open={open} />
                         </button>
-                        {open && (
-                          <div className="faq-answer">
-                            <p>{item.a}</p>
-                          </div>
-                        )}
+                        {/* Always render the answer in the DOM (CSS hides it when closed)
+                            so search engines and AI crawlers can extract every Q/A pair. */}
+                        <div
+                          id={answerId}
+                          className="faq-answer"
+                          hidden={!open}
+                        >
+                          <p>{item.a}</p>
+                        </div>
                       </div>
                     );
                   })}

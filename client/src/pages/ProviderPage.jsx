@@ -16,11 +16,23 @@ export default function ProviderPage() {
     return <Navigate to="/guide-energie" replace />;
   }
 
+  // Unique meta description per provider: combines tagline + first sentence of
+  // the substantive description so each /guide-energie/:slug has its own copy.
+  const firstSentence = (provider.description?.[0] || '').split('. ')[0];
+  const metaDescription = [
+    provider.tagline,
+    firstSentence,
+    'Analyse Voltea Énergie',
+  ]
+    .filter(Boolean)
+    .join('. ')
+    .slice(0, 160);
+
   return (
     <>
       <SEO
         title={`${provider.name} — Fournisseur d'énergie`}
-        description={`Découvrez les offres ${provider.name} (${provider.fullName}) pour les professionnels. ${provider.tagline}. Analyse complète par Voltea Énergie.`}
+        description={metaDescription}
         canonical={`/guide-energie/${provider.slug}`}
       />
       <Header />

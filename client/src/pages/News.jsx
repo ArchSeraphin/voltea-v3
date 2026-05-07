@@ -54,12 +54,20 @@ export default function News() {
 
   const totalPages = pagination ? pagination.totalPages : 1;
 
+  // Pagination canonical strategy:
+  //  - page 1 → canonical /actualites, indexable
+  //  - page 2+ → self-canonical /actualites?page=N AND noindex (let Google
+  //    crawl articles via the per-article sitemap entry, not the listing page).
+  const isPaginated = page > 1;
+  const canonicalPath = isPaginated ? `/actualites?page=${page}` : '/actualites';
+
   return (
     <>
       <SEO
-        title="Actualités | Voltea Énergie"
+        title={isPaginated ? `Actualités — page ${page}` : 'Actualités'}
         description="Suivez l'actualité des marchés de l'énergie, les conseils de Voltea Énergie pour optimiser votre budget et les dernières évolutions réglementaires."
-        canonical="/actualites"
+        canonical={canonicalPath}
+        noindex={isPaginated}
       />
       <Header />
 

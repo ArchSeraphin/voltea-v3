@@ -5,6 +5,13 @@ const SITE_NAME = 'Voltea Énergie';
 const BASE_URL = import.meta.env.VITE_SITE_URL || 'https://voltea-energie.fr';
 const DEFAULT_OG_IMAGE = '/img/og-default.jpg';
 
+// Make any path-style URL absolute so social scrapers (FB, LinkedIn, Twitter)
+// don't drop it. Pass-through if already absolute.
+function absolutize(url) {
+  if (!url) return url;
+  return /^https?:\/\//i.test(url) ? url : `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+
 export default function SEO({
   title,
   description,
@@ -18,7 +25,7 @@ export default function SEO({
     : `${SITE_NAME} | Courtier en énergie Bourgoin-Jallieu`;
 
   const canonicalUrl = canonical ? `${BASE_URL}${canonical}` : undefined;
-  const ogImageUrl = ogImage || DEFAULT_OG_IMAGE;
+  const ogImageUrl = absolutize(ogImage || DEFAULT_OG_IMAGE);
 
   return (
     <Helmet>
