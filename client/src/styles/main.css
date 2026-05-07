@@ -168,6 +168,16 @@ p { font-size: 1rem; line-height: 1.7; }
 .btn-sm { padding: 0.5rem 1.25rem; font-size: 0.875rem; }
 .btn-lg { padding: 1rem 2.25rem; font-size: 1.05rem; }
 
+/* On narrow screens, allow long button labels to wrap rather than overflow */
+@media (max-width: 520px) {
+  .btn {
+    white-space: normal;
+    max-width: 100%;
+    text-align: center;
+  }
+  .btn-lg { padding: 0.9rem 1.5rem; font-size: 1rem; }
+}
+
 /* ─── Hero ─── */
 .hero {
   position: relative;
@@ -423,7 +433,10 @@ p { font-size: 1rem; line-height: 1.7; }
   overflow: hidden;
   box-shadow: var(--shadow-md);
   aspect-ratio: 4 / 3;
-  min-height: 280px;
+  min-width: 0;
+}
+@media (min-width: 768px) {
+  .section-split__img { min-height: 280px; }
 }
 .section-split__img img {
   width: 100%;
