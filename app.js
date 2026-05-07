@@ -107,7 +107,10 @@ const imgPath = path.join(__dirname, 'img');
 const uploadsPath = path.join(__dirname, 'uploads');
 const assetsPath = path.join(__dirname, 'assets');
 
-app.use(express.static(distPath, { maxAge: '1d' }));
+// Don't let express.static serve directory index.html files or redirect
+// /foo → /foo/. The custom SPA fallback below picks the right prerendered
+// HTML per request and keeps URLs canonical (no trailing slash).
+app.use(express.static(distPath, { maxAge: '1d', index: false, redirect: false }));
 app.use('/img', express.static(imgPath, { maxAge: '7d' }));
 app.use('/uploads', express.static(uploadsPath, { maxAge: '7d' }));
 app.use('/assets/videos', express.static(path.join(assetsPath, 'videos'), { maxAge: '7d' }));
@@ -171,12 +174,28 @@ Service 100% gratuit pour le client. Voltea Énergie est rémunéré par les fou
 app.use('/api', apiRoutes);
 app.use('/api/admin', adminRoutes);
 
-// SPA fallback — resolve unknown URLs to real 404 rather than 200 + SPA shell.
-// This avoids soft-404 indexing of arbitrary paths by Google.
+// SPA fallback. Prerender pipeline writes static HTML for every known
+// public route to dist/<route>/index.html. Express prefers that file when
+// it exists, falls back to the empty SPA shell otherwise so client-side
+// routing still works (admin, dynamic article slugs).
+const fs = require('fs');
 const indexPath = path.join(distPath, 'index.html');
+const shellPath = path.join(distPath, '__shell.html');
+const notFoundPath = path.join(distPath, '__notfound.html');
 
-function serveSpa(res, status = 200) {
-  res.status(status).sendFile(indexPath, (err) => {
+// Best-effort: if the prerender produced a shell, use it for non-prerendered
+// routes. Otherwise fall back to dist/index.html.
+const fallbackShell = fs.existsSync(shellPath) ? shellPath : indexPath;
+const fallback404 = fs.existsSync(notFoundPath) ? notFoundPath : fallbackShell;
+
+function prerenderedFile(urlPath) {
+  if (urlPath === '/') return indexPath;
+  const candidate = path.join(distPath, urlPath, 'index.html');
+  return fs.existsSync(candidate) ? candidate : null;
+}
+
+function serveSpa(res, status = 200, file = fallbackShell) {
+  res.status(status).sendFile(file, (err) => {
     if (err) res.status(404).json({ error: 'Not found' });
   });
 }
@@ -192,32 +211,38 @@ function getPool() {
 app.get('*', async (req, res) => {
   const urlPath = req.path;
 
-  // Known exact paths → 200
-  if (KNOWN_PATHS.has(urlPath)) return serveSpa(res, 200);
-
-  // Admin routes → always serve SPA (client-side auth handles)
-  if (ADMIN_PREFIXES.some((p) => urlPath === p || urlPath.startsWith(`${p}/`))) {
-    return serveSpa(res, 200);
+  // Known exact paths → serve the prerendered HTML if we have it
+  if (KNOWN_PATHS.has(urlPath)) {
+    const file = prerenderedFile(urlPath) || fallbackShell;
+    return serveSpa(res, 200, file);
   }
 
-  // Dynamic: /actualites/:slug — check published article exists
+  // Admin routes → always serve the empty shell (client-side auth handles)
+  if (ADMIN_PREFIXES.some((p) => urlPath === p || urlPath.startsWith(`${p}/`))) {
+    return serveSpa(res, 200, fallbackShell);
+  }
+
+  // Dynamic: /actualites/:slug — check published article exists.
+  // The shell carries no per-article meta, so a future improvement is to
+  // template title/excerpt/cover_image into the shell here. For now, the
+  // SPA hydrates and renders the article content client-side.
   const articleMatch = urlPath.match(/^\/actualites\/([a-z0-9-]+)\/?$/i);
   if (articleMatch) {
     const pool = getPool();
-    if (!pool) return serveSpa(res, 200);
+    if (!pool) return serveSpa(res, 200, fallbackShell);
     try {
       const [rows] = await pool.execute(
         'SELECT 1 FROM articles WHERE slug = ? AND published = 1 LIMIT 1',
         [articleMatch[1]]
       );
-      return serveSpa(res, rows.length > 0 ? 200 : 404);
+      return serveSpa(res, rows.length > 0 ? 200 : 404, rows.length > 0 ? fallbackShell : fallback404);
     } catch (err) {
-      return serveSpa(res, 200);
+      return serveSpa(res, 200, fallbackShell);
     }
   }
 
-  // Unknown — return 404 with SPA shell (React will render NotFound)
-  return serveSpa(res, 404);
+  // Unknown — 404 with the prerendered NotFound page if available
+  return serveSpa(res, 404, fallback404);
 });
 
 // Global error handler

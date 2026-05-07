@@ -1039,14 +1039,20 @@ p { font-size: 1rem; line-height: 1.7; }
 .footer-credit a:hover { color: rgba(232,238,255,0.85); }
 
 /* ─── ScrollReveal ─── */
+/* Default: visible. Crawlers and no-JS users see content immediately,
+   which also keeps the prerendered HTML readable. JS opts content into
+   the animation by adding .reveal--armed (sets opacity:0 again until
+   IntersectionObserver fires .visible). */
 .reveal {
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;
+  transform: none;
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
-.reveal.visible { opacity: 1; transform: none; }
+.reveal.reveal--armed { opacity: 0; transform: translateY(20px); }
+.reveal.reveal--armed.visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal,
+  .reveal.reveal--armed { opacity: 1; transform: none; transition: none; }
 }
 
 /* ─── Cookie Banner ─── */
