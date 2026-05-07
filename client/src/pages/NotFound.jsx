@@ -7,7 +7,7 @@ import SEO from '../components/SEO.jsx';
 export default function NotFound() {
   return (
     <>
-      <SEO title="Page introuvable | Voltea Énergie" noindex />
+      <SEO title="Page introuvable" noindex />
       <Header />
 
       <div style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '5rem 1.25rem' }}>

@@ -7,7 +7,7 @@ import SEO from '../components/SEO.jsx';
 export default function PrivacyPolicy() {
   return (
     <>
-      <SEO title="Politique de confidentialité | Voltea Énergie" noindex canonical="/politique-de-confidentialite" />
+      <SEO title="Politique de confidentialité" noindex canonical="/politique-de-confidentialite" />
       <Header />
 
       <div className="page-header">

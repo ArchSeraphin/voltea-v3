@@ -44,6 +44,7 @@ function ProtectedRoute({ children }) {
 
 function GAInjector() {
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const consent = localStorage.getItem('cookieConsent');
     if (consent !== 'accepted') return;
 
@@ -135,9 +136,13 @@ const LOCAL_BUSINESS_SCHEMA = {
 };
 
 function LocalBusinessSchema() {
+  // Always emit the base schema synchronously so prerender / SSR snapshots
+  // contain the JSON-LD block. The aggregateRating is appended client-side
+  // as a separate JSON-LD block once the live review aggregate is fetched.
   const [aggregate, setAggregate] = useState(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     fetch('/api/reviews/aggregate')
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
@@ -148,24 +153,29 @@ function LocalBusinessSchema() {
       .catch(() => {});
   }, []);
 
-  const schema = aggregate
-    ? {
-        ...LOCAL_BUSINESS_SCHEMA,
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: aggregate.ratingValue,
-          reviewCount: aggregate.reviewCount,
-          bestRating: '5',
-          worstRating: '1',
-        },
-      }
-    : LOCAL_BUSINESS_SCHEMA;
-
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_SCHEMA) }}
+      />
+      {aggregate && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'AggregateRating',
+              itemReviewed: { '@id': 'https://voltea-energie.fr/#business' },
+              ratingValue: aggregate.ratingValue,
+              reviewCount: aggregate.reviewCount,
+              bestRating: '5',
+              worstRating: '1',
+            }),
+          }}
+        />
+      )}
+    </>
   );
 }
 

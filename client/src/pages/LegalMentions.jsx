@@ -7,7 +7,7 @@ import SEO from '../components/SEO.jsx';
 export default function LegalMentions() {
   return (
     <>
-      <SEO title="Mentions légales | Voltea Énergie" noindex canonical="/mentions-legales" />
+      <SEO title="Mentions légales" noindex canonical="/mentions-legales" />
       <Header />
 
       <div className="page-header">

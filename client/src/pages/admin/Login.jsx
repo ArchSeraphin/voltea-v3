@@ -49,7 +49,7 @@ export default function Login() {
 
   return (
     <>
-      <SEO title="Administration | Voltea Énergie" noindex />
+      <SEO title="Administration" noindex />
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0f1a', padding: '2rem' }}>
         <div style={{ width: '100%', maxWidth: '400px' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
