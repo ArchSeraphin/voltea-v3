@@ -17,7 +17,7 @@ export default function Footer() {
             </p>
             <div className="footer-social">
               <a
-                href="https://www.facebook.com/voltea.energie"
+                href="https://www.facebook.com/profile.php?id=61586736881744"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook Voltea Énergie"
@@ -27,7 +27,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://www.instagram.com/voltea.energie38"
+                href="https://www.instagram.com/volteaenergie/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram Voltea Énergie"
@@ -37,7 +37,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://www.linkedin.com/company/voltea-energie"
+                href="https://www.linkedin.com/company/voltea-%C3%A9nergie/posts/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn Voltea Énergie"

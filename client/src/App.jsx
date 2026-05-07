@@ -128,9 +128,9 @@ const LOCAL_BUSINESS_SCHEMA = {
     'Efficacité énergétique',
   ],
   sameAs: [
-    'https://www.facebook.com/voltea.energie',
-    'https://www.instagram.com/voltea.energie38',
-    'https://www.linkedin.com/company/voltea-energie',
+    'https://www.facebook.com/profile.php?id=61586736881744',
+    'https://www.instagram.com/volteaenergie/',
+    'https://www.linkedin.com/company/voltea-%C3%A9nergie/',
   ],
 };
 
