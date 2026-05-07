@@ -10,12 +10,21 @@ const FORM_ENTREPRISE = 'https://webforms.pipedrive.com/f/cts8JGGoDnMuwKR7rbRXbi
 
 export default function Contact() {
   const [audience, setAudience] = useState('entreprise');
+  // Mount the Pipedrive form containers (and the loader script) only AFTER
+  // hydration, so the prerendered HTML and the client's first hydration
+  // render are byte-identical. Otherwise Pipedrive's async loader can
+  // inject iframes into the .pipedriveWebForms divs before React finishes
+  // hydrating, triggering hydration mismatches (#418/#423/#425).
+  const [hydrated, setHydrated] = useState(false);
   const scriptLoaded = useRef(false);
 
-  // Pipedrive's loader scans for every .pipedriveWebForms in the DOM and
-  // converts each into an iframe. Render both forms upfront, hide one via
-  // CSS — switching audience is then instant and no second network round-trip.
   useEffect(() => {
+    // Don't flip to hydrated during the build-time prerender pass — the
+    // snapshot must reflect the deterministic hydrated=false initial render
+    // so the client's first hydration tree matches.
+    if (typeof navigator !== 'undefined' && /VolteaPrerender/i.test(navigator.userAgent)) return;
+
+    setHydrated(true);
     if (scriptLoaded.current) return;
     scriptLoaded.current = true;
     const script = document.createElement('script');
@@ -98,23 +107,37 @@ export default function Contact() {
                   </button>
                 </div>
 
-                <div
-                  id="audience-form-particulier"
-                  role="tabpanel"
-                  aria-labelledby="audience-tab-particulier"
-                  hidden={audience !== 'particulier'}
-                >
-                  <div className="pipedriveWebForms" data-pd-webforms={FORM_PARTICULIER} />
-                </div>
+                {hydrated ? (
+                  <>
+                    <div
+                      id="audience-form-particulier"
+                      role="tabpanel"
+                      aria-labelledby="audience-tab-particulier"
+                      hidden={audience !== 'particulier'}
+                    >
+                      <div className="pipedriveWebForms" data-pd-webforms={FORM_PARTICULIER} />
+                    </div>
 
-                <div
-                  id="audience-form-entreprise"
-                  role="tabpanel"
-                  aria-labelledby="audience-tab-entreprise"
-                  hidden={audience !== 'entreprise'}
-                >
-                  <div className="pipedriveWebForms" data-pd-webforms={FORM_ENTREPRISE} />
-                </div>
+                    <div
+                      id="audience-form-entreprise"
+                      role="tabpanel"
+                      aria-labelledby="audience-tab-entreprise"
+                      hidden={audience !== 'entreprise'}
+                    >
+                      <div className="pipedriveWebForms" data-pd-webforms={FORM_ENTREPRISE} />
+                    </div>
+                  </>
+                ) : (
+                  // Skeleton placeholder until hydration mounts the real iframes
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      background: 'rgba(255,255,255,0.08)',
+                      borderRadius: 'var(--radius-md)',
+                      minHeight: '380px',
+                    }}
+                  />
+                )}
               </div>
             </ScrollReveal>
 

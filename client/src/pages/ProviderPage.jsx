@@ -189,11 +189,10 @@ export default function ProviderPage() {
           <ScrollReveal>
             <div className="why-voltea-card" style={{ textAlign: 'center' }}>
               <h2 style={{ marginBottom: '1rem' }}>
-                {provider.name} correspond à votre profil ?
+                {`${provider.name} correspond à votre profil ?`}
               </h2>
               <p style={{ color: 'var(--color-text-muted)', maxWidth: '520px', margin: '0 auto 2rem' }}>
-                Voltea Énergie met {provider.name} en concurrence avec plus de 20 fournisseurs partenaires
-                et négocie les meilleures conditions pour vous — sans frais.
+                {`Voltea Énergie met ${provider.name} en concurrence avec plus de 20 fournisseurs partenaires et négocie les meilleures conditions pour vous — sans frais.`}
               </p>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <Link to="/contact" className="btn btn-lg" style={{ background: '#fff', color: 'var(--color-primary)', borderColor: '#fff' }}>

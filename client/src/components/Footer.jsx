@@ -75,12 +75,10 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>© {year} Voltea Énergie. Tous droits réservés.</span>
+          <span>{`© ${year} Voltea Énergie. Tous droits réservés.`}</span>
           <span className="footer-credit">
-            Site réalisé par{' '}
-            <a href="https://voilavoila.tv" target="_blank" rel="noopener noreferrer">
-              Voïla Voïla
-            </a>
+            {'Site réalisé par '}
+            <a href="https://voilavoila.tv" target="_blank" rel="noopener noreferrer">Voïla Voïla</a>
           </span>
         </div>
       </div>

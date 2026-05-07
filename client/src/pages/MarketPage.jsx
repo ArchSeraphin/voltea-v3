@@ -11,6 +11,7 @@ export default function MarketPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (typeof navigator !== 'undefined' && /VolteaPrerender/i.test(navigator.userAgent)) return;
     fetch('/api/news')
       .then((r) => r.json())
       .then((data) => setArticles(data.articles || []))

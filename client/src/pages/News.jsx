@@ -36,6 +36,10 @@ export default function News() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Skip the network roundtrip during the build-time prerender pass so the
+    // snapshot stays at loading=true (skeletons) and matches React's initial
+    // render output on the client.
+    if (typeof navigator !== 'undefined' && /VolteaPrerender/i.test(navigator.userAgent)) return;
     setLoading(true);
     fetch(`/api/articles?page=${page}`)
       .then((r) => r.json())
