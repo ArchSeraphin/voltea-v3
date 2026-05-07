@@ -36,17 +36,38 @@ function MoonIcon() {
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    const saved = window.localStorage.getItem('theme');
-    if (saved) return saved === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+  // Always start with darkMode=false at first render so the prerendered
+  // HTML and the client's first hydration render match. The real
+  // preference is read from localStorage / matchMedia in the effect
+  // below, which triggers a follow-up render on the client only.
+  const [darkMode, setDarkMode] = useState(false);
+  // Track whether we've already read the user's preference, so the
+  // first effect doesn't write 'light' to localStorage before the
+  // detection effect has had a chance to read 'dark'.
+  const [prefsLoaded, setPrefsLoaded] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    // Skip detection during the build-time prerender pass — the snapshot
+    // must reflect the deterministic darkMode=false initial render.
+    if (/VolteaPrerender/i.test(navigator.userAgent)) {
+      setPrefsLoaded(true);
+      return;
+    }
+    const saved = window.localStorage.getItem('theme');
+    if (saved) {
+      setDarkMode(saved === 'dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setDarkMode(true);
+    }
+    setPrefsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!prefsLoaded) return;
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
     localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-  }, [darkMode]);
+  }, [darkMode, prefsLoaded]);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 30);
