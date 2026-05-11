@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
@@ -40,6 +40,23 @@ export default function Home() {
   const [articles, setArticles] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [gnewsArticles, setGnewsArticles] = useState([]);
+  const videoRef = useRef(null);
+
+  // Chrome on Android sometimes refuses the declarative autoplay and falls
+  // back to its native "tap to play" overlay even though the video is muted.
+  // Calling play() imperatively after mount works around it; the catch is
+  // there because if autoplay really is blocked (data saver, low-power) we
+  // don't want an uncaught promise rejection in the console.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const tryPlay = () => v.play().catch(() => {});
+    tryPlay();
+    // Retry once the metadata is in — some Chrome builds need this signal
+    // before they accept the play() call.
+    v.addEventListener('loadedmetadata', tryPlay);
+    return () => v.removeEventListener('loadedmetadata', tryPlay);
+  }, []);
 
   useEffect(() => {
     fetch('/api/articles?page=1')
@@ -68,14 +85,19 @@ export default function Home() {
       {/* ── HERO ── */}
       <section className="hero">
         <video
+          ref={videoRef}
           className="hero-video"
           poster="/assets/videos/hero-poster.jpg"
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
+          controls={false}
+          disablePictureInPicture
+          disableRemotePlayback
           aria-hidden="true"
+          tabIndex={-1}
         >
           <source src="/assets/videos/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
           <source src="/assets/videos/hero.mp4" type="video/mp4" />

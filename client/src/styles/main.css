@@ -199,6 +199,22 @@ p { font-size: 1rem; line-height: 1.7; }
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  /* The video is decorative — block all user interaction so taps go to the
+     hero CTAs above instead of triggering the native player. */
+  pointer-events: none;
+}
+/* Chrome/Safari render a big centred play button when autoplay fails;
+   hide every control surface so the poster stays clean. */
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-enclosure,
+.hero-video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-overlay-play-button,
+.hero-video::-webkit-media-controls-start-playback-button,
+.hero-video::-internal-media-controls-overflow-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  opacity: 0 !important;
 }
 .hero-overlay {
   position: absolute;

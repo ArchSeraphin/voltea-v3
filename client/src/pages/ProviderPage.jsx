@@ -191,7 +191,7 @@ export default function ProviderPage() {
               <h2 style={{ marginBottom: '1rem' }}>
                 {`${provider.name} correspond à votre profil ?`}
               </h2>
-              <p style={{ color: 'var(--color-text-muted)', maxWidth: '520px', margin: '0 auto 2rem' }}>
+              <p style={{ color: 'rgba(255,255,255,0.92)', maxWidth: '520px', margin: '0 auto 2rem' }}>
                 {`Voltea Énergie met ${provider.name} en concurrence avec plus de 20 fournisseurs partenaires et négocie les meilleures conditions pour vous — sans frais.`}
               </p>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
