@@ -30,8 +30,14 @@ function getGaId() {
 //   page load (no flicker, no wait for the banner to mount)
 // - CookieBanner calls gtag('consent','update',...) when the user clicks Accepter
 function buildGtagSnippet(gaId) {
+  // Expose gtag on window so the CookieBanner can call it even before the
+  // external gtag.js finishes loading — queued commands replay through
+  // window.dataLayer once gtag.js is ready. Without this, a fast accept
+  // click on a SPA route silently drops the consent update for the rest
+  // of the session.
   return `<script>
-window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+window.dataLayer=window.dataLayer||[];
+window.gtag=window.gtag||function(){window.dataLayer.push(arguments);};
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
 try{if(localStorage.getItem('cookieConsent')==='accepted'){gtag('consent','update',{analytics_storage:'granted'});}}catch(e){}
 gtag('js',new Date());
