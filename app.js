@@ -66,8 +66,11 @@ app.use(
         imgSrc: ["'self'", 'data:', 'https:'],
         connectSrc: [
           "'self'",
-          'https://www.google-analytics.com',
-          'https://analytics.google.com',
+          // GA4 sends hits to regional endpoints (region1.google-analytics.com
+          // etc.) and the modern *.analytics.google.com bucket — wildcards are
+          // the only way to cover both per Google's own CSP guidance.
+          'https://*.google-analytics.com',
+          'https://*.analytics.google.com',
           'https://www.googletagmanager.com',
           'https://leadbooster-chat.pipedrive.com',
           'https://*.pipedriveassets.com',
