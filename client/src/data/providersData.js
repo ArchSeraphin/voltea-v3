@@ -1,12 +1,14 @@
-// Logos: Wikipedia Commons (SVG→PNG) for EDF, Engie, TotalEnergies, Vattenfall, ENI, Alpiq.
-// For Ekwateur and Primeo, logoUrl is null → styled initials shown in UI.
+// Logos self-hosted under /img/providers/ — Wikimedia blocks hot-linking of
+// thumbnails with HTTP 400. Run `node scripts/fetch-provider-logos.mjs` to
+// (re)generate the PNGs from Wikimedia Commons sources.
+// ProviderLogo falls back to styled initials if a file is missing.
 
 export const providers = [
   {
     slug: 'edf',
     name: 'EDF',
     fullName: 'Électricité de France',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/EDF_logo.svg/240px-EDF_logo.svg.png',
+    logoUrl: '/img/providers/edf.png',
     tagline: 'Le fournisseur historique français, solide et reconnu',
     category: 'Historique',
     description: [
@@ -35,7 +37,7 @@ export const providers = [
     slug: 'engie',
     name: 'Engie',
     fullName: 'Engie (ex-GDF Suez)',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Engie_logo.svg/240px-Engie_logo.svg.png',
+    logoUrl: '/img/providers/engie.png',
     tagline: "L'acteur de référence sur le marché du gaz professionnel",
     category: 'Historique',
     description: [
@@ -64,7 +66,7 @@ export const providers = [
     slug: 'totalenergies',
     name: 'TotalEnergies',
     fullName: 'TotalEnergies Electricité & Gaz France',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/TotalEnergies_logo.svg/240px-TotalEnergies_logo.svg.png',
+    logoUrl: '/img/providers/totalenergies.png',
     tagline: "Le challenger dynamique issu d'une major pétrolière mondiale",
     category: 'Alternatif',
     description: [
@@ -93,7 +95,7 @@ export const providers = [
     slug: 'ekwateur',
     name: 'Ekwateur',
     fullName: 'Ekwateur',
-    logoUrl: null,
+    logoUrl: '/img/providers/ekwateur.png',
     tagline: "L'énergie verte indépendante, engagée et transparente",
     category: 'Vert & Indépendant',
     description: [
@@ -122,7 +124,7 @@ export const providers = [
     slug: 'vattenfall',
     name: 'Vattenfall',
     fullName: 'Vattenfall Energy Trading France',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Vattenfall_logo.svg/240px-Vattenfall_logo.svg.png',
+    logoUrl: '/img/providers/vattenfall.png',
     tagline: "L'expert nordique du marché d'énergie B2B",
     category: 'Alternatif',
     description: [
@@ -151,7 +153,7 @@ export const providers = [
     slug: 'eni',
     name: 'ENI',
     fullName: 'ENI Gas & Power France',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/ENI_logo.svg/240px-ENI_logo.svg.png',
+    logoUrl: '/img/providers/eni.png',
     tagline: 'La major italienne avec des offres compétitives sur le marché français',
     category: 'Alternatif',
     description: [
@@ -180,7 +182,7 @@ export const providers = [
     slug: 'alpiq',
     name: 'Alpiq',
     fullName: 'Alpiq Energie France',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Alpiq_logo.svg/240px-Alpiq_logo.svg.png',
+    logoUrl: '/img/providers/alpiq.png',
     tagline: "Le spécialiste suisse des contrats d'énergie pour industriels",
     category: 'Alternatif',
     description: [
@@ -209,7 +211,7 @@ export const providers = [
     slug: 'primeo-energie',
     name: 'Primeo Énergie',
     fullName: 'Primeo Énergie France',
-    logoUrl: null,
+    logoUrl: '/img/providers/primeo-energie.png',
     tagline: "L'alternatif simple et compétitif pour les PME françaises",
     category: 'Alternatif',
     description: [
