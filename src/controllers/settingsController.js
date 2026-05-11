@@ -1,6 +1,7 @@
 'use strict';
 
 const pool = require('../config/database');
+const { reloadGaId } = require('../lib/ga');
 
 // Keys returned by the public /api/settings endpoint
 const PUBLIC_KEYS = ['ga_measurement_id'];
@@ -64,6 +65,11 @@ async function updateSettings(req, res) {
         'INSERT INTO settings (`key`, `value`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `value` = ?',
         [key, value, value]
       );
+    }
+    // Refresh the in-memory GA cache so the new ID is injected on the very
+    // next HTML response — no server restart required.
+    if (key === 'ga_measurement_id') {
+      await reloadGaId();
     }
     return res.json({ success: true, key, value: value || null });
   } catch (err) {

@@ -42,35 +42,6 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
-function GAInjector() {
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const consent = localStorage.getItem('cookieConsent');
-    if (consent !== 'accepted') return;
-
-    fetch('/api/settings')
-      .then((r) => r.json())
-      .then((data) => {
-        const gaId = data.ga_measurement_id;
-        if (gaId && /^G-[A-Z0-9]+$/.test(gaId)) {
-          const script = document.createElement('script');
-          script.async = true;
-          script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-          document.head.appendChild(script);
-
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { window.dataLayer.push(arguments); }
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', gaId);
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  return null;
-}
-
 const LOCAL_BUSINESS_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': ['LocalBusiness', 'ProfessionalService'],
@@ -188,7 +159,6 @@ export default function App() {
     <HelmetProvider>
       <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
         <LocalBusinessSchema />
-        <GAInjector />
         <BrowserRouter>
           <ScrollToTop />
           <Routes>

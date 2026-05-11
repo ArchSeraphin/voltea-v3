@@ -18,13 +18,21 @@ export default function CookieBanner() {
   function accept() {
     localStorage.setItem('cookieConsent', 'accepted');
     setVisible(false);
-    // Trigger GA injection if not already done
-    window.dispatchEvent(new Event('cookieConsentUpdated'));
+    // gtag is loaded server-side with Consent Mode v2 defaults of 'denied' —
+    // flip analytics_storage to 'granted' so GA can drop cookies and send hits.
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
   }
 
   function decline() {
     localStorage.setItem('cookieConsent', 'declined');
     setVisible(false);
+    // Default is already 'denied' from the server-injected snippet, but make
+    // it explicit so a later re-render or banner re-open behaves consistently.
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', { analytics_storage: 'denied' });
+    }
   }
 
   if (!visible) return null;

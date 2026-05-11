@@ -31,6 +31,7 @@ const apiRoutes = require('./src/routes/api');
 const adminRoutes = require('./src/routes/admin');
 const sitemapRouter = require('./src/routes/sitemap');
 const { KNOWN_PATHS, ADMIN_PREFIXES } = require('./src/config/routes');
+const { getGaId, reloadGaId, buildGtagSnippet } = require('./src/lib/ga');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -194,10 +195,32 @@ function prerenderedFile(urlPath) {
   return fs.existsSync(candidate) ? candidate : null;
 }
 
-function serveSpa(res, status = 200, file = fallbackShell) {
-  res.status(status).sendFile(file, (err) => {
-    if (err) res.status(404).json({ error: 'Not found' });
-  });
+// Cache raw HTML in memory so each request doesn't re-read from disk.
+// Process restart (which happens on every deploy via Plesk Passenger) clears it.
+const HTML_CACHE = new Map();
+function readHtmlCached(file) {
+  let html = HTML_CACHE.get(file);
+  if (html === undefined) {
+    html = fs.readFileSync(file, 'utf8');
+    HTML_CACHE.set(file, html);
+  }
+  return html;
+}
+
+async function serveSpa(res, status = 200, file = fallbackShell) {
+  try {
+    let html = readHtmlCached(file);
+    const gaId = getGaId();
+    // Server-side injection so Googlebot, GA verification and Tag Assistant
+    // see the snippet in the HTML response (the client-side injection that
+    // used to live in App.jsx was invisible to crawlers).
+    if (gaId) {
+      html = html.replace(/<head>/i, `<head>\n${buildGtagSnippet(gaId)}\n`);
+    }
+    res.status(status).type('html').send(html);
+  } catch (err) {
+    res.status(404).json({ error: 'Not found' });
+  }
 }
 
 // Pool may not be ready on startup; load lazily
@@ -253,6 +276,11 @@ app.use((err, req, res, next) => {
   const message = isProd && status === 500 ? 'Internal server error' : err.message || 'Internal server error';
   res.status(status).json({ error: message });
 });
+
+// Load the GA measurement id from the settings table so serveSpa can inject
+// the gtag snippet on every HTML response. Failure is non-fatal: getGaId()
+// just returns null and the site renders without analytics.
+reloadGaId().catch((err) => console.error('[Voltea] GA id preload failed:', err.message));
 
 // Auto-migrate: create missing tables
 (async () => {
