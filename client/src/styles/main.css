@@ -1121,7 +1121,9 @@ p { font-size: 1rem; line-height: 1.7; }
   align-items: flex-start;
 }
 @media (min-width: 640px) {
-  .cookie-banner { flex-direction: row; align-items: center; justify-content: space-between; padding: 1rem 2rem; }
+  /* padding-right reserves room for the Pipedrive LeadBooster chat bubble
+     anchored to bottom-right so the consent buttons stay clickable. */
+  .cookie-banner { flex-direction: row; align-items: center; justify-content: space-between; padding: 1rem 2rem 1rem 2rem; padding-right: calc(2rem + 96px); }
 }
 .cookie-text { font-size: 0.875rem; color: rgba(232,238,255,0.85); max-width: 600px; }
 .cookie-text a { color: var(--color-primary); text-decoration: underline; }
