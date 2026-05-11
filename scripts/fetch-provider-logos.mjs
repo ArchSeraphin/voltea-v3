@@ -55,7 +55,13 @@ async function main() {
       // sharp handles SVG, PNG, JPG transparently. We render onto a
       // transparent canvas at TARGET_HEIGHT and let width auto-scale.
       const out = path.join(OUT_DIR, `${slug}.png`);
+      // Source images (especially Ekwateur, Primeo) ship with large white
+      // margins that make the logo render visually tiny inside the UI's
+      // fixed 48px box. trim() strips uniform borders so every logo fills
+      // the available space consistently. threshold=10 ignores near-white
+      // anti-aliasing fringes.
       await sharp(buf, { density: 300 })
+        .trim({ threshold: 10 })
         .resize({ height: TARGET_HEIGHT, fit: 'inside', withoutEnlargement: false })
         .png({ compressionLevel: 9 })
         .toFile(out);
