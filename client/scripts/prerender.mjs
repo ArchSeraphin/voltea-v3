@@ -91,6 +91,15 @@ async function snapshot(page, route) {
   );
   // Tiny grace period for synchronous Helmet → <head> flush
   await page.waitForTimeout(150);
+  // React renders <video muted /> as a DOM property only — the `muted`
+  // attribute never lands in outerHTML, and Chrome/Brave on desktop then
+  // refuse to autoplay the served HTML before React has a chance to
+  // hydrate. Force the attribute onto every <video> before snapshotting.
+  await page.evaluate(() => {
+    document.querySelectorAll('video').forEach((v) => {
+      if (v.muted) v.setAttribute('muted', '');
+    });
+  });
   const html = await page.evaluate(() => '<!DOCTYPE html>\n' + document.documentElement.outerHTML);
   return html;
 }
