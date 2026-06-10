@@ -138,10 +138,17 @@ export default function Providers() {
         credentials: 'include',
         body: JSON.stringify({ ids: next.map((p) => p.id) }),
       });
+      if (res.status === 401) {
+        setIsAuthenticated(false);
+        navigate('/admin/connexion');
+        return;
+      }
       if (!res.ok) throw new Error();
     } catch {
       alert("Erreur lors du réordonnancement");
-      loadProviders();
+      // Attendre le rechargement avant de réactiver les flèches, sinon un
+      // clic rapide repartirait sur l'état optimiste périmé.
+      await loadProviders();
     } finally {
       setActionLoading(null);
     }
