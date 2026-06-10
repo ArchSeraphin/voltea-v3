@@ -9,6 +9,7 @@ const authController = require('../controllers/authController');
 const settingsController = require('../controllers/settingsController');
 const reviewController = require('../controllers/reviewController');
 const newsController = require('../controllers/newsController');
+const providerController = require('../controllers/providerController');
 
 // Articles (public)
 router.get('/articles', apiLimiter, articleController.getArticles);
@@ -22,6 +23,10 @@ router.post('/auth/logout', apiLimiter, authController.logout);
 // Reviews (public)
 router.get('/reviews', apiLimiter, reviewController.getReviews);
 router.get('/reviews/aggregate', apiLimiter, reviewController.getReviewsAggregate);
+
+// Providers (public)
+router.get('/providers', apiLimiter, providerController.getProviders);
+router.get('/providers/:slug', apiLimiter, providerController.getProviderBySlug);
 
 // News (GNews proxy)
 router.get('/news', apiLimiter, newsController.getNews);

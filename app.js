@@ -294,6 +294,12 @@ reloadGaId().catch((err) => console.error('[Voltea] GA id preload failed:', err.
   } catch (err) {
     console.error('[Voltea] Auto-migrate reviews failed:', err.message);
   }
+
+    try {
+      await require('./src/models/providerModel').ensureProvidersTable();
+    } catch (err) {
+      console.error('[Voltea] Auto-migrate providers failed:', err.message);
+    }
 })();
 
 app.listen(PORT, () => {
