@@ -9,7 +9,7 @@ function slugify(text) {
     .toString()
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9\s-]/g, '')
     .trim()
     .replace(/\s+/g, '-')
@@ -225,11 +225,11 @@ export default function ProviderEditor() {
           tagline: provider.tagline,
           category: provider.category || CATEGORIES[0],
           logoUrl: provider.logoUrl,
-          description: provider.description.length ? provider.description : [''],
-          offers: provider.offers.length ? provider.offers : [{ label: '', description: '' }],
-          pros: provider.pros.length ? provider.pros : [''],
-          cons: provider.cons.length ? provider.cons : [''],
-          profiles: provider.profiles,
+          description: (provider.description || []).length ? provider.description : [''],
+          offers: (provider.offers || []).length ? provider.offers : [{ label: '', description: '' }],
+          pros: (provider.pros || []).length ? provider.pros : [''],
+          cons: (provider.cons || []).length ? provider.cons : [''],
+          profiles: provider.profiles || [],
           published: provider.published,
         });
         setInitial({ slug: provider.slug, published: provider.published });
@@ -336,10 +336,10 @@ export default function ProviderEditor() {
               <h1>{isEdit ? 'Modifier le fournisseur' : 'Nouveau fournisseur'}</h1>
             </div>
             <div style={{ display: 'flex', gap: '0.75rem' }}>
-              <button className="btn btn-ghost btn-sm" onClick={() => handleSubmit(false)} disabled={saving}>
+              <button className="btn btn-ghost btn-sm" onClick={() => handleSubmit(false)} disabled={saving || uploadingLogo}>
                 Enregistrer en brouillon
               </button>
-              <button className="btn btn-primary btn-sm" onClick={() => handleSubmit(true)} disabled={saving}>
+              <button className="btn btn-primary btn-sm" onClick={() => handleSubmit(true)} disabled={saving || uploadingLogo}>
                 {saving ? <><span className="spinner" /> Sauvegarde...</> : 'Publier'}
               </button>
             </div>
@@ -447,7 +447,7 @@ export default function ProviderEditor() {
                     </span>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <button className="btn btn-primary" onClick={() => handleSubmit(form.published)} disabled={saving} style={{ justifyContent: 'center' }}>
+                    <button className="btn btn-primary" onClick={() => handleSubmit(form.published)} disabled={saving || uploadingLogo} style={{ justifyContent: 'center' }}>
                       {saving ? <><span className="spinner" /> Sauvegarde...</> : 'Sauvegarder'}
                     </button>
                     <Link to="/admin/fournisseurs" className="btn btn-ghost" style={{ justifyContent: 'center', textAlign: 'center' }}>

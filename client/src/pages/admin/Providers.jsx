@@ -53,7 +53,7 @@ export default function Providers() {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(null);
 
-  async function loadProviders() {
+  async function loadProviders(isActive = () => true) {
     setLoading(true);
     try {
       const res = await fetch('/api/admin/providers', { credentials: 'include' });
@@ -63,15 +63,21 @@ export default function Providers() {
         return;
       }
       const data = await res.json();
+      if (!isActive()) return;
       setProviders(data.providers || []);
     } catch {
+      if (!isActive()) return;
       setProviders([]);
     } finally {
-      setLoading(false);
+      if (isActive()) setLoading(false);
     }
   }
 
-  useEffect(() => { loadProviders(); }, []);
+  useEffect(() => {
+    let active = true;
+    loadProviders(() => active);
+    return () => { active = false; };
+  }, []);
 
   async function handleLogout() {
     await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
@@ -83,6 +89,12 @@ export default function Providers() {
     setActionLoading(id);
     try {
       const res = await fetch(`/api/admin/providers/${id}/toggle`, { method: 'PATCH', credentials: 'include' });
+      if (res.status === 401) {
+        setIsAuthenticated(false);
+        navigate('/admin/connexion');
+        return;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const updated = await res.json();
       setProviders((prev) => prev.map((p) => (p.id === id ? updated : p)));
     } catch {
@@ -96,7 +108,13 @@ export default function Providers() {
     if (!confirm(`Supprimer définitivement la fiche "${name}" ? Sa page ne sera plus accessible sur le site.`)) return;
     setActionLoading(id);
     try {
-      await fetch(`/api/admin/providers/${id}`, { method: 'DELETE', credentials: 'include' });
+      const res = await fetch(`/api/admin/providers/${id}`, { method: 'DELETE', credentials: 'include' });
+      if (res.status === 401) {
+        setIsAuthenticated(false);
+        navigate('/admin/connexion');
+        return;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setProviders((prev) => prev.filter((p) => p.id !== id));
     } catch {
       alert('Erreur lors de la suppression');
@@ -106,10 +124,12 @@ export default function Providers() {
   }
 
   async function handleMove(index, direction) {
+    if (actionLoading) return;
     const target = index + direction;
     if (target < 0 || target >= providers.length) return;
     const next = [...providers];
     [next[index], next[target]] = [next[target], next[index]];
+    setActionLoading('reorder');
     setProviders(next);
     try {
       const res = await fetch('/api/admin/providers/reorder', {
@@ -122,6 +142,8 @@ export default function Providers() {
     } catch {
       alert("Erreur lors du réordonnancement");
       loadProviders();
+    } finally {
+      setActionLoading(null);
     }
   }
 
@@ -188,8 +210,8 @@ export default function Providers() {
                       {providers.map((provider, index) => (
                         <tr key={provider.id}>
                           <td style={{ whiteSpace: 'nowrap' }}>
-                            <button onClick={() => handleMove(index, -1)} disabled={index === 0} className="btn btn-ghost btn-sm" style={{ padding: '0.2rem 0.45rem' }} title="Monter">↑</button>
-                            <button onClick={() => handleMove(index, 1)} disabled={index === providers.length - 1} className="btn btn-ghost btn-sm" style={{ padding: '0.2rem 0.45rem' }} title="Descendre">↓</button>
+                            <button onClick={() => handleMove(index, -1)} disabled={index === 0 || actionLoading !== null} className="btn btn-ghost btn-sm" style={{ padding: '0.2rem 0.45rem' }} title="Monter">↑</button>
+                            <button onClick={() => handleMove(index, 1)} disabled={index === providers.length - 1 || actionLoading !== null} className="btn btn-ghost btn-sm" style={{ padding: '0.2rem 0.45rem' }} title="Descendre">↓</button>
                           </td>
                           <td style={{ maxWidth: '280px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
