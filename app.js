@@ -198,17 +198,7 @@ function prerenderedFile(urlPath) {
   return fs.existsSync(candidate) ? candidate : null;
 }
 
-// Cache raw HTML in memory so each request doesn't re-read from disk.
-// Process restart (which happens on every deploy via Plesk Passenger) clears it.
-const HTML_CACHE = new Map();
-function readHtmlCached(file) {
-  let html = HTML_CACHE.get(file);
-  if (html === undefined) {
-    html = fs.readFileSync(file, 'utf8');
-    HTML_CACHE.set(file, html);
-  }
-  return html;
-}
+const { readHtmlCached } = require('./src/services/htmlCache');
 
 async function serveSpa(res, status = 200, file = fallbackShell) {
   try {
