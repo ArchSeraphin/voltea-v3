@@ -76,22 +76,35 @@ async function handleApi(p, res) {
 function startServer(shellHtml) {
   return new Promise((resolve) => {
     const server = http.createServer(async (req, res) => {
-      const p = decodeURIComponent((req.url || '/').split('?')[0]);
-      if (p.startsWith('/api/')) return handleApi(p, res);
-      // Pas d'extension → shell SPA, le routeur client rend la route demandée.
-      if (p === '/' || !path.extname(p)) {
-        res.writeHead(200, { 'content-type': MIME['.html'] });
-        res.end(shellHtml);
-        return;
-      }
       try {
-        const buf = await fs.readFile(path.join(DIST_DIR, p));
-        const ct = MIME[path.extname(p).toLowerCase()] || 'application/octet-stream';
-        res.writeHead(200, { 'content-type': ct });
-        res.end(buf);
+        const p = decodeURIComponent((req.url || '/').split('?')[0]);
+        if (p.startsWith('/api/')) return handleApi(p, res);
+        // Pas d'extension → shell SPA, le routeur client rend la route demandée.
+        if (p === '/' || !path.extname(p)) {
+          res.writeHead(200, { 'content-type': MIME['.html'] });
+          res.end(shellHtml);
+          return;
+        }
+        // Sécurité : rejeter tout chemin qui sortirait de DIST_DIR (traversée).
+        const filePath = path.join(DIST_DIR, p);
+        if (!filePath.startsWith(DIST_DIR + path.sep)) {
+          res.writeHead(404, { 'content-type': 'text/plain' });
+          res.end('Not found');
+          return;
+        }
+        try {
+          const buf = await fs.readFile(filePath);
+          const ct = MIME[path.extname(p).toLowerCase()] || 'application/octet-stream';
+          res.writeHead(200, { 'content-type': ct });
+          res.end(buf);
+        } catch {
+          res.writeHead(404, { 'content-type': 'text/plain' });
+          res.end('Not found');
+        }
       } catch {
-        res.writeHead(404, { 'content-type': 'text/plain' });
-        res.end('Not found');
+        // decodeURIComponent ou autre erreur imprévue → 400 pour ne pas tuer Passenger.
+        res.writeHead(400, { 'content-type': 'text/plain' });
+        res.end('Bad request');
       }
     });
     // Port 0 → port éphémère : pas de conflit entre build et régénération.
@@ -138,74 +151,90 @@ async function snapshot(page) {
   const data = await page.evaluate(() => window.__VOLTEA_DATA__ || null);
   if (data) {
     const json = JSON.stringify(data).replace(/</g, '\\u003c');
-    html = html.replace('</head>', `<script>window.__VOLTEA_DATA__ = ${json}</script></head>`);
+    html = html.replace('</head>', () => `<script>window.__VOLTEA_DATA__ = ${json}</script></head>`);
   }
   return html;
 }
 
 async function writeAtomic(outPath, html) {
   await fs.mkdir(path.dirname(outPath), { recursive: true });
-  const tmp = `${outPath}.tmp`;
-  await fs.writeFile(tmp, html);
-  await fs.rename(tmp, outPath);
+  // Nom unique par PID + timestamp : deux processus (build + Passenger) peuvent
+  // écrire la même route simultanément sans se marcher dessus.
+  const tmp = `${outPath}.${process.pid}.${Date.now()}.tmp`;
+  try {
+    await fs.writeFile(tmp, html);
+    await fs.rename(tmp, outPath);
+  } catch (err) {
+    await fs.rm(tmp, { force: true }).catch(() => {});
+    throw err;
+  }
   htmlCache.invalidate(outPath);
 }
 
 async function prerenderRoutes(routes, { includeNotFound = false, log = console } = {}) {
   const shellHtml = await loadShell();
+  // getChromium() en premier : si playwright est absent, on échoue avant de
+  // créer la moindre ressource (serveur, browser).
+  const chromium = getChromium();
   const server = await startServer(shellHtml);
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
-  const chromium = getChromium();
-  const browser = await chromium.launch();
-  const context = await browser.newContext({
-    viewport: { width: 1280, height: 800 },
-    bypassCSP: true,
-    userAgent: 'VolteaPrerender/1.0',
-    extraHTTPHeaders: { 'x-prerender': '1' },
-  });
-  await context.route('**/*', (route) => {
-    const url = route.request().url();
-    if (BLOCKED_HOSTS.some((d) => url.includes(d))) return route.abort();
-    return route.continue();
-  });
 
   const failures = [];
   let okCount = 0;
-  try {
-    for (const route of routes) {
-      const page = await context.newPage();
-      page.on('pageerror', (err) => log.error(`[prerender] ${route} pageerror: ${err.message}`));
-      try {
-        await page.goto(`${baseUrl}${route}`, { waitUntil: 'domcontentloaded', timeout: 20000 });
-        const html = await snapshot(page);
-        const outPath = routeToOutPath(route);
-        await writeAtomic(outPath, html);
-        log.log(`✓ ${route.padEnd(36)} (${(html.length / 1024).toFixed(1)} kB)`);
-        okCount++;
-      } catch (err) {
-        log.error(`✗ ${route}: ${err.message}`);
-        failures.push({ route, error: err.message });
-      } finally {
-        await page.close();
-      }
-    }
 
-    // Page 404 prérendue (catch-all <Route path="*">) — build complet seulement.
-    if (includeNotFound) {
-      const page = await context.newPage();
-      try {
-        await page.goto(`${baseUrl}/__not-found`, { waitUntil: 'domcontentloaded', timeout: 20000 });
-        const html = await snapshot(page);
-        await fs.writeFile(path.join(DIST_DIR, '__notfound.html'), html);
-        log.log('✓ /__not-found → __notfound.html');
-      } catch (err) {
-        log.error(`[prerender] /__not-found failed: ${err.message}`);
-      } finally {
-        await page.close();
+  try {
+    const browser = await chromium.launch();
+    try {
+      const context = await browser.newContext({
+        viewport: { width: 1280, height: 800 },
+        bypassCSP: true,
+        userAgent: 'VolteaPrerender/1.0',
+        extraHTTPHeaders: { 'x-prerender': '1' },
+      });
+      await context.route('**/*', (route) => {
+        const url = route.request().url();
+        if (BLOCKED_HOSTS.some((d) => url.includes(d))) return route.abort();
+        return route.continue();
+      });
+
+      for (const route of routes) {
+        const page = await context.newPage();
+        page.on('pageerror', (err) => log.error(`[prerender] ${route} pageerror: ${err.message}`));
+        try {
+          await page.goto(`${baseUrl}${route}`, { waitUntil: 'domcontentloaded', timeout: 20000 });
+          const html = await snapshot(page);
+          const outPath = routeToOutPath(route);
+          await writeAtomic(outPath, html);
+          log.log(`✓ ${route.padEnd(36)} (${(html.length / 1024).toFixed(1)} kB)`);
+          okCount++;
+        } catch (err) {
+          log.error(`✗ ${route}: ${err.message}`);
+          failures.push({ route, error: err.message });
+        } finally {
+          await page.close();
+        }
       }
+
+      // Page 404 prérendue (catch-all <Route path="*">) — build complet seulement.
+      if (includeNotFound) {
+        const page = await context.newPage();
+        try {
+          await page.goto(`${baseUrl}/__not-found`, { waitUntil: 'domcontentloaded', timeout: 20000 });
+          const html = await snapshot(page);
+          await writeAtomic(path.join(DIST_DIR, '__notfound.html'), html);
+          log.log('✓ /__not-found → __notfound.html');
+        } catch (err) {
+          log.error(`[prerender] /__not-found failed: ${err.message}`);
+        } finally {
+          await page.close();
+        }
+      }
+    } finally {
+      // Ferme le browser même si newContext/route/crawl lève une erreur.
+      await browser.close();
     }
   } finally {
-    await browser.close();
+    // Ferme le serveur HTTP dans tous les cas, y compris si browser.close() lève.
     await new Promise((r) => server.close(r));
   }
 
@@ -213,9 +242,10 @@ async function prerenderRoutes(routes, { includeNotFound = false, log = console 
 }
 
 async function removePrerenderedRoute(route) {
+  if (route === '/') return; // jamais supprimer dist/index.html
   const outPath = routeToOutPath(route);
-  htmlCache.invalidate(outPath);
   await fs.rm(outPath, { force: true });
+  htmlCache.invalidate(outPath);
   await fs.rmdir(path.dirname(outPath)).catch(() => {}); // best-effort si vide
 }
 

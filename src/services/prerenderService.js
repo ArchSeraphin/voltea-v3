@@ -9,6 +9,7 @@ const prerenderLib = require('./prerenderLib');
 
 const pending = [];
 let running = false;
+let current = null; // batch en cours de traitement (null si inactif)
 let lastRun = null; // { state: 'done'|'error', routes, error, finishedAt }
 
 function queueRegeneration(routes) {
@@ -22,6 +23,7 @@ async function processQueue() {
   if (running || pending.length === 0) return;
   running = true;
   const batch = pending.splice(0, pending.length);
+  current = batch;
   try {
     const { failures } = await prerenderLib.prerenderRoutes(batch);
     lastRun = {
@@ -36,6 +38,7 @@ async function processQueue() {
     console.error('[prerender] régénération échouée:', err.message);
     lastRun = { state: 'error', routes: batch, error: err.message, finishedAt: new Date().toISOString() };
   } finally {
+    current = null;
     running = false;
     if (pending.length > 0) processQueue();
   }
@@ -48,7 +51,7 @@ function removeRoute(route) {
 }
 
 function getStatus() {
-  return { running, pending: [...pending], lastRun };
+  return { running, current, pending: [...pending], lastRun };
 }
 
 module.exports = { queueRegeneration, removeRoute, getStatus };
