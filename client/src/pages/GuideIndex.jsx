@@ -67,7 +67,7 @@ export default function GuideIndex() {
       <section className="section section--light">
         <div className="container">
           {error ? (
-            <p style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: '3rem 0' }}>Impossible de charger les fournisseurs. Veuillez réessayer dans quelques instants.</p>
+            <p data-prerender-error style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: '3rem 0' }}>Impossible de charger les fournisseurs. Veuillez réessayer dans quelques instants.</p>
           ) : !providers ? (
             <div data-prerender-pending style={{ textAlign: 'center', padding: '4rem 0' }}><div className="spinner" style={{ margin: '0 auto' }} /></div>
           ) : (

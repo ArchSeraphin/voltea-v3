@@ -13,28 +13,51 @@ export default function ProviderPage() {
   const { slug } = useParams();
   const [provider, setProvider] = useState(() => getBootstrapProvider(slug));
   const [notFound, setNotFound] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (provider && provider.slug === slug) return;
     setProvider(null);
     setNotFound(false);
+    setError(false);
     let cancelled = false;
     fetchProvider(slug)
       .then((p) => {
         if (cancelled) return;
-        if (p) setProvider(p);
+        if (p !== null) setProvider(p);
         else setNotFound(true);
       })
-      .catch(() => { if (!cancelled) setNotFound(true); });
+      .catch(() => { if (!cancelled) setError(true); });
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
+
+  if (error) {
+    return (
+      <>
+        <Header />
+        <div
+          data-prerender-error
+          style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 'var(--header-height)' }}
+        >
+          <p style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: '0 1.5rem' }}>
+            Impossible de charger cette fiche. Veuillez réessayer dans quelques instants.
+          </p>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   if (notFound) {
     return <NotFound />;
   }
 
-  if (!provider) {
+  // Dérivé au rendu : évite d'afficher la fiche précédente pendant un frame
+  // après une navigation A → B (l'effet [slug] ne reset qu'après paint).
+  const current = provider && provider.slug === slug ? provider : null;
+
+  if (!current) {
     return (
       <>
         <Header />
@@ -51,9 +74,9 @@ export default function ProviderPage() {
 
   // Unique meta description per provider: combines tagline + first sentence of
   // the substantive description so each /guide-energie/:slug has its own copy.
-  const firstSentence = (provider.description?.[0] || '').split('. ')[0];
+  const firstSentence = (current.description?.[0] || '').split('. ')[0];
   const metaDescription = [
-    provider.tagline,
+    current.tagline,
     firstSentence,
     'Analyse Voltea Énergie',
   ]
@@ -64,9 +87,9 @@ export default function ProviderPage() {
   return (
     <>
       <SEO
-        title={`${provider.name} — Fournisseur d'énergie`}
+        title={`${current.name} — Fournisseur d'énergie`}
         description={metaDescription}
-        canonical={`/guide-energie/${provider.slug}`}
+        canonical={`/guide-energie/${current.slug}`}
       />
       <Header />
 
@@ -78,7 +101,7 @@ export default function ProviderPage() {
               items={[
                 { to: '/', label: 'Accueil' },
                 { to: '/guide-energie', label: 'Fournisseurs' },
-                { label: provider.name },
+                { label: current.name },
               ]}
             />
             <Link to="/guide-energie" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-text-muted)', fontSize: '0.875rem', marginBottom: '2rem', textDecoration: 'none' }}>
@@ -102,30 +125,30 @@ export default function ProviderPage() {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
                 <div style={{ background: 'rgba(255,255,255,0.95)', padding: '0.6rem 1rem', borderRadius: 'var(--radius-md)', display: 'inline-flex', alignItems: 'center' }}>
-                  <ProviderLogo provider={provider} size={56} maxImgHeight={52} maxImgWidth={160} fontSize="1.3rem" />
+                  <ProviderLogo provider={current} size={56} maxImgHeight={52} maxImgWidth={160} fontSize="1.3rem" />
                 </div>
                 <div>
-                  <h1 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 4vw, 3rem)', margin: '0 0 0.25rem' }}>{provider.name}</h1>
-                  <p style={{ color: 'rgba(255,255,255,0.85)', margin: 0 }}>{provider.fullName}</p>
+                  <h1 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 4vw, 3rem)', margin: '0 0 0.25rem' }}>{current.name}</h1>
+                  <p style={{ color: 'rgba(255,255,255,0.85)', margin: 0 }}>{current.fullName}</p>
                 </div>
               </div>
             </div>
 
             <p style={{ fontSize: '1.15rem', color: 'var(--color-text-muted)', maxWidth: '650px' }}>
-              {provider.tagline}
+              {current.tagline}
             </p>
           </ScrollReveal>
         </div>
       </section>
 
       {/* ── PRÉSENTATION ── */}
-      {provider.description.length > 0 && (
+      {current.description.length > 0 && (
         <section className="section section--light">
           <div className="container">
             <ScrollReveal>
               <div style={{ maxWidth: '720px' }}>
                 <h2 style={{ marginBottom: '1.5rem' }}>Présentation</h2>
-                {provider.description.map((para, i) => (
+                {current.description.map((para, i) => (
                   <p key={i} style={{ color: 'var(--color-text-muted)', lineHeight: '1.8', marginBottom: '1rem' }}>
                     {para}
                   </p>
@@ -137,15 +160,15 @@ export default function ProviderPage() {
       )}
 
       {/* ── OFFRES ── */}
-      {provider.offers.length > 0 && (
+      {current.offers.length > 0 && (
         <section className="section section--white">
           <div className="container">
             <ScrollReveal>
               <h2 style={{ marginBottom: '2rem' }}>Offres proposées</h2>
             </ScrollReveal>
             <div className="features-grid">
-              {provider.offers.map((offer, i) => (
-                <ScrollReveal key={offer.label} delay={i * 80}>
+              {current.offers.map((offer, i) => (
+                <ScrollReveal key={`${offer.label}-${i}`} delay={i * 80}>
                   <div className="card card--light" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                     <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', background: 'rgba(20,110,243,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2">
@@ -163,15 +186,15 @@ export default function ProviderPage() {
       )}
 
       {/* ── PROS / CONS ── */}
-      {(provider.pros.length > 0 || provider.cons.length > 0) && (
+      {(current.pros.length > 0 || current.cons.length > 0) && (
         <section className="section section--light">
           <div className="container">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-              {provider.pros.length > 0 && (
+              {current.pros.length > 0 && (
                 <ScrollReveal>
                   <h2 style={{ marginBottom: '1.25rem' }}>Points forts</h2>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {provider.pros.map((pro) => (
+                    {current.pros.map((pro) => (
                       <li key={pro} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
                         <span style={{ flexShrink: 0, width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(39,174,96,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1px' }}>
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="3">
@@ -185,11 +208,11 @@ export default function ProviderPage() {
                 </ScrollReveal>
               )}
 
-              {provider.cons.length > 0 && (
+              {current.cons.length > 0 && (
                 <ScrollReveal delay={100}>
                   <h2 style={{ marginBottom: '1.25rem' }}>Points de vigilance</h2>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {provider.cons.map((con) => (
+                    {current.cons.map((con) => (
                       <li key={con} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
                         <span style={{ flexShrink: 0, width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1px' }}>
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="3">
@@ -208,13 +231,13 @@ export default function ProviderPage() {
       )}
 
       {/* ── PROFILS ── */}
-      {provider.profiles.length > 0 && (
+      {current.profiles.length > 0 && (
         <section className="section section--white">
           <div className="container">
             <ScrollReveal>
               <h2 style={{ marginBottom: '1.25rem' }}>Pour quel profil ?</h2>
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                {provider.profiles.map((profile) => (
+                {current.profiles.map((profile) => (
                   <span
                     key={profile}
                     style={{ padding: '0.4rem 1rem', borderRadius: '999px', background: 'rgba(20,110,243,0.08)', color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.875rem' }}
@@ -234,10 +257,10 @@ export default function ProviderPage() {
           <ScrollReveal>
             <div className="why-voltea-card" style={{ textAlign: 'center' }}>
               <h2 style={{ marginBottom: '1rem' }}>
-                {`${provider.name} correspond à votre profil ?`}
+                {`${current.name} correspond à votre profil ?`}
               </h2>
               <p style={{ color: 'rgba(255,255,255,0.92)', maxWidth: '520px', margin: '0 auto 2rem' }}>
-                {`Voltea Énergie met ${provider.name} en concurrence avec plus de 20 fournisseurs partenaires et négocie les meilleures conditions pour vous — sans frais.`}
+                {`Voltea Énergie met ${current.name} en concurrence avec plus de 20 fournisseurs partenaires et négocie les meilleures conditions pour vous — sans frais.`}
               </p>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <Link to="/contact" className="btn btn-lg" style={{ background: '#fff', color: 'var(--color-primary)', borderColor: '#fff' }}>

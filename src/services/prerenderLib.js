@@ -25,6 +25,16 @@ function getChromium() {
   return chromium;
 }
 
+// Statics montés hors de dist/ en prod (cf. app.js) — le mini-serveur doit
+// les servir aussi, sinon les logos 404ent au prerender et le snapshot
+// capture le fallback initiales (mismatch d'hydratation garanti).
+const EXTRA_MOUNTS = [
+  { prefix: '/img/', dir: path.join(PROJECT_ROOT, 'img') },
+  { prefix: '/uploads/', dir: path.join(PROJECT_ROOT, 'uploads') },
+  { prefix: '/assets/videos/', dir: path.join(PROJECT_ROOT, 'assets', 'videos') },
+  { prefix: '/assets/images/', dir: path.join(PROJECT_ROOT, 'assets', 'images') },
+];
+
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -85,6 +95,32 @@ function startServer(shellHtml) {
           res.end(shellHtml);
           return;
         }
+        // Helper : lit un fichier résolu et répond, ou 404.
+        async function serveFile(filePath) {
+          try {
+            const buf = await fs.readFile(filePath);
+            const ct = MIME[path.extname(p).toLowerCase()] || 'application/octet-stream';
+            res.writeHead(200, { 'content-type': ct });
+            res.end(buf);
+          } catch {
+            res.writeHead(404, { 'content-type': 'text/plain' });
+            res.end('Not found');
+          }
+        }
+
+        // Mounts racine : /img/, /uploads/, /assets/videos/, /assets/images/
+        const mount = EXTRA_MOUNTS.find((m) => p.startsWith(m.prefix));
+        if (mount) {
+          const filePath = path.join(mount.dir, p.slice(mount.prefix.length));
+          // Sécurité traversée : le chemin résolu doit rester dans le répertoire du mount.
+          if (!filePath.startsWith(mount.dir + path.sep)) {
+            res.writeHead(404, { 'content-type': 'text/plain' });
+            res.end('Not found');
+            return;
+          }
+          return serveFile(filePath);
+        }
+
         // Sécurité : rejeter tout chemin qui sortirait de DIST_DIR (traversée).
         const filePath = path.join(DIST_DIR, p);
         if (!filePath.startsWith(DIST_DIR + path.sep)) {
@@ -92,15 +128,7 @@ function startServer(shellHtml) {
           res.end('Not found');
           return;
         }
-        try {
-          const buf = await fs.readFile(filePath);
-          const ct = MIME[path.extname(p).toLowerCase()] || 'application/octet-stream';
-          res.writeHead(200, { 'content-type': ct });
-          res.end(buf);
-        } catch {
-          res.writeHead(404, { 'content-type': 'text/plain' });
-          res.end('Not found');
-        }
+        return serveFile(filePath);
       } catch {
         // decodeURIComponent ou autre erreur imprévue → 400 pour ne pas tuer Passenger.
         res.writeHead(400, { 'content-type': 'text/plain' });
@@ -135,6 +163,12 @@ async function snapshot(page) {
       && !document.querySelector('[data-prerender-pending]'),
     { timeout: 20000 }
   );
+  // Refuse de baker un état d'erreur : si la page a rendu un data-prerender-error,
+  // on lève pour que la route atterrisse dans failures (l'HTML sur disque reste intact).
+  const hasError = await page.evaluate(() => Boolean(document.querySelector('[data-prerender-error]')));
+  if (hasError) {
+    throw new Error('la page a rendu un état d\'erreur — snapshot refusé');
+  }
   // Court délai pour le flush synchrone Helmet → <head>
   await page.waitForTimeout(150);
   // React pose `muted` en propriété DOM seulement — forcer l'attribut pour
