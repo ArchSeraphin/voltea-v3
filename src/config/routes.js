@@ -1,7 +1,10 @@
 'use strict';
 
 // Authoritative list of public routes. Used by sitemap + 404 resolver.
-// Keep in sync with client/src/App.jsx <Routes> and providersData.js.
+// Keep in sync with client/src/App.jsx <Routes>.
+// Les fiches fournisseurs (/guide-energie/:slug) et les articles
+// (/actualites/:slug) sont dynamiques : résolus en BDD par app.js, ajoutés au
+// sitemap par src/routes/sitemap.js.
 
 const STATIC_ROUTES = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
@@ -16,46 +19,25 @@ const STATIC_ROUTES = [
   { path: '/politique-de-confidentialite', priority: '0.3', changefreq: 'yearly', noindex: true },
 ];
 
-const PROVIDER_SLUGS = [
-  'edf',
-  'engie',
-  'totalenergies',
-  'ekwateur',
-  'vattenfall',
-  'eni',
-  'alpiq',
-  'primeo-energie',
-];
-
-const PROVIDER_ROUTES = PROVIDER_SLUGS.map((slug) => ({
-  path: `/guide-energie/${slug}`,
-  priority: '0.7',
-  changefreq: 'monthly',
-}));
-
 // Admin routes — excluded from sitemap, but valid URLs so the SPA should serve them.
 const ADMIN_PREFIXES = [
   '/admin',
 ];
 
-const INDEXABLE_ROUTES = [...STATIC_ROUTES, ...PROVIDER_ROUTES].filter((r) => !r.noindex);
-const SITEMAP_ROUTES = [...STATIC_ROUTES.filter((r) => !r.noindex), ...PROVIDER_ROUTES];
+const INDEXABLE_ROUTES = STATIC_ROUTES.filter((r) => !r.noindex);
+const SITEMAP_ROUTES = STATIC_ROUTES.filter((r) => !r.noindex);
 
 // Known-valid exact paths (no dynamic segments)
-const KNOWN_PATHS = new Set([
-  ...STATIC_ROUTES.map((r) => r.path),
-  ...PROVIDER_ROUTES.map((r) => r.path),
-]);
+const KNOWN_PATHS = new Set(STATIC_ROUTES.map((r) => r.path));
 
-// Dynamic prefix — caller must verify the slug (e.g. against DB)
+// Dynamic prefixes — caller must verify the slug against the DB
 const DYNAMIC_PREFIXES = [
-  '/actualites/', // /actualites/:slug — check DB
+  '/actualites/', // /actualites/:slug
+  '/guide-energie/', // /guide-energie/:slug
 ];
 
 module.exports = {
   STATIC_ROUTES,
-  PROVIDER_SLUGS,
-  PROVIDER_ROUTES,
   SITEMAP_ROUTES,
   INDEXABLE_ROUTES,
   ADMIN_PREFIXES,

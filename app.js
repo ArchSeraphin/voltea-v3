@@ -257,6 +257,24 @@ app.get('*', async (req, res) => {
     }
   }
 
+  // Dynamic: /guide-energie/:slug — fiche publiée → HTML prérendu (ou shell),
+  // inconnue/masquée → 404. Même pattern que les articles.
+  const providerMatch = urlPath.match(/^\/guide-energie\/([a-z0-9-]+)\/?$/i);
+  if (providerMatch) {
+    const pool = getPool();
+    if (!pool) return serveSpa(res, 200, fallbackShell);
+    try {
+      const [rows] = await pool.execute(
+        'SELECT 1 FROM providers WHERE slug = ? AND published = 1 LIMIT 1',
+        [providerMatch[1]]
+      );
+      if (rows.length === 0) return serveSpa(res, 404, fallback404);
+      return serveSpa(res, 200, prerenderedFile(urlPath) || fallbackShell);
+    } catch (err) {
+      return serveSpa(res, 200, fallbackShell);
+    }
+  }
+
   // Unknown — 404 with the prerendered NotFound page if available
   return serveSpa(res, 404, fallback404);
 });

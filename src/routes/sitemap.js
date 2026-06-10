@@ -48,6 +48,21 @@ router.get('/sitemap.xml', async (req, res) => {
     console.error('[sitemap] articles fetch failed, serving static routes only:', err.message);
   }
 
+  // Fiches fournisseurs publiées — même best-effort que les articles.
+  try {
+    const [providers] = await pool.execute(
+      'SELECT slug, updated_at FROM providers WHERE published = 1 ORDER BY sort_order ASC'
+    );
+    for (const provider of providers) {
+      const lastmod = provider.updated_at
+        ? new Date(provider.updated_at).toISOString().split('T')[0]
+        : BOOT_DATE;
+      entries.push(urlEntry(`${BASE_URL}/guide-energie/${provider.slug}`, lastmod));
+    }
+  } catch (err) {
+    console.error('[sitemap] providers fetch failed, skipping:', err.message);
+  }
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${entries.join('\n')}
