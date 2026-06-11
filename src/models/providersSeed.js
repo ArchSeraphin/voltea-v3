@@ -1,9 +1,11 @@
-// Logos self-hosted under /img/providers/ — Wikimedia blocks hot-linking of
-// thumbnails with HTTP 400. Run `node scripts/fetch-provider-logos.mjs` to
-// (re)generate the PNGs from Wikimedia Commons sources.
-// ProviderLogo falls back to styled initials if a file is missing.
+'use strict';
 
-export const providers = [
+// Données de seed de la table `providers` — copie serveur des 8 fournisseurs
+// historiquement codés en dur dans client/src/data/providersData.js (supprimé
+// depuis : la BDD est la seule source de vérité, ce fichier ne sert qu'au
+// premier remplissage de la table).
+
+module.exports = [
   {
     slug: 'edf',
     name: 'EDF',
@@ -237,7 +239,3 @@ export const providers = [
     profiles: ['TPE', 'PME'],
   },
 ];
-
-export function getProviderBySlug(slug) {
-  return providers.find((p) => p.slug === slug) || null;
-}

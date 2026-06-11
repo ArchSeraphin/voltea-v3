@@ -198,17 +198,7 @@ function prerenderedFile(urlPath) {
   return fs.existsSync(candidate) ? candidate : null;
 }
 
-// Cache raw HTML in memory so each request doesn't re-read from disk.
-// Process restart (which happens on every deploy via Plesk Passenger) clears it.
-const HTML_CACHE = new Map();
-function readHtmlCached(file) {
-  let html = HTML_CACHE.get(file);
-  if (html === undefined) {
-    html = fs.readFileSync(file, 'utf8');
-    HTML_CACHE.set(file, html);
-  }
-  return html;
-}
+const { readHtmlCached } = require('./src/services/htmlCache');
 
 async function serveSpa(res, status = 200, file = fallbackShell) {
   try {
@@ -267,6 +257,24 @@ app.get('*', async (req, res) => {
     }
   }
 
+  // Dynamic: /guide-energie/:slug — fiche publiée → HTML prérendu (ou shell),
+  // inconnue/masquée → 404. Même pattern que les articles.
+  const providerMatch = urlPath.match(/^\/guide-energie\/([a-z0-9-]+)\/?$/i);
+  if (providerMatch) {
+    const pool = getPool();
+    if (!pool) return serveSpa(res, 200, fallbackShell);
+    try {
+      const [rows] = await pool.execute(
+        'SELECT 1 FROM providers WHERE slug = ? AND published = 1 LIMIT 1',
+        [providerMatch[1]]
+      );
+      if (rows.length === 0) return serveSpa(res, 404, fallback404);
+      return serveSpa(res, 200, prerenderedFile(urlPath) || fallbackShell);
+    } catch (err) {
+      return serveSpa(res, 200, fallbackShell);
+    }
+  }
+
   // Unknown — 404 with the prerendered NotFound page if available
   return serveSpa(res, 404, fallback404);
 });
@@ -304,6 +312,12 @@ reloadGaId().catch((err) => console.error('[Voltea] GA id preload failed:', err.
   } catch (err) {
     console.error('[Voltea] Auto-migrate reviews failed:', err.message);
   }
+
+    try {
+      await require('./src/models/providerModel').ensureProvidersTable();
+    } catch (err) {
+      console.error('[Voltea] Auto-migrate providers failed:', err.message);
+    }
 })();
 
 app.listen(PORT, () => {

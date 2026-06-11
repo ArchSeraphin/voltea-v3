@@ -20,6 +20,8 @@ import Dashboard from './pages/admin/Dashboard.jsx';
 import ArticleEditor from './pages/admin/ArticleEditor.jsx';
 import Analytics from './pages/admin/Analytics.jsx';
 import Reviews from './pages/admin/Reviews.jsx';
+import Providers from './pages/admin/Providers.jsx';
+import ProviderEditor from './pages/admin/ProviderEditor.jsx';
 import CookieBanner from './components/CookieBanner.jsx';
 
 export const AuthContext = createContext(null);
@@ -204,6 +206,30 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <Reviews />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/fournisseurs"
+              element={
+                <ProtectedRoute>
+                  <Providers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/fournisseurs/nouveau"
+              element={
+                <ProtectedRoute>
+                  <ProviderEditor />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/fournisseurs/:id/modifier"
+              element={
+                <ProtectedRoute>
+                  <ProviderEditor />
                 </ProtectedRoute>
               }
             />

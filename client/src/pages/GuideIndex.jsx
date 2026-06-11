@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
@@ -6,7 +6,7 @@ import SEO from '../components/SEO.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
 import ProviderLogo from '../components/ProviderLogo.jsx';
-import { providers } from '../data/providersData.js';
+import { getBootstrapProviders, fetchProviders } from '../lib/providersApi.js';
 
 const CATEGORY_COLORS = {
   'Historique': { bg: 'rgba(15,48,128,0.08)', text: 'var(--color-primary)' },
@@ -15,6 +15,19 @@ const CATEGORY_COLORS = {
 };
 
 export default function GuideIndex() {
+  const [providers, setProviders] = useState(() => getBootstrapProviders());
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (providers) return; // déjà hydraté depuis le HTML prérendu
+    let cancelled = false;
+    fetchProviders()
+      .then((list) => { if (!cancelled) setProviders(list); })
+      .catch(() => { if (!cancelled) setError(true); });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <SEO
@@ -53,44 +66,50 @@ export default function GuideIndex() {
       {/* ── GRILLE FOURNISSEURS ── */}
       <section className="section section--light">
         <div className="container">
-          <div className="features-grid">
-            {providers.map((provider, i) => {
-              const catStyle = CATEGORY_COLORS[provider.category] || CATEGORY_COLORS['Alternatif'];
-              return (
-                <ScrollReveal key={provider.slug} delay={i * 60}>
-                  <Link
-                    to={`/guide-energie/${provider.slug}`}
-                    className="card card--light"
-                    style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%' }}
-                  >
-                    {/* Logo ou initiales */}
-                    <div style={{ height: '64px', display: 'flex', alignItems: 'center' }}>
-                      <ProviderLogo provider={provider} />
-                    </div>
-
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                        <h2 style={{ fontSize: '1.1rem', margin: 0 }}>{provider.name}</h2>
-                        <span style={{ fontSize: '0.72rem', fontWeight: 600, padding: '0.15rem 0.5rem', borderRadius: '999px', background: catStyle.bg, color: catStyle.text }}>
-                          {provider.category}
-                        </span>
+          {error ? (
+            <p data-prerender-error style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: '3rem 0' }}>Impossible de charger les fournisseurs. Veuillez réessayer dans quelques instants.</p>
+          ) : !providers ? (
+            <div data-prerender-pending style={{ textAlign: 'center', padding: '4rem 0' }}><div className="spinner" style={{ margin: '0 auto' }} /></div>
+          ) : (
+            <div className="features-grid">
+              {providers.map((provider, i) => {
+                const catStyle = CATEGORY_COLORS[provider.category] || CATEGORY_COLORS['Alternatif'];
+                return (
+                  <ScrollReveal key={provider.slug} delay={i * 60}>
+                    <Link
+                      to={`/guide-energie/${provider.slug}`}
+                      className="card card--light"
+                      style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%' }}
+                    >
+                      {/* Logo ou initiales */}
+                      <div style={{ height: '64px', display: 'flex', alignItems: 'center' }}>
+                        <ProviderLogo provider={provider} />
                       </div>
-                      <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>
-                        {provider.tagline}
-                      </p>
-                    </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--color-primary)', fontSize: '0.875rem', fontWeight: 500 }}>
-                      Voir la fiche
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                      </svg>
-                    </div>
-                  </Link>
-                </ScrollReveal>
-              );
-            })}
-          </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                          <h2 style={{ fontSize: '1.1rem', margin: 0 }}>{provider.name}</h2>
+                          <span style={{ fontSize: '0.72rem', fontWeight: 600, padding: '0.15rem 0.5rem', borderRadius: '999px', background: catStyle.bg, color: catStyle.text }}>
+                            {provider.category}
+                          </span>
+                        </div>
+                        <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>
+                          {provider.tagline}
+                        </p>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--color-primary)', fontSize: '0.875rem', fontWeight: 500 }}>
+                        Voir la fiche
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                      </div>
+                    </Link>
+                  </ScrollReveal>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 

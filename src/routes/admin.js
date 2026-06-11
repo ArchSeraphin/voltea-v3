@@ -9,6 +9,8 @@ const articleController = require('../controllers/articleController');
 const uploadController = require('../controllers/uploadController');
 const settingsController = require('../controllers/settingsController');
 const reviewController = require('../controllers/reviewController');
+const providerController = require('../controllers/providerController');
+const prerenderService = require('../services/prerenderService');
 
 // All admin routes require authentication
 router.use(requireAuth);
@@ -26,6 +28,17 @@ router.post('/reviews', reviewController.reviewValidation, reviewController.crea
 router.put('/reviews/:id', reviewController.reviewValidation, reviewController.updateReview);
 router.delete('/reviews/:id', reviewController.deleteReview);
 router.patch('/reviews/:id/toggle', reviewController.toggleVisible);
+
+// Providers
+router.get('/providers', providerController.getAdminProviders);
+router.post('/providers', providerController.providerValidation, providerController.createProvider);
+router.patch('/providers/reorder', providerController.reorderProviders);
+router.put('/providers/:id', providerController.providerValidation, providerController.updateProvider);
+router.delete('/providers/:id', providerController.deleteProvider);
+router.patch('/providers/:id/toggle', providerController.togglePublished);
+
+// Statut de la file de régénération prerender (bandeau admin)
+router.get('/prerender/status', (req, res) => res.json(prerenderService.getStatus()));
 
 // Upload
 router.post('/upload', uploadLimiter, uploadController.uploadImage);
