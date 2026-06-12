@@ -12,11 +12,11 @@ export const faqCategories = [
       },
       {
         q: "Voltea Énergie est-il réellement indépendant ?",
-        a: "Oui. Voltea Énergie ne détient aucun capital chez un fournisseur et n'a pas d'accord d'exclusivité. Nous travaillons avec plus de 20 fournisseurs partenaires et nos recommandations reposent uniquement sur l'intérêt du client — meilleur prix, meilleures conditions, meilleure qualité de service. Notre modèle de rémunération est transparent et communiqué avant toute signature.",
+        a: "Oui. Voltea Énergie travaille avec plusieurs fournisseurs partenaires afin de proposer des solutions adaptées aux besoins de chaque client. Nos recommandations s'appuient sur une analyse des offres du marché, des conditions contractuelles et des enjeux de consommation propres à chaque entreprise.",
       },
       {
         q: "Combien coûte le service de Voltea Énergie ?",
-        a: "Le service est 100% gratuit pour le client, sans aucun frais caché. Voltea Énergie est rémunéré par les fournisseurs via une commission contractuelle, indépendante du prix proposé au client. Cela signifie que la négociation reste tirée vers le bas — nous n'avons aucun intérêt à vous faire signer un contrat plus cher.",
+        a: "Le client ne règle aucun frais de prestation à Voltea Énergie. Notre rémunération est prise en charge par les fournisseurs dans le cadre du suivi commercial et de l'accompagnement des contrats d'énergie.",
       },
       {
         q: "Quelle est la différence avec un comparateur en ligne ?",
