@@ -102,10 +102,10 @@ export default function About() {
                   <source srcSet="/assets/images/voltea-energie-jeremy-lozzi.webp" type="image/webp" />
                   <img
                     src="/assets/images/voltea-energie-jeremy-lozzi.jpg"
-                    alt="Jérémy Lozzi, fondateur de Voltea Énergie, courtier à Bourgoin-Jallieu"
+                    alt="Jérémy Lozzi, fondateur de Voltea Énergie, lors d'une présentation sur l'évolution des prix du marché de l'énergie"
                     loading="lazy"
-                    width="900"
-                    height="1651"
+                    width="1200"
+                    height="1500"
                   />
                 </picture>
               </div>
