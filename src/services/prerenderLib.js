@@ -217,7 +217,7 @@ async function prerenderRoutes(routes, { includeNotFound = false, log = console 
   let okCount = 0;
 
   try {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     try {
       const context = await browser.newContext({
         viewport: { width: 1280, height: 800 },
